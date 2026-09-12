@@ -1,0 +1,109 @@
+<!-- Tugas Kelompok Front End Programming - Kalkulator BMI
+    Kelompok 1
+- 535250056 - Elysia Nyoman
+- 535250058 - Richard Harris Yuwono
+- 535250066 - Meisa Putri Nadira
+- 535250074 - Stesa Aurel Titania
+- 535250100 - Surya Banyutama Suprapto -->
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini Project Front-End - Kalkulator BMI</title>
+    <!-- Menghubungkan berkas stylesheet eksternal -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main class="wrapper-kalkulator">
+        <header class="header-project">
+            <!-- Representasi tema STEM bidang Science / Kesehatan -->
+            <h1>Perhitungan Body Mass Index (BMI)</h1>
+            <p>Mini Project Mandiri Berbasis Sains dan DOM Manipulation</p>
+        </header>
+
+        <!-- Area input data pengguna -->
+        <section class="form-perhitungan">
+            <!-- Input Gender / Jenis Kelamin -->
+            <div class="field-grup">
+                <label for="select-gender">Jenis Kelamin:</label>
+                <select id="select-gender">
+                    <option value="pria">Laki-laki</option>
+                    <option value="wanita">Perempuan</option>
+                </select>
+            </div>
+
+            <!-- Input Usia -->
+            <div class="field-grup">
+                <label for="input-usia">Usia (Tahun):</label>
+                <input 
+                    type="number" 
+                    id="input-usia" 
+                    placeholder="Contoh: 20" 
+                    min="1" 
+                    max="120"
+                >
+            </div>
+
+            <!-- Input Berat Badan -->
+            <div class="field-grup">
+                <label for="input-berat">Massa Tubuh (Kilogram):</label>
+                <input 
+                    type="number" 
+                    id="input-berat" 
+                    placeholder="Masukkan angka berat (misal: 55)" 
+                    step="0.1"
+                >
+            </div>
+
+            <!-- Input Tinggi Badan -->
+            <div class="field-grup">
+                <label for="input-tinggi">Tinggi Badan (Sentimeter):</label>
+                <input 
+                    type="number" 
+                    id="input-tinggi" 
+                    placeholder="Masukkan tinggi badan (misal: 165)" 
+                    step="0.1"
+                >
+            </div>
+
+            <!-- Tombol pemicu event click -->
+            <button type="button" id="tombol-hitung">Hitung Skor BMI</button>
+            <button type="button" id="tombol-reset" class="btn-sekunder">Bersihkan</button>
+        </section>
+
+        <!-- Wadah luaran (output) manipulasi DOM -->
+        <section id="panel-luaran" class="panel-luaran sembunyikan">
+            <h2>Ringkasan Hasil Analisis</h2>
+            
+            <div class="baris-info">
+                <span>Profil Pengguna:</span>
+                <strong id="teks-profil">-</strong>
+            </div>
+            <div class="baris-info">
+                <span>Nilai BMI:</span>
+                <strong id="teks-skor">-</strong>
+            </div>
+            <div class="baris-info">
+                <span>Klasifikasi Medis:</span>
+                <strong id="teks-klasifikasi">-</strong>
+            </div>
+            <div class="baris-info">
+                <span>Rentang Berat Sehat:</span>
+                <strong id="teks-bb-ideal">-</strong>
+            </div>
+
+            <!-- Kotak saran & tips interaktif -->
+            <div class="area-saran">
+                <h3>Saran & Langkah Tindakan:</h3>
+                <p id="keterangan-tambahan" class="catatan-kesehatan"></p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Menghubungkan script logika interaktif -->
+    <script src="script.js"></script>
+</body>
+</html>
