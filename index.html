@@ -53,7 +53,8 @@
                 <input 
                     type="number" 
                     id="input-berat" 
-                    placeholder="Masukkan angka berat (misal: 55)" 
+                    placeholder="Masukkan angka berat (misal: 55)"
+                    min="1" 
                     step="0.1"
                 >
             </div>
@@ -66,6 +67,7 @@
                     id="input-tinggi" 
                     placeholder="Masukkan tinggi badan (misal: 165)" 
                     step="0.1"
+                    min="1"
                 >
             </div>
 
@@ -93,6 +95,10 @@
             <div class="baris-info">
                 <span>Rentang Berat Sehat:</span>
                 <strong id="teks-bb-ideal">-</strong>
+            </div>
+
+             <div class="gauge">
+                <div class="gauge-marker" id="gauge-marker">▼</div>
             </div>
 
             <!-- Kotak saran & tips interaktif -->
