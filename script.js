@@ -21,6 +21,7 @@ const teksSkor = document.getElementById("teks-skor");
 const teksKlasifikasi = document.getElementById("teks-klasifikasi");
 const teksBbIdeal = document.getElementById("teks-bb-ideal");
 const keteranganTambahan = document.getElementById("keterangan-tambahan");
+const gaugeMarker = document.getElementById("gauge-marker");
 
 // 2. FUNGSI LOGIKA EVALUASI KESEHATAN (STEM - BIOLOGI & KESEHATAN)
 // Menerima parameter:
@@ -108,6 +109,12 @@ tombolHitung.addEventListener("click", function () {
     // Ubah aksen warna border panel luaran
     panelLuaran.style.borderLeftColor = evaluasi.warna;
 
+    // Buat Geser marker di gauge (skala BMI 15 - 40)
+    const skorClamped = Math.min(Math.max(skorBmi, 15), 40);
+    const persenPosisi = ((skorClamped - 15) / (40 - 15)) * 100;
+    gaugeMarker.style.left = persenPosisi + "%";
+
+
     // Tampilkan panel luaran ke layar pengguna
     panelLuaran.classList.remove("sembunyikan");
 });
@@ -119,4 +126,5 @@ tombolReset.addEventListener("click", function () {
     inputTinggi.value = "";
     selectGender.selectedIndex = 0;
     panelLuaran.classList.add("sembunyikan");
+    gaugeMarker.style.left = "0%"; 
 });
