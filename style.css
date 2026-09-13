@@ -123,6 +123,36 @@ button {
     border-left: 5px solid #cbd5e0;
 }
 
+.gauge {
+    position: relative;
+    margin-top: 16px;
+    height: 10px;
+}
+
+.gauge-track {
+    display: flex;
+    height: 100%;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.gauge-warna {
+    height: 100%;
+}
+
+.gauge-underweight { width: 14%; background-color: #dd6b20; }
+.gauge-normal { width: 25.6%; background-color: #38a169; }
+.gauge-overweight { width: 20%; background-color: #d69e2e; }
+.gauge-obesitas1 { width: 20%; background-color: #e53e3e; }
+.gauge-obesitas2 { width: 20.4%; background-color: #9b2c2c; }
+
+.gauge-marker {
+    position: absolute;
+    top: -18px;
+    left: 0%;
+    font-size: 1rem;
+}
+
 .panel-luaran h2 {
     font-size: 1.05rem;
     margin-bottom: 12px;
