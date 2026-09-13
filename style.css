@@ -1,0 +1,164 @@
+/* Tugas Kelompok Front End Programming - Kalkulator BMI
+    Kelompok 1
+- 535250056 - Elysia Nyoman
+- 535250058 - Richard Harris Yuwono
+- 535250066 - Meisa Putri Nadira
+- 535250074 - Stesa Aurel Titania
+- 535250100 - Surya Banyutama Suprapto */
+
+/* Pengaturan global reset dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #18273c;
+    color: #2d3748;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 16px;
+}
+
+/* Kontainer utama aplikasi */
+.wrapper-kalkulator {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 460px;
+    padding: 28px;
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    border: 1px solid #e2e8f0;
+}
+
+.header-project h1 {
+    font-size: 1.35rem;
+    color: #1a202c;
+    margin-bottom: 6px;
+}
+
+.header-project p {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-bottom: 22px;
+}
+
+/* Penataan formulir input */
+.form-perhitungan {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.field-grup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.field-grup label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+/* Input dan Select field */
+.field-grup input,
+.field-grup select {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    outline: none;
+    background-color: #fff;
+    color: #2d3748;
+    transition: border-color 0.2s;
+}
+
+.field-grup input:focus,
+.field-grup select:focus {
+    border-color: #3182ce;
+}
+
+/* Tombol aksi */
+button {
+    padding: 11px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#tombol-hitung {
+    background-color: #2b6cb0;
+    color: #ffffff;
+    margin-top: 4px;
+}
+
+#tombol-hitung:hover {
+    background-color: #2c5282;
+}
+
+.btn-sekunder {
+    background-color: #edf2f7;
+    color: #4a5568;
+}
+
+.btn-sekunder:hover {
+    background-color: #e2e8f0;
+}
+
+/* Panel hasil setelah perhitungan kalkulasi */
+.panel-luaran {
+    margin-top: 24px;
+    padding: 18px;
+    background-color: #f7fafc;
+    border-radius: 8px;
+    border-left: 5px solid #cbd5e0;
+}
+
+.panel-luaran h2 {
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+    color: #2d3748;
+}
+
+.baris-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.area-saran {
+    margin-top: 14px;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 10px;
+}
+
+.area-saran h3 {
+    font-size: 0.9rem;
+    color: #2d3748;
+    margin-bottom: 6px;
+}
+
+.catatan-kesehatan {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: #4a5568;
+    background-color: #ffffff;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px dashed #cbd5e0;
+}
+
+/* Utilitas untuk manipulasi class via DOM */
+.sembunyikan {
+    display: none;
+}
