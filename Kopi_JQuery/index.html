@@ -53,35 +53,77 @@
     <!-- Konten Utama: Menu -->
     <section class="menu" id="menu">
         <h2 class="heading">Menu Favorit Kami</h2>
-        <p class="subheading">Empat pilihan yang paling sering dipesan pelanggan kami.</p>
+        <p class="subheading">Menu andalan yang paling sering dipesan pelanggan.</p>
 
         <div class="menu-container">
             <div class="menu-box">
-                <img src="images/es-kopi-kelapa.jpg" alt="Es Kopi Kelapa" class="menu-img">
+                <img src="images/Kopi Kelapa.jpg" alt="Es Kopi Kelapa" class="menu-img" zoomable-img>
                 <h3>Es Kopi Kelapa</h3>
                 <p>Espresso segar berpadu dengan air kelapa muda asli dan sedikit gula aren.</p>
                 <span class="price">Rp 22.000</span>
             </div>
 
             <div class="menu-box">
-                <img src="images/kopi-susu-gula.jpg" alt="Kopi Susu Gula Aren" class="menu-img">
+                <img src="images/Kopi Guren.jpg" alt="Kopi Susu Gula Aren" class="menu-img" zoomable-img>
                 <h3>Kopi Susu Gula Aren</h3>
                 <p>Perpaduan klasik kopi robusta lokal, susu segar, dan gula aren asli.</p>
                 <span class="price">Rp 20.000</span>
             </div>
 
             <div class="menu-box">
-                <img src="images/americano.jpg" alt="Americano" class="menu-img">
+                <img src="images/americano.jpg" alt="Americano" class="menu-img" zoomable-img>
                 <h3>Americano</h3>
                 <p>Espresso murni dengan air panas, cocok untuk penikmat kopi hitam.</p>
                 <span class="price">Rp 18.000</span>
             </div>
 
             <div class="menu-box">
-                <img src="images/cappuccino.jpg" alt="Cappuccino" class="menu-img">
+                <img src="images/cappuccino.jpg" alt="Cappuccino" class="menu-img" zoomable-img>
                 <h3>Cappuccino</h3>
                 <p>Espresso dengan foam susu lembut dan taburan bubuk cokelat.</p>
                 <span class="price">Rp 24.000</span>
+            </div>
+
+            <div class="menu-box">
+                <img src="images/Kopi Klepon.jpg" alt="Kopi Klepon" class="menu-img" zoomable-img>
+                <h3>Kopi Klepon</h3>
+                <p>Minuman kopi khas Indonesia dengan rasa manis dari klepon.</p>
+                <span class="price">Rp 20.000</span>
+            </div>
+
+            <div class="menu-box">
+                <img src="images/Kopi Rarobang.jpeg" alt="Kopi Rarobang" class="menu-img">
+                <h3>Kopi Rarobang</h3>
+                <p>Kopi khas Maluku berempah cengkeh dan kayu manis, disajikan dengan taburan kenari.</p>
+                <span class="price">Rp 22.000</span>
+            </div>
+
+            <div class="menu-box">
+                <img src="images/Kopi Arang.jpg" alt="Kopi Joss Arang" class="menu-img">
+                <h3>Kopi Joss (Arang)</h3>
+                <p>Kopi hitam khas yang disajikan unik dengan celupan arang membara pilihan.</p>
+                <span class="price">Rp 15.000</span>
+            </div>
+
+            <div class="menu-box">
+                <img src="images/Kopi Tubruk.jpg" alt="Kopi Tubruk" class="menu-img">
+                <h3>Kopi Tubruk</h3>
+                <p>Seduhan tradisional dengan aroma kuat dan bodi tebal khas warkop Nusantara.</p>
+                <span class="price">Rp 12.000</span>
+            </div>
+
+            <div class="menu-box">
+                <img src="images/Kopi Klotok.jpg" alt="Kopi Klotok" class="menu-img">
+                <h3>Kopi Klotok</h3>
+                <p>Kopi khas Jogja yang direbus bersama bubuknya, menghasilkan rasa pahit gurih yang unik.</p>
+                <span class="price">Rp 14.000</span>
+            </div>
+
+            <div class="menu-box">
+                <img src="images/Kopi Jahe.jpeg" alt="Kopi Jahe" class="menu-img">
+                <h3>Kopi Jahe</h3>
+                <p>Paduan rempah jahe bakar dan kopi hitam yang hangat serta menyegarkan tubuh.</p>
+                <span class="price">Rp 17.000</span>
             </div>
         </div>
     </section>
@@ -188,5 +230,12 @@
     <!-- jQuery via CDN resmi -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="script.js"></script>
+
+    <!-- Element Pop-up Fullscreen -->
+    <div class="image-modal" id="imageModal">
+        <span class="modal-close" id="modalClose">&times;</span>
+        <img class="modal-content" id="fullImg" alt="Tampilan Penuh Menu">
+    </div>
+
 </body>
 </html>
