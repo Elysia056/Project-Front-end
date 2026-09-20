@@ -1,0 +1,328 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #3b2a1a;
+  background-color: #fffaf3;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+
+.main-header {
+  background-color: #fff8e7;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 0;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logo-icon { font-size: 1.8rem; }
+
+.logo-area h1 {
+  font-size: 1.4rem;
+  color: #8b5e2b;
+}
+
+.tagline {
+  font-size: 0.75rem;
+  color: #b8863b;
+  font-weight: 400;
+}
+
+.main-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 1.8rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #5a3e1b;
+  font-weight: 600;
+  font-size: 0.95rem;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.nav-link:hover,
+.nav-link.active { color: #d18b2c; }
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #d18b2c;
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after { width: 100%; }
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 2px solid #8b5e2b;
+  color: #8b5e2b;
+  font-size: 1.4rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.hero {
+  position: relative;
+  height: 85vh;
+  min-height: 500px;
+  background: url('https://www.bolakeluarga.com/images/Tips-Membuat-Bika-Ambon-detail.jpg')
+              center/cover no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(60, 30, 0, 0.55), rgba(40, 20, 0, 0.75));
+}
+
+.hero-content { position: relative; z-index: 2; }
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  text-shadow: 0 3px 12px rgba(0, 0, 0, 0.5);
+}
+
+.hero-title span { color: #ffd27f; }
+
+.hero-text {
+  font-size: 1.15rem;
+  max-width: 620px;
+  margin: 0 auto 2rem;
+  opacity: 0.95;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #d18b2c, #b06f1a);
+  color: #fff;
+  border: none;
+  padding: 0.9rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(209, 139, 44, 0.4);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(209, 139, 44, 0.55);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #8b5e2b;
+  border: 2px solid #d18b2c;
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.3s, color 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #d18b2c;
+  color: #fff;
+}
+
+.section { padding: 4.5rem 0; }
+
+.section-title {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  color: #6b3f1a;
+  position: relative;
+}
+
+.section-title::after {
+  content: '';
+  display: block;
+  width: 70px;
+  height: 4px;
+  background: #d18b2c;
+  margin: 0.7rem auto 0;
+  border-radius: 2px;
+}
+
+.about-section { background: #fffaf3; }
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.about-text p { margin-bottom: 1rem; color: #4a3520; }
+
+.about-image img {
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.fact-box {
+  display: none;
+  background: #fff3d6;
+  border-left: 5px solid #d18b2c;
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 8px;
+  color: #5a3e1b;
+}
+
+
+.gallery-section { background: #fdf2e0; }
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+
+.gallery-item {
+  overflow: hidden;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.gallery-item:hover img { transform: scale(1.08); }
+
+
+.order-section { background: #fffaf3; }
+
+.order-box {
+  max-width: 550px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 2rem;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+}
+
+.order-box p {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #5a3e1b;
+}
+
+.form-group { margin-bottom: 1rem; }
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #e7d5b8;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.3s;
+  background: #fffdf8;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #d18b2c;
+}
+
+.form-feedback {
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+
+.main-footer {
+  background: #3b2a1a;
+  color: #f5e6c8;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.footer-small {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 0.3rem;
+}
+
+
+@media (max-width: 768px) {
+  .hero-title { font-size: 2rem; }
+  .hero-text { font-size: 1rem; }
+  .about-grid { grid-template-columns: 1fr; }
+
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff8e7;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    display: none;
+  }
+
+  .main-nav ul {
+    flex-direction: column;
+    gap: 0;
+    padding: 0.5rem 0;
+  }
+
+  .main-nav ul li {
+    text-align: center;
+    padding: 0.8rem 0;
+  }
+  
+}

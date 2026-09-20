@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bika Ambon | Kuliner Khas Indonesia</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+          crossorigin="anonymous"></script>
+</head>
+<body>
+
+  <header class="main-header">
+    <div class="container header-flex">
+      <div class="logo-area">
+        <span class="logo-icon"> 🥮 </span>
+        <h1>Bika Ambon<span class="tagline"> · Kelompok 1</span></h1>
+      </div>
+
+      <nav class="main-nav" id="mainNav">
+        <ul>
+          <li><a href="#home" class="nav-link active">Beranda</a></li>
+          <li><a href="#about" class="nav-link">Tentang Bika Ambon</a></li>
+          <li><a href="#gallery" class="nav-link">Galeri</a></li>
+          <li><a href="#order" class="nav-link">Pesan</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+
+  <section id="home" class="hero">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+      <h2 class="hero-title"> Bika <span>Ambon</span></h2>
+      <p class="hero-text">
+        kenyal, lembut, dan berongga |
+        kue tradisional khas Indonesia yang berasal dari Medan.
+      </p>
+      <button class="btn-primary" id="heroOrderBtn">Order sekarang ✉ </button>
+    </div>
+  </section>
+
+  
+  <section id="about" class="section about-section">
+    <div class="container">
+      <h2 class="section-title">Apa itu Bika Ambon?</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            Meski namanya terdapat kata "Ambon", Bika Ambon sebenarnya berasal dari 
+            <strong>Medan, Sumatera Utara</strong>. Nama "Ambon" dipakai 
+            karena resepnya pertama kali diperkenalkan oleh pedagang dari Ambon.
+            Kue ini terkenal dengan <strong>tekstur sarang lebah</strong>-nya.
+          </p>
+          <p>
+            Dipanggang hingga kecokelatan, Bika Ambon jadi sajian wajib 
+            di acara perayaan dan jajanan favorit di seluruh Indonesia.
+          </p>
+
+          <button class="btn-secondary" id="factToggleBtn"> Lainya </button>
+          <div class="fact-box" id="factBox">
+            <p>
+              <strong>Fakta unik:</strong> Bika Ambon mendapat tekstur 
+              berpori khasnya dari fermentasi air kelapa dan teknik 
+              pemanggangan khusus di loyang tembaga!
+            </p>
+          </div>
+        </div>
+
+        <div class="about-image">
+          <img src="https://cdn1.katadata.co.id/media/images/temp/2021/12/21/Kue_bika_ambon-2021_12_21-11_47_25_496387a5f8c9a017d720abaef43a7704.jpg"
+               alt="Potongan Bika Ambon" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="section gallery-section">
+    <div class="container">
+      <h2 class="section-title">Galeri</h2>
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="https://img-highend.okezone.com/okz/500/pictureArticle/images_x0cp5V13_2pJq63.jpg" alt="Bika Ambon 1">
+        </div>
+        <div class="gallery-item">
+          <img src="https://rricoid-assets.obs.ap-southeast-4.myhuaweicloud.com/berita/Singaraja/o/1740016270382-IMG_20250218_083237/pcd70kj4xc25riq.jpeg" alt="Bika Ambon 2">
+        </div>
+        <div class="gallery-item">
+          <img src="https://wiratech.co.id/wp-content/uploads/2018/08/Makanan-Khas-Medan-Bika-Ambon.jpg" alt="Bika Ambon 3">
+        </div>
+        <div class="gallery-item">
+          <img src="https://asset.kompas.com/crops/VzYx-AkbhGOs5xvoXncObdqgXLA=/142x4:829x462/1200x800/data/photo/2023/04/27/6449e926b9ed3.jpg" alt="Bika Ambon 4">
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="order" class="section order-section">
+    <div class="container">
+      <h2 class="section-title">Order atau Tanya Kami</h2>
+      <div class="order-box">
+        <p>Mau coba Bika Ambon asli? Isi data kamu dan kami akan hubungi!</p>
+
+        <form id="orderForm">
+          <div class="form-group">
+            <input type="text" id="name" placeholder="Nama kamu" required>
+          </div>
+          <div class="form-group">
+            <input type="email" id="email" placeholder="Alamat email" required>
+          </div>
+          <div class="form-group">
+            <textarea id="message" rows="3" placeholder="Pesan kamu (contoh: 2 box)"></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Kirim Pesan</button>
+          <div id="formFeedback" class="form-feedback"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="main-footer">
+    <div class="container">
+      <p>© 2026 Kelompok 1</p>
+      <p class="footer-small"> Image all from open source (google) </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
