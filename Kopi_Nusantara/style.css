@@ -198,6 +198,9 @@ body:has(#kontak:target) .navbar a[href="#kontak"] {
     text-transform: uppercase;
     letter-spacing: 1.5px;
     margin-bottom: 10px;
+    text-align: left  !important; 
+    align-self: flex-start !important; /* Paksa posisi elemen ini saja ke paling kiri */
+    width: 100%;
 }
 
 .hero-content h1 {
@@ -211,7 +214,10 @@ body:has(#kontak:target) .navbar a[href="#kontak"] {
 .hero-content {
     flex: 1;
     z-index: 1;
-    max-width: 520px; /* Membatasi lebar teks paragraf agar tidak terlalu panjang ke kanan */
+   display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important; /* Mengunci semua anak elemen ke kiri */
+    text-align: left !important;
 }
 
 .hero-content p {
@@ -232,6 +238,13 @@ body:has(#kontak:target) .navbar a[href="#kontak"] {
 @media screen and (max-width: 992px) {
     .hero-btn-group {
         justify-content: center !important;
+    }
+    .hero-label {
+        text-align: center !important;
+        align-self: center !important;
+    }
+    .hero-btn-group {
+        justify-content: center !important; /* Tambahin baris ini di dalam media query */
     }
 }
 
