@@ -148,7 +148,7 @@ body:has(#kontak:target) .navbar a[href="#kontak"] {
     color: var(--secondary-color) !important;
 }
 
-/* HERO / BANNER SECTION (MOTIF BATIK GEOMETRIS MURNI CSS) */
+/* HERO / BANNER SECTION (MOTIF BATIK GEOMETRIS CSS, suapaya ad akesan nusantaranya) */
 
 /* HERO SECTION - RATA TENGAH SEMPURNA */
 .hero {
@@ -205,20 +205,34 @@ body:has(#kontak:target) .navbar a[href="#kontak"] {
     color: var(--primary-color);
     line-height: 1.2;
     margin-bottom: 15px;
-    text-align: center;
+    text-align: left;
+}
+
+.hero-content {
+    flex: 1;
+    z-index: 1;
+    max-width: 520px; /* Membatasi lebar teks paragraf agar tidak terlalu panjang ke kanan */
 }
 
 .hero-content p {
     color: var(--light-text);
     margin-bottom: 25px;
-    text-align: center;
-    max-width: 600px;
+    line-height: 1.6;
 }
 
+/* Meratakan tombol hero ke kiri pada tampilan layar penuh (Desktop) */
 .hero-btn-group {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start !important; /* posisi tombol ke kiri */
     gap: 15px;
+    width: 100%;
+}
+
+/* Memastikan tombol tetap di tengah HANYA saat layar kecil (Tablet/HP) */
+@media screen and (max-width: 992px) {
+    .hero-btn-group {
+        justify-content: center !important;
+    }
 }
 
 .hero-img {
@@ -227,6 +241,27 @@ body:has(#kontak:target) .navbar a[href="#kontak"] {
     flex-direction: column;
     align-items: center;
     margin: 0 auto;
+}
+
+/* BREAKPOINT UNTUK LAYAR SETENGAH / TABLET / MOBILE (<= 992px) */
+@media screen and (max-width: 992px) {
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero-content {
+        text-align: center;
+    }
+    .hero-label, 
+    .hero-content h1, 
+    .hero-content p {
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .hero-btn-group {
+        justify-content: center; /* Tombol pindah ke tengah di layar kecil */
+    }
 }
 
 /* Tombol dengan Gradasi Warna Nusantara */
@@ -507,7 +542,7 @@ body:has(#kontak:target) .navbar a[href="#kontak"] {
     }
 
     .menu-container {
-        grid-template-columns: repeat(2, 1fr); /* 2 Kolom di tablet */
+        grid-template-columns: repeat(2, 1fr); /* Kolom di tablet */
     }
 
     .cup {
