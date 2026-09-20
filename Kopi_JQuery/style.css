@@ -192,7 +192,10 @@ section {
     color: #ffffff;
 }
 
-.hero-img { flex: 1; z-index: 1; display: flex; flex-direction: column; align-items: center; }
+.hero-img { 
+    flex: 1; z-index: 1; 
+    display: flex; flex-direction: column; 
+    align-items: center; }
 
 .steam { display: flex; gap: 10px; margin-bottom: 8px; }
 
@@ -311,7 +314,7 @@ section {
 }
 
 .about-icon img { max-width: 180px; }
-.about-content h2 { text-align: left; }
+.about-content h2 { text-align: center; }
 .about-content p { margin-bottom: 15px; color: var(--light-text); }
 
 .about-list li {
@@ -432,6 +435,18 @@ section {
     color: #ffffff;
     font-size: 0.88rem;
     border-top: 3px solid var(--accent-color);
+}
+
+/* Sembunyikan Element Modal Pop-up secara Default */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 /* Tombol Melayang Scroll to Top */

@@ -1,36 +1,60 @@
-// Toggle menu navigasi pada tampilan mobile
-let menuIcon = document.querySelector('#menu-icon');
-let navbar = document.querySelector('.navbar');
+// Seluruh interaktivitas halaman ditulis dengan jQuery.
+$(document).ready(function () {
 
-menuIcon.addEventListener('click', function () {
-    navbar.classList.toggle('active');
-});
-
-// Tutup menu navigasi ketika salah satu link diklik (khusus mobile)
-let navLinks = document.querySelectorAll('.navbar a');
-
-navLinks.forEach(function (link) {
-    link.addEventListener('click', function () {
-        navbar.classList.remove('active');
+    // Toggle menu pada tampilan mobile
+    $('#menu-icon').on('click', function () {
+        $('.navbar').toggleClass('active');
     });
-});
 
-// Scroll-spy: menandai link navigasi sesuai section yang sedang dilihat
-let sections = document.querySelectorAll('section');
+    // Menu otomatis tertutup setelah salah satu link diklik (mobile)
+    $('.navbar a').on('click', function () {
+        $('.navbar').removeClass('active');
+    });
 
-window.onscroll = function () {
-    let top = window.scrollY;
+    // Scroll-spy & tombol kembali ke atas
+    $(window).on('scroll', function () {
+        let top = $(window).scrollTop();
 
-    sections.forEach(function (sec) {
-        let offset = sec.offsetTop - 150;
-        let height = sec.offsetHeight;
-        let id = sec.getAttribute('id');
+        // Tandai link navbar sesuai section yang sedang dilihat
+        $('section').each(function () {
+            let offset = $(this).offset().top - 150;
+            let height = $(this).outerHeight();
+            let id = $(this).attr('id');
 
-        if (top >= offset && top < offset + height) {
-            navLinks.forEach(function (link) {
-                link.classList.remove('active');
-            });
-            document.querySelector('.navbar a[href="#' + id + '"]').classList.add('active');
+            if (top >= offset && top < offset + height) {
+                $('.navbar a').removeClass('active');
+                $('.navbar a[href="#' + id + '"]').addClass('active');
+            }
+        });
+
+        // Tombol kembali ke atas muncul/hilang (manipulasi class) setelah
+        // scroll cukup jauh; transisi halusnya ditangani oleh CSS
+        if (top > 400) {
+            $('#scrollTop').addClass('show');
+        } else {
+            $('#scrollTop').removeClass('show');
         }
     });
-};
+
+    // Klik tombol kembali ke atas -> scroll halus (animate) ke posisi 0
+    $('#scrollTop').on('click', function (e) {
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, 600);
+    });
+
+    // FAQ Accordion
+    // Klik pertanyaan -> ambil jawaban terdekat dengan .next(), lalu slideToggle()
+    $('.faq-question').on('click', function () {
+        let $answer = $(this).next('.faq-answer');
+        let sudahTerbuka = $(this).hasClass('active');
+
+        // Tutup semua FAQ lain agar hanya satu jawaban yang terbuka
+        $('.faq-question').not(this).removeClass('active');
+        $('.faq-answer').not($answer).slideUp(300);
+
+        // Toggle class untuk mengubah tampilan ikon +/- pada pertanyaan aktif
+        $(this).toggleClass('active', !sudahTerbuka);
+        $answer.slideToggle(300);
+    });
+
+});

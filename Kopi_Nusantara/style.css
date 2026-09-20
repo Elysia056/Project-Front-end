@@ -99,46 +99,67 @@ section {
 }
 
 /* Navigasi versi mobile */
-.navbar {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    padding: 20px;
-    background-color: var(--bg-color);
-    display: none; /* Sembunyi, nanti di-toggle via JS */
-    flex-direction: column;
-    gap: 15px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    border-bottom: 3px solid var(--secondary-color);
+#menu-icon {
+    display: none; /* Sembunyikan ikon garis tiga secara permanen */
 }
 
-.navbar.active {
-    display: flex;
+.navbar {
+    display: flex; /* Langsung tampilkan menu secara horizontal */
+    position: static;
+    flex-direction: row; /* Menyusun menu menyamping */
+    gap: 25px;
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+    border-bottom: none;
 }
 
 .navbar a {
-    color: var(--text-color);
+    color: var(--text-color) !important;
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
-.navbar a:hover,
-.navbar a.active {
-    color: var(--secondary-color);
+/* Hover biasa saat kursor di atas link */
+.navbar a:hover, 
+.navbar a:active {
+    color: var(--secondary-color) !important;
+}
+
+/* Matikan warna aktif bawaan jika halaman sudah di-scroll / menu lain dipilih */
+body:has(:target) .navbar a.active {
+    color: var(--text-color) !important;
+}
+
+/* Bikin warna STAY menyala sesuai section yang sedang dituju (#menu, #tentang, #beranda, #kontak) */
+body:has(#beranda:target) .navbar a[href="#beranda"],
+body:has(#menu:target) .navbar a[href="#menu"],
+body:has(#tentang:target) .navbar a[href="#tentang"],
+body:has(#faq:target) .navbar a[href="#faq"],
+body:has(#kontak:target) .navbar a[href="#kontak"] {
+    color: var(--secondary-color) !important;
+}
+
+.navbar:focus-within a.active {
+    color: var(--text-color) !important;
+}
+
+.navbar a:focus {
+    color: var(--secondary-color) !important;
 }
 
 /* HERO / BANNER SECTION (MOTIF BATIK GEOMETRIS MURNI CSS) */
 
+/* HERO SECTION - RATA TENGAH SEMPURNA */
 .hero {
     min-height: 100vh;
     display: flex;
-    flex-direction: column; /* Mobile first: numpuk dulu ke bawah */
-    align-items: center;
-    justify-content: center;
+    flex-direction: column; /* Menyusun konten dari atas ke bawah */
+    align-items: center;    /* Memaksa semua elemen ke tengah secara horizontal */
+    justify-content: center;/* Memaksa semua elemen ke tengah secara vertikal */
+    text-align: center;     /* Semua teks rata tengah */
     gap: 30px;
-    padding-top: 110px;
-    text-align: center;
+    padding-top: 120px;
     background: var(--gradient-hero);
     position: relative;
 }
@@ -161,7 +182,13 @@ section {
 }
 
 .hero-content {
+    width: 100%;
+    max-width: 700px; /* Batasi lebar teks agar rapi seperti di jQuery */
+    margin: 0 auto;
     z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .hero-label {
@@ -174,22 +201,32 @@ section {
 }
 
 .hero-content h1 {
-    font-size: 2.2rem;
+    font-size: 2.7rem;
     color: var(--primary-color);
-    line-height: 1.25;
+    line-height: 1.2;
     margin-bottom: 15px;
+    text-align: center;
 }
 
 .hero-content p {
     color: var(--light-text);
     margin-bottom: 25px;
-    font-size: 0.95rem;
+    text-align: center;
+    max-width: 600px;
 }
 
 .hero-btn-group {
     display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.hero-img {
+    z-index: 1;
+    display: flex;
     flex-direction: column;
-    gap: 12px;
+    align-items: center;
+    margin: 0 auto;
 }
 
 /* Tombol dengan Gradasi Warna Nusantara */
@@ -355,36 +392,32 @@ section {
 
 /* TENTANG KAMI & KONTAK */
 
+/* Meratakan Gambar dan Teks tentang Kami ke Tengah */
 .about {
     display: flex;
+    align-items: center;
     flex-direction: column;
-    gap: 25px;
+    text-align: center;
+    gap: 40px;
     background: linear-gradient(135deg, #f2e7d5 0%, #faf6f0 100%);
     border-radius: 24px;
-    padding: 35px 22px;
-    text-align: center;
+    padding: 40px 50px;
     border: 1px solid rgba(184, 92, 56, 0.15);
 }
 
-.about-icon img {
-    max-width: 150px;
-    margin: 0 auto;
-}
-
-.about-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 15px;
-}
+.about-icon img { max-width: 180px; }
+.about-content h2 { text-align: center; }
+.about-content p { margin-bottom: 15px; color: var(--light-text); }
 
 .about-list li {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    font-size: 0.9rem;
+    justify-content: center; /* Poin-poinnya ikut rata tengah */
+    gap: 10px;
+    margin-bottom: 8px;
+    font-weight: 500;
 }
+
 
 .dot {
     width: 8px;
@@ -493,18 +526,6 @@ section {
         display: none;
     }
 
-    .navbar {
-        position: static;
-        display: flex;
-        flex-direction: row;
-        padding: 0;
-        background: transparent;
-        box-shadow: none;
-        border: none;
-        gap: 30px;
-        width: auto;
-    }
-
     .hero {
         flex-direction: row;
         text-align: left;
@@ -545,4 +566,10 @@ section {
     .contact-form {
         flex: 1;
     }
+
+    .hero-img { 
+    flex: 1; z-index: 1; 
+    display: flex; flex-direction: column; 
+    align-items: center; }
+    
 }
