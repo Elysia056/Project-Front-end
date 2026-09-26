@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kopi Nusantara — Bootstrap 5 Refactor</title>
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER & NAVBAR BOOTSTRAP -->
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-lg custom-navbar py-3">
+            <div class="container">
+                <a class="logo-brand" href="#beranda">
+                    <span class="logo-dot"></span>Kopi Nusantara
+                </a>
+                <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav gap-3 mt-3 mt-lg-0">
+                        <li class="nav-item"><a class="nav-link active" href="#beranda">Beranda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#menu">Menu</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#tentang">Tentang Kami</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#kontak">Kontak</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero min-vh-100 d-flex align-items-center py-5" id="beranda">
+        <div class="container position-relative" style="z-index: 1;">
+            <div class="row align-items-center gy-5">
+                <div class="col-lg-6 text-center text-lg-start">
+                    <p class="hero-label mb-2">SEJAK 2019 - DIRACIK DI RUMAH, DISAJIKAN DENGAN HATI</p>
+                    <h1 class="display-5 mb-3">Secangkir Kehangatan<br>Khas Nusantara</h1>
+                    <p class="lead mb-4">Kopi Nusantara menghadirkan biji kopi pilihan dari pelosok Indonesia, diseduh langsung setiap hari tanpa bahan pengawet. Nikmati dari layar HP, tablet, atau laptop Anda, tampilan kami menyesuaikan di mana pun Anda membuka halaman ini.</p>
+                    <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3">
+                        <a href="#menu" class="btn btn-solid rounded-pill px-4 py-2">Lihat Menu</a>
+                        <a href="#kontak" class="btn btn-outline-custom rounded-pill px-4 py-2">Pesan Sekarang</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 d-flex justify-content-center">
+                    <div class="hero-img d-flex flex-column align-items-center">
+                        <div class="steam d-flex gap-2 mb-2">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <div class="cup">
+                            <div class="cup-foam"></div>
+                            <div class="cup-handle"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENU SECTION (10 MENU KOPI) -->
+    <section class="py-5" id="menu">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold display-6 color-primary">Menu Favorit Kami</h2>
+                <p class="text-secondary">Menu andalan yang paling sering dipesan pelanggan.</p>
+            </div>
+
+            <div class="row g-4">
+                <!-- 1. Es Kopi Kelapa -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/Kopi Kelapa.jpg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Es Kopi Kelapa">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Es Kopi Kelapa</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Espresso segar berpadu dengan air kelapa muda asli dan sedikit gula aren.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 22.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Es Kopi Kelapa" 
+                                        data-desc="Espresso segar berpadu dengan air kelapa muda asli dan sedikit gula aren manis alami." 
+                                        data-price="Rp 22.000" 
+                                        data-img="images/Kopi Kelapa.jpg"
+                                        data-category="Espresso & Natural Coconut"
+                                        data-rating="⭐ 4.9 / 5.0 (Best Seller)"
+                                        data-tags="Robusta, Kelapa Muda, Gula Aren">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Kopi Susu Gula Aren -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/Kopi Guren.jpg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Kopi Susu Gula Aren">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Kopi Susu Gula Aren</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Perpaduan klasik kopi robusta lokal, susu segar, dan gula aren asli.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 20.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Kopi Susu Gula Aren" 
+                                        data-desc="Perpaduan klasik kopi robusta lokal racikan house-blend, susu segar gurih, dan cairan gula aren organik." 
+                                        data-price="Rp 20.000" 
+                                        data-img="images/Kopi Guren.jpg"
+                                        data-category="Signature Coffee"
+                                        data-rating="⭐ 4.8 / 5.0 (Favorit)"
+                                        data-tags="House Blend, Fresh Milk, Gula Aren">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Americano -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/americano.jpg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Americano">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Americano</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Espresso murni dengan air panas, cocok untuk penikmat kopi hitam.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 18.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Americano" 
+                                        data-desc="Ekstraksi ganda espresso murni dari biji Arabika Gayo beraroma fruity khas Nusantara." 
+                                        data-price="Rp 18.000" 
+                                        data-img="images/americano.jpg"
+                                        data-category="Black Coffee Classic"
+                                        data-rating="⭐ 4.7 / 5.0"
+                                        data-tags="Arabika Gayo, Tanpa Gula">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. Cappuccino -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/cappuccino.jpg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Cappuccino">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Cappuccino</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Espresso dengan foam susu lembut dan taburan bubuk cokelat.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 24.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Cappuccino" 
+                                        data-desc="Keseimbangan espresso berkarakter tebal dengan mikro-foam susu creamy dan gurih." 
+                                        data-price="Rp 24.000" 
+                                        data-img="images/cappuccino.jpg"
+                                        data-category="Milk-Based Coffee"
+                                        data-rating="⭐ 4.8 / 5.0"
+                                        data-tags="Espresso, Steamed Milk, Cocoa Powder">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. Kopi Klepon -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/Kopi Klepon.jpg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Kopi Klepon">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Kopi Klepon</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Minuman kopi khas Indonesia dengan rasa manis dari klepon.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 20.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Kopi Klepon" 
+                                        data-desc="Inovasi rasa tradisional: espresso berpadu dengan sirup pandan wangi, santan gurih, dan gula merah." 
+                                        data-price="Rp 20.000" 
+                                        data-img="images/Kopi Klepon.jpg"
+                                        data-category="Nusantara Fusion"
+                                        data-rating="⭐ 4.9 / 5.0 (Unik)"
+                                        data-tags="Pandan, Santan, Gula Merah">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 6. Kopi Rarobang -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/Kopi Rarobang.jpeg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Kopi Rarobang">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Kopi Rarobang</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Kopi khas Maluku berempah cengkeh dan kayu manis, disajikan dengan taburan kenari.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 22.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Kopi Rarobang" 
+                                        data-desc="Minuman khas Maluku yang direbus bersama rempah cengkeh, kayu manis, jahe, dan kenari sangrai." 
+                                        data-price="Rp 22.000" 
+                                        data-img="images/Kopi Rarobang.jpeg"
+                                        data-category="Traditional Herbal Coffee"
+                                        data-rating="⭐ 4.8 / 5.0"
+                                        data-tags="Cengkeh, Kayu Manis, Biji Kenari">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 7. Kopi Joss (Arang) -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/Kopi Arang.jpg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Kopi Joss Arang">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Kopi Joss (Arang)</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Kopi hitam khas yang disajikan unik dengan celupan arang membara pilihan.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 15.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Kopi Joss (Arang)" 
+                                        data-desc="Kopi khas Yogyakarta disajikan dengan mencelupkan arang kayu membara untuk rasa smoky yang netral." 
+                                        data-price="Rp 15.000" 
+                                        data-img="images/Kopi Arang.jpg"
+                                        data-category="Traditional Unique"
+                                        data-rating="⭐ 4.7 / 5.0"
+                                        data-tags="Arang Kayu, Smoky Aroma, Robusta">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Kopi Tubruk -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/Kopi Tubruk.jpg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Kopi Tubruk">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Kopi Tubruk</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Seduhan tradisional dengan aroma kuat dan bodi tebal khas warkop Nusantara.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 12.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Kopi Tubruk" 
+                                        data-desc="Metode seduh paling otentik tanpa saringan, menghasilkan karakter kopi tebal beraroma pekat." 
+                                        data-price="Rp 12.000" 
+                                        data-img="images/Kopi Tubruk.jpg"
+                                        data-category="Traditional Brew"
+                                        data-rating="⭐ 4.6 / 5.0"
+                                        data-tags="Biji Lokal, Seduh Otentik, Pekat">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. Kopi Klotok -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/Kopi Klotok.jpg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Kopi Klotok">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Kopi Klotok</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Kopi khas Jogja yang direbus bersama bubuknya, menghasilkan rasa pahit gurih yang unik.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 14.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Kopi Klotok" 
+                                        data-desc="Bubuk kopi digosongkan tanpa air terlebih dahulu di panci, lalu diseduh air mendidih untuk rasa gurih renyah." 
+                                        data-price="Rp 14.000" 
+                                        data-img="images/Kopi Klotok.jpg"
+                                        data-category="Traditional Jogja"
+                                        data-rating="⭐ 4.8 / 5.0"
+                                        data-tags="Sangrai Panci, Gurih, Pahit Manis">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 10. Kopi Jahe -->
+                <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card h-100 rounded-4 shadow-sm custom-card p-2">
+                        <img src="images/Kopi Jahe.jpeg" class="card-img-top rounded-3 object-fit-cover" height="180" alt="Kopi Jahe">
+                        <div class="card-body d-flex flex-column text-center p-3">
+                            <h5 class="card-title-custom">Kopi Jahe</h5>
+                            <p class="card-text text-secondary flex-grow-1 small mt-2">Paduan rempah jahe bakar dan kopi hitam yang hangat serta menyegarkan tubuh.</p>
+                            <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center">
+                                <span class="price-text">Rp 17.000</span>
+                                <button class="btn btn-solid btn-sm rounded-pill px-3" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#menuModal" 
+                                        data-title="Kopi Jahe" 
+                                        data-desc="Racikan jahe emprit bakar yang dimemarkan dan diseduh bersama kopi pilihan untuk menghangatkan badan." 
+                                        data-price="Rp 17.000" 
+                                        data-img="images/Kopi Jahe.jpeg"
+                                        data-category="Herbal Coffee"
+                                        data-rating="⭐ 4.7 / 5.0"
+                                        data-tags="Jahe Bakar, Hangat, Rempah Alami">Detail</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   <!-- TENTANG KAMI SECTION -->
+    <section class="py-5" id="tentang">
+        <div class="container">
+            <div class="about-section p-4 p-md-5 rounded-4 border shadow-sm">
+                <!-- Judul Rata Tengah -->
+                <h2 class="fw-bold color-primary mb-4 text-center" style="font-size: 2.1rem;">Tentang Kopi Nusantara</h2>
+                
+                <div class="row align-items-center gy-4">
+                    <!-- Gambar Biji Kopi di Kiri -->
+                    <div class="col-12 col-md-3 text-center">
+                        <img src="images/biji-kopi.png" alt="Biji Kopi" class="img-fluid mx-auto d-block" style="max-width: 150px;">
+                    </div>
+                    
+                    <!-- Teks Paragraf & List Rata Kiri -->
+                    <div class="col-12 col-md-9 text-center text-md-start">
+                        <p class="text-secondary mb-3">Berawal dari dapur rumahan di tahun 2019, Kopi Nusantara tumbuh dari kecintaan terhadap biji kopi lokal Indonesia dari Gayo, Toraja, hingga Kintamani. Kami percaya secangkir kopi terbaik lahir dari proses yang jujur dan bahan yang berkualitas.</p>
+                        <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                            <li class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start text-secondary fw-medium"><span class="logo-dot"></span> Biji kopi pilihan langsung dari petani lokal</li>
+                            <li class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start text-secondary fw-medium"><span class="logo-dot"></span> Diseduh segar setiap hari di dapur rumahan kami</li>
+                            <li class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start text-secondary fw-medium"><span class="logo-dot"></span> Bisa dipesan kapan saja lewat WhatsApp</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="py-5" id="faq">
+        <div class="container py-4" style="max-width: 800px;">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold display-6 color-primary">Pertanyaan yang Sering Diajukan</h2>
+                <p class="text-secondary">Beberapa hal yang paling sering ditanyakan pelanggan kami.</p>
+            </div>
+
+            <div class="accordion custom-accordion shadow-sm rounded-4 overflow-hidden" id="faqAccordion">
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                            Apakah Kopi Nusantara punya toko fisik yang bisa dikunjungi?
+                        </button>
+                    </h2>
+                    <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Untuk saat ini kami masih beroperasi dari dapur rumahan di Jl. Melati No. 12, Bandung. Pemesanan bisa dilakukan lewat WhatsApp, dan pengambilan dapat diatur langsung dengan tim kami.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                            Berapa lama waktu pemesanan hingga kopi siap diambil?
+                        </button>
+                    </h2>
+                    <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Rata-rata pesanan siap dalam 15-20 menit setelah dikonfirmasi, karena setiap cangkir diseduh segar begitu ada pesanan masuk.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 border-bottom">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                            Apakah biji kopi yang digunakan benar-benar dari petani lokal?
+                        </button>
+                    </h2>
+                    <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Ya. Kami bekerja sama langsung dengan petani dari Gayo, Toraja, dan Kintamani untuk menjaga kualitas sekaligus mendukung hasil panen lokal.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-semibold text-dark" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                            Apakah tersedia menu tanpa gula atau dengan susu alternatif?
+                        </button>
+                    </h2>
+                    <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div class="accordion-body text-secondary">
+                            Bisa. Anda dapat menuliskan permintaan khusus seperti tanpa gula, less sugar, atau susu oat pada kolom pesan saat menghubungi kami lewat form maupun WhatsApp.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KONTAK SECTION -->
+    <section class="py-5" id="kontak">
+        <div class="container py-4">
+            <div class="row gy-5">
+                <div class="col-lg-5 text-center text-lg-start">
+                    <h2 class="fw-bold display-6 color-primary mb-3">Hubungi &amp; Pesan</h2>
+                    <p class="text-secondary mb-4">Isi formulir berikut, tim kami akan segera menghubungi Anda kembali.</p>
+                    <p class="mb-2"><strong>Alamat:</strong> Jl. Melati No. 12, Bandung</p>
+                    <p class="mb-2"><strong>WhatsApp:</strong> 0812-3456-7890</p>
+                    <p class="mb-2"><strong>Jam Buka:</strong> Setiap hari, 08.00 - 21.00</p>
+                </div>
+
+                <div class="col-lg-7">
+                    <form class="bg-white p-4 p-md-5 rounded-4 shadow-sm contact-form-card" id="formPesanan">
+                        <div class="mb-3 text-start">
+                            <label for="nama" class="form-label fw-bold small text-dark">Nama</label>
+                            <input type="text" class="form-control p-3 rounded-3" id="nama" placeholder="Nama lengkap Anda">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="email" class="form-label fw-bold small text-dark">Email</label>
+                            <input type="email" class="form-control p-3 rounded-3" id="email" placeholder="nama@email.com">
+                        </div>
+                        <div class="mb-3 text-start">
+                            <label for="pesan" class="form-label fw-bold small text-dark">Pesan</label>
+                            <textarea class="form-control p-3 rounded-3" id="pesan" rows="4" placeholder="Tuliskan pesanan atau pertanyaan Anda"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-solid rounded-pill w-100 py-3 mt-2">Kirim Pesan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer text-center py-4 text-white">
+        <div class="container">
+            <p class="mb-0 small">&copy; 2026 Kopi Nusantara. Seluruh hak cipta dilindungi.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL DETAIL MENU -->
+    <div class="modal fade" id="menuModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content rounded-4 border-0 shadow">
+                <div class="modal-header border-0 pb-0 px-4 pt-4">
+                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 fw-semibold" id="modalCategory">Category</span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row align-items-center gy-4">
+                        <div class="col-md-5 text-center">
+                            <img id="modalImg" src="" class="img-fluid rounded-4 object-fit-cover shadow-sm" style="max-height: 250px; width: 100%;" alt="Gambar Menu">
+                        </div>
+                        <div class="col-md-7 text-start">
+                            <h4 class="fw-bold color-primary mb-1" id="modalTitle">Nama Menu</h4>
+                            <p class="small text-muted mb-2" id="modalRating">Rating</p>
+                            <p id="modalDesc" class="text-secondary small mb-3"></p>
+                            
+                            <div class="mb-3">
+                                <small class="fw-bold d-block text-dark mb-1">Catatan Rasa / Bahan Utama:</small>
+                                <div id="modalTags" class="d-flex flex-wrap gap-1"></div>
+                            </div>
+
+                            <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                                <div>
+                                    <small class="text-muted d-block">Harga per cangkir:</small>
+                                    <span id="modalPrice" class="price-text fs-4 fw-bold"></span>
+                                </div>
+                                <button type="button" class="btn btn-solid rounded-pill px-4" id="btnPesanModal">Pesan Sekarang</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCROLL TOP -->
+    <a href="#beranda" class="scroll-top" id="scrollTop">&uarr;</a>
+
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
