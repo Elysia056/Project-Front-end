@@ -3,133 +3,434 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bika Ambon | Kuliner Khas Indonesia</title>
-
+  <title>Bika Ambon | Kelompok 1</title>
+  <meta name="description" content="Bika Ambon.">
   <link rel="stylesheet" href="style.css">
-
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-          crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="bg-wavy-pattern">
 
-  <header class="main-header">
-    <div class="container header-flex">
-      <div class="logo-area">
-        <span class="logo-icon"> 🥮 </span>
-        <h1>Bika Ambon<span class="tagline"> · Kelompok 1</span></h1>
-      </div>
+  <aside class="section-indicator" aria-label="Navigasi Halaman">
+    <a href="#beranda" class="indicator-dot active" title="01. Beranda">
+      <span class="indicator-hex"></span>
+      <span class="indicator-tooltip">01. Beranda</span>
+    </a>
+    <a href="#cerita" class="indicator-dot" title="02. Cerita">
+      <span class="indicator-hex"></span>
+      <span class="indicator-tooltip">02. Cerita</span>
+    </a>
+    <a href="#keunikan" class="indicator-dot" title="03. Keunikan">
+      <span class="indicator-hex"></span>
+      <span class="indicator-tooltip">03. Keunikan</span>
+    </a>
+    <a href="#galeri" class="indicator-dot" title="04. Galeri">
+      <span class="indicator-hex"></span>
+      <span class="indicator-tooltip">04. Galeri</span>
+    </a>
+    <a href="#proses" class="indicator-dot" title="05. Proses">
+      <span class="indicator-hex"></span>
+      <span class="indicator-tooltip">05. Proses</span>
+    </a>
+    <a href="#pesan" class="indicator-dot" title="06. Pesan">
+      <span class="indicator-hex"></span>
+      <span class="indicator-tooltip">06. Pesan</span>
+    </a>
+  </aside>
 
+  <header class="main-header" id="header">
+    <div class="container header-inner">
+      <!-- Logo Area -->
+      <a href="#beranda" class="logo-area">
+        <div class="logo-badge"></div>
+        <div class="logo-text">
+          <h1>Bika Ambon</h1>
+          <span class="tagline">Kelompok 1</span>
+        </div>
+      </a>
+
+      <!-- Desktop & Mobile Navigasi -->
       <nav class="main-nav" id="mainNav">
-        <ul>
-          <li><a href="#home" class="nav-link active">Beranda</a></li>
-          <li><a href="#about" class="nav-link">Tentang Bika Ambon</a></li>
-          <li><a href="#gallery" class="nav-link">Galeri</a></li>
-          <li><a href="#order" class="nav-link">Pesan</a></li>
+        <ul class="nav-links">
+          <li class="nav-item"><a href="#beranda" class="nav-link active">BERANDA</a></li>
+          <li class="nav-item"><a href="#cerita" class="nav-link">CERITA</a></li>
+          <li class="nav-item"><a href="#keunikan" class="nav-link">KEUNIKAN</a></li>
+          <li class="nav-item"><a href="#galeri" class="nav-link">GALERI</a></li>
+          <li class="nav-item"><a href="#proses" class="nav-link">PROSES</a></li>
+          <li class="nav-item"><a href="login.html" class="nav-link">MASUK</a></li>
+          <li class="nav-item">
+            <a href="#pesan" class="btn-pesan-nav">
+              <span>PESAN</span>
+              <span>&rarr;</span>
+            </a>
+          </li>
         </ul>
       </nav>
+
+      <!-- Mobile 3-Dots Button (Sesuai Permintaan) -->
+      <button class="menu-toggle" id="menuToggle" aria-label="Buka Menu Navigasi" type="button">
+        &bull;&bull;&bull;
+      </button>
     </div>
   </header>
 
+  <main>
 
-  <section id="home" class="hero">
-    <div class="hero-overlay"></div>
-    <div class="container hero-content">
-      <h2 class="hero-title"> Bika <span>Ambon</span></h2>
-      <p class="hero-text">
-        kenyal, lembut, dan berongga |
-        kue tradisional khas Indonesia yang berasal dari Medan.
-      </p>
-      <button class="btn-primary" id="heroOrderBtn">Order sekarang ✉ </button>
-    </div>
-  </section>
+    <!-- Beranda -->
+    <section id="beranda" class="section hero-section">
+      <div class="container">
+        <div class="section-kicker">// kue sarang lebah khas medan</div>
 
-  
-  <section id="about" class="section about-section">
-    <div class="container">
-      <h2 class="section-title">Apa itu Bika Ambon?</h2>
-      <div class="about-grid">
-        <div class="about-text">
-          <p>
-            Meski namanya terdapat kata "Ambon", Bika Ambon sebenarnya berasal dari 
-            <strong>Medan, Sumatera Utara</strong>. Nama "Ambon" dipakai 
-            karena resepnya pertama kali diperkenalkan oleh pedagang dari Ambon.
-            Kue ini terkenal dengan <strong>tekstur sarang lebah</strong>-nya.
-          </p>
-          <p>
-            Dipanggang hingga kecokelatan, Bika Ambon jadi sajian wajib 
-            di acara perayaan dan jajanan favorit di seluruh Indonesia.
-          </p>
+        <h2 class="hero-title-main">Belah</h2>
+        <h2 class="hero-title-outline">Rongganya.</h2>
 
-          <button class="btn-secondary" id="factToggleBtn"> Lainya </button>
-          <div class="fact-box" id="factBox">
-            <p>
-              <strong>Fakta unik:</strong> Bika Ambon mendapat tekstur 
-              berpori khasnya dari fermentasi air kelapa dan teknik 
-              pemanggangan khusus di loyang tembaga!
+        <!-- Interactive Box -->
+        <div class="slice-wrapper">
+          <div class="slice-container" id="sliceContainer">
+            <!-- Left layer -->
+            <div class="slice-sponge" id="sliceSponge">
+              <div class="sponge-badge">Rongga Dalam</div>
+            </div>
+
+            <!-- Right layer -->
+            <div class="slice-crust" id="sliceCrust">
+              <div class="crust-badge">Kulit Luar</div>
+            </div>
+
+            <!-- scissors handle ✂ -->
+            <div class="slice-divider" id="sliceDivider">
+              <div class="slice-handle" title="Geser ke kiri / kanan">&#9986;</div>
+            </div>
+          </div>
+
+          <!-- Slider Subtitle & Readout -->
+          <div class="slice-meta">
+            <span>geser garis untuk membelah &rarr;</span>
+            <div>
+              <span>Rongga: <strong id="slicePercentText">40%</strong></span>
+              <button class="reset-btn" id="resetSliceBtn" type="button">(Tengah)</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cerita -->
+    <section id="cerita" class="section cerita-section">
+      <div class="container">
+        <div class="section-kicker">// cerita &amp; filosofi</div>
+
+        <div class="cerita-grid">
+          <!-- Left Column -->
+          <div class="cerita-content">
+            <div class="cerita-lead">
+              <span class="drop-cap">B</span>
+              <p class="lead-text">
+                ika Ambon bukan kue biasa, namanya menipu, asalnya dari Medan, dan teksturnya sengaja dibuat berlubang.
+              </p>
+            </div>
+
+            <p class="cerita-body">
+              Rongga-rongga kecil itu bukan cacat, tapi tujuan. Terbentuk dari fermentasi alami air nira dan telur selama berjam-jam, lalu dipanggang perlahan di suhu rendah hingga bagian luar kecokelatan namun bagian dalam tetap kenyal berserat, seperti sarang lebah yang dipotong melintang.
             </p>
-          </div>
-        </div>
 
-        <div class="about-image">
-          <img src="https://cdn1.katadata.co.id/media/images/temp/2021/12/21/Kue_bika_ambon-2021_12_21-11_47_25_496387a5f8c9a017d720abaef43a7704.jpg"
-               alt="Potongan Bika Ambon" loading="lazy">
+            <div class="quote-block">
+              <p>&ldquo;Namanya Ambon, rumahnya Medan, dan ia tak pernah malu soal itu.&rdquo;</p>
+            </div>
+
+            <button type="button" class="history-toggle-btn" id="historyToggleBtn">
+              Baca asal-usul Jalan Ambon &rarr;
+            </button>
+            <div class="history-box" id="historyBox">
+              <strong>Fakta Sejarah:</strong> Bika Ambon pertama kali diproduksi dan dijual di persimpangan <em>Jalan Ambon Sei Kera, Kota Medan</em> pada dekade 1950-an. Para pedagang mengombinasikan resep kue bika Melayu dengan fermentasi air nira segar, menciptakan tekstur sarang lebah unik yang harum dan kenyal.
+            </div>
+          </div>
+
+          <!-- Right Column: Stats -->
+          <div class="cerita-stats">
+            <div class="stat-item">
+              <div class="stat-number">100%</div>
+              <div class="stat-label">Bahan Alami, Tanpa Pengawet</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">6-8 jam</div>
+              <div class="stat-label">Fermentasi Sebelum Dipanggang</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">1958</div>
+              <div class="stat-label">Diperkenalkan Pedagang Asal Ambon</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="gallery" class="section gallery-section">
-    <div class="container">
-      <h2 class="section-title">Galeri</h2>
-      <div class="gallery-grid">
-        <div class="gallery-item">
-          <img src="https://img-highend.okezone.com/okz/500/pictureArticle/images_x0cp5V13_2pJq63.jpg" alt="Bika Ambon 1">
-        </div>
-        <div class="gallery-item">
-          <img src="https://rricoid-assets.obs.ap-southeast-4.myhuaweicloud.com/berita/Singaraja/o/1740016270382-IMG_20250218_083237/pcd70kj4xc25riq.jpeg" alt="Bika Ambon 2">
-        </div>
-        <div class="gallery-item">
-          <img src="https://wiratech.co.id/wp-content/uploads/2018/08/Makanan-Khas-Medan-Bika-Ambon.jpg" alt="Bika Ambon 3">
-        </div>
-        <div class="gallery-item">
-          <img src="https://asset.kompas.com/crops/VzYx-AkbhGOs5xvoXncObdqgXLA=/142x4:829x462/1200x800/data/photo/2023/04/27/6449e926b9ed3.jpg" alt="Bika Ambon 4">
+    <!-- Keunikan -->
+    <section id="keunikan" class="section keunikan-section">
+      <div class="container">
+        <div class="section-kicker">// kenapa berbeda</div>
+        <h2 class="section-title">Tiga hal yang tak bisa ditiru sembarangan</h2>
+
+        <div class="cards-grid">
+          <!-- Card 01 -->
+          <div class="keunikan-card">
+            <div>
+              <div class="card-icon-badge"></div>
+              <span class="card-num">01</span>
+              <h3 class="card-title">Rongga Terukur</h3>
+              <p class="card-desc">Fermentasi diawasi tiap jam agar pola sarang lebah terbentuk merata di setiap loyang.</p>
+            </div>
+            <div class="card-line"></div>
+          </div>
+
+          <!-- Card 02 -->
+          <div class="keunikan-card">
+            <div>
+              <div class="card-icon-badge"></div>
+              <span class="card-num">02</span>
+              <h3 class="card-title">Pandan-Kunyit Segar</h3>
+              <p class="card-desc">Diperas langsung dari daun dan rimpang asli, bukan sirup instan atau pewarna buatan.</p>
+            </div>
+            <div class="card-line"></div>
+          </div>
+
+          <!-- Card 03 -->
+          <div class="keunikan-card">
+            <div>
+              <div class="card-icon-badge"></div>
+              <span class="card-num">03</span>
+              <h3 class="card-title">Api Kecil, Sabar Besar</h3>
+              <p class="card-desc">Dipanggang lambat agar luar renyah, dalam tetap lembap, proses yang tak bisa dipercepat.</p>
+            </div>
+            <div class="card-line"></div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
+    <!-- Galeri -->
+    <section id="galeri" class="section galeri-section">
+      <div class="container">
+        <div class="galeri-header-flex">
+          <div class="section-kicker">// galeri</div>
+        </div>
+        <h2 class="section-title">Sudut-sudut Rongganya</h2>
 
-  <section id="order" class="section order-section">
-    <div class="container">
-      <h2 class="section-title">Order atau Tanya Kami</h2>
-      <div class="order-box">
-        <p>Mau coba Bika Ambon asli? Isi data kamu dan kami akan hubungi!</p>
+        <div class="galeri-layout">
+          <!-- Horizontal scroll cards dengan Gambar PNG sesuai asset -->
+          <div class="gallery-scroller" id="galleryScroller">
 
-        <form id="orderForm">
-          <div class="form-group">
-            <input type="text" id="name" placeholder="Nama kamu" required>
+            <!-- Card 001: Klasik -->
+            <div class="gallery-card" data-code="001 - potongan klasik" data-title="Potongan Klasik" data-desc="Dua potong bika ambon berserat vertikal sempurna disajikan di atas piring saji tradisi bersama helai daun pandan wangi." data-img="images/PotonganKlasik.jpeg">
+              <div class="gallery-art-frame">
+                <img src="images/PotonganKlasik.jpeg" alt="Potongan Klasik" loading="lazy">
+              </div>
+              <div class="gallery-label">001 - potongan klasik</div>
+            </div>
+
+            <!-- Card 002: Rongga Tebal -->
+            <div class="gallery-card" data-code="002 - rongga tebal, close-up" data-title="Rongga Tebal, Close-Up" data-desc="Tampilan makro lubang sarang lebah yang terbentuk sempurna akibat pelepasan karbondioksida alami ragi nira kelapa." data-img="images/RonggaCloseUp.png">
+              <div class="gallery-art-frame">
+                <img src="images/RonggaCloseUp.png" alt="Rongga Tebal, Close-Up" loading="lazy">
+              </div>
+              <div class="gallery-label">002 - rongga tebal, close-up</div>
+            </div>
+
+            <!-- Card 003: Dipanggang Perlahan -->
+            <div class="gallery-card" data-code="003 - dipanggang perlahan" data-title="Dipanggang Perlahan" data-desc="Loyang tembaga kuno bersuhu stabil dengan tutup arang panas membakar adonan perlahan dari bawah ke atas." data-img="images/Dipanggang.png">
+              <div class="gallery-art-frame">
+                <img src="images/Dipanggang.png" alt="Dipanggang Perlahan" loading="lazy">
+              </div>
+              <div class="gallery-label">003 - dipanggang perlahan</div>
+            </div>
+
+            <!-- Card 004: Siap Disajikan -->
+            <div class="gallery-card" data-code="004 - siap disajikan" data-title="Siap Disajikan" data-desc="Bika ambon beraroma harum pandan daun suji yang dipotong rapi siap dinikmati bersama secangkir kopi Sidikalang." data-img="images/Disajikan.jpg">
+              <div class="gallery-art-frame">
+                <img src="images/Disajikan.jpg" alt="Siap Disajikan" loading="lazy">
+              </div>
+              <div class="gallery-label">004 - siap disajikan</div>
+            </div>
+
+            <!-- Card 005: Potong Hangat -->
+            <div class="gallery-card" data-code="005 - potong hangat, uap masih naik" data-title="Potong Hangat, Uap Masih Naik" data-desc="Kue yang baru saja keluar dari tungku, dipotong saat masih hangat mengepul dengan keharuman daun jeruk dan serai." data-img="images/BikaAmbonPlate.png">
+              <div class="gallery-art-frame">
+                <img src="images/BikaAmbonPlate.png" alt="Potong Hangat, Uap Masih Naik" loading="lazy">
+              </div>
+              <div class="gallery-label">005 - potong hangat, uap masih naik</div>
+            </div>
+
           </div>
-          <div class="form-group">
-            <input type="email" id="email" placeholder="Alamat email" required>
-          </div>
-          <div class="form-group">
-            <textarea id="message" rows="3" placeholder="Pesan kamu (contoh: 2 box)"></textarea>
-          </div>
-          <button type="submit" class="btn-primary">Kirim Pesan</button>
-          <div id="formFeedback" class="form-feedback"></div>
-        </form>
+
+          <!-- Vertical Track Accent on Right -->
+          <div class="gallery-track-accent"></div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
+    <!-- Proses -->
+    <section id="proses" class="section proses-section">
+      <div class="container">
+        <div class="section-kicker" style="text-align: center;">// proses</div>
+        <h2 class="section-title">Dari Adonan ke Rongga</h2>
 
+        <div class="timeline-wrapper">
+          <div class="timeline-line"></div>
+
+          <!-- Step 1 -->
+          <div class="timeline-item left">
+            <div class="timeline-badge">1</div>
+            <div class="timeline-box">
+              <h3>Fermentasi Alami</h3>
+              <p>Air nira dan telur dibiarkan bereaksi hingga menghasilkan gelembung udara halus.</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="timeline-item right">
+            <div class="timeline-badge">2</div>
+            <div class="timeline-box">
+              <h3>Campur Pandan &amp; Kunyit</h3>
+              <p>Warna dan aroma khas ditambahkan dari bahan segar yang diperas langsung.</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="timeline-item left">
+            <div class="timeline-badge">3</div>
+            <div class="timeline-box">
+              <h3>Panggang Suhu Rendah</h3>
+              <p>Rongga terbentuk perlahan tanpa merusak tekstur kenyalnya.</p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="timeline-item right">
+            <div class="timeline-badge">4</div>
+            <div class="timeline-box">
+              <h3>Potong &amp; Sajikan</h3>
+              <p>Dipotong hangat agar aroma pandannya masih terasa saat sampai ke kamu.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pesan -->
+    <section id="pesan" class="section pesan-section">
+      <div class="container">
+        <div class="ticket-container">
+          <div class="ticket-header">
+            <span>TIKET PESANAN</span>
+            <span id="displayTicketHeader">#BA-2026</span>
+          </div>
+
+          <div class="ticket-dashed-line"></div>
+
+          <!-- Order Form -->
+          <form id="orderForm">
+            <div class="form-group">
+              <label for="nama" class="form-label">Nama</label>
+              <input type="text" id="nama" name="nama" class="form-input" placeholder="Nama lengkap" required>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="form-label">Email</label>
+              <input type="email" id="email" name="email" class="form-input" placeholder="nama@email.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="varian" class="form-label">Varian</label>
+              <select id="varian" name="varian" class="form-select">
+                <option value="Original Pandan">Original Pandan</option>
+                <option value="Pandan Kunyit Spesial">Pandan Kunyit Spesial</option>
+                <option value="Gula Merah Klasik">Gula Merah Klasik</option>
+                <option value="Keju Lembut">Keju Lembut</option>
+                <option value="Cokelat Rongga">Cokelat Rongga</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Jumlah</label>
+              <div class="quantity-stepper">
+                <button type="button" class="stepper-btn" id="btnMinus" aria-label="Kurangi">&minus;</button>
+                <span class="stepper-val" id="stepperVal">1</span>
+                <button type="button" class="stepper-btn" id="btnPlus" aria-label="Tambah">&plus;</button>
+                <input type="hidden" id="hiddenJumlah" name="jumlah" value="1">
+                <span class="stepper-unit">Loyang</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="catatan" class="form-label">Catatan</label>
+              <textarea id="catatan" name="catatan" rows="3" class="form-textarea" placeholder="Contoh: tanpa keju, untuk ulang tahun"></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit-ticket">Kirim Pesanan</button>
+          </form>
+
+          <!-- Order Konfirmasi Receipt -->
+          <div class="ticket-confirmation" id="ticketConfirmation">
+            <div class="confirmation-header">&#10004; Pesanan Berhasil Diterima!</div>
+            <div class="receipt-row">
+              <span>Nomor Tiket:</span>
+              <strong id="recTicketId">#BA-2026</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Nama Pemesan:</span>
+              <strong id="recNama">-</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Email:</span>
+              <span id="recEmail">-</span>
+            </div>
+            <div class="receipt-row">
+              <span>Varian Pilihan:</span>
+              <strong id="recVarian">-</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Jumlah:</span>
+              <strong id="recJumlah">-</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Catatan:</span>
+              <span id="recCatatan">-</span>
+            </div>
+
+            <button type="button" class="btn-submit-ticket" id="btnResetOrder" style="margin-top: 1.25rem;">
+              Buat Pesanan Baru
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
   <footer class="main-footer">
     <div class="container">
-      <p>© 2026 Kelompok 1</p>
-      <p class="footer-small"> Image all from open source (google) </p>
+      <h2 class="footer-giant-title">BIKA AMBON</h2>
+      <p class="footer-copyright">&copy; 2026 Kelompok 1</p>
+      <a href="#beranda" class="back-to-top">
+        <span>KEMBALI KE ATAS</span>
+        <span>&uarr;</span>
+      </a>
     </div>
   </footer>
+
+  <!-- Galeri Lightbox -->
+  <div class="gallery-modal" id="galleryModal">
+    <div class="modal-content">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Tutup" type="button">&times;</button>
+      <div class="modal-artwork" id="modalArtwork">
+        <img id="modalImg" src="" alt="Pratinjau Galeri">
+      </div>
+      <div class="modal-body">
+        <div class="modal-code" id="modalCode">001 - potongan klasik</div>
+        <h3 class="modal-title" id="modalTitle">Potongan Klasik</h3>
+        <p class="modal-desc" id="modalDesc">Deskripsi gambar bika ambon.</p>
+      </div>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 

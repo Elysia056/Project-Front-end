@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin | Bika Ambon</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="bg-wavy-pattern dash-body">
+
+  <header class="dash-header">
+    <div class="container">
+      <a href="index.html" class="dash-logo">
+        Bika Ambon
+        <span>Kelompok 1</span>
+      </a>
+
+      <div class="dash-user-info">
+        <span class="dash-role-badge">Admin</span>
+        <span id="adminNameLabel">-</span>
+        <button type="button" class="btn-logout" id="logoutBtn">Keluar</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="dash-main">
+    <div class="container">
+      <h1 class="dash-page-title">Dashboard Admin</h1>
+      <p class="dash-page-subtitle">// kelola seluruh pesanan yang masuk dari pelanggan</p>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" id="statTotalPesanan">0</div>
+          <div class="stat-tag">Total Pesanan</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statTotalLoyang">0</div>
+          <div class="stat-tag">Total Loyang Dipesan</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="statSelesai">0</div>
+          <div class="stat-tag">Pesanan Selesai</div>
+        </div>
+      </div>
+
+      <div class="dash-panel">
+        <table class="dash-table">
+          <thead>
+            <tr>
+              <th>Tiket</th>
+              <th>Nama</th>
+              <th>Email</th>
+              <th>Varian</th>
+              <th>Jumlah</th>
+              <th>Catatan</th>
+              <th>Tanggal</th>
+              <th>Status</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tabelPesananBody"></tbody>
+        </table>
+
+        <div class="dash-empty-state" id="emptyState">
+          Belum ada pesanan yang masuk. Pesanan baru dari form <a href="index.html#pesan">Pesan</a> akan otomatis muncul di sini.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="auth.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
