@@ -1,6 +1,18 @@
 document.addEventListener('DOMContentLoaded', function () {
   console.log('script.js berhasil dimuat.');
 
+  // Render tombol auth di navbar (MASUK atau nama user)
+  renderNavAuth();
+
+  // Auto-isi form pesan kalau user sudah login
+  const userAktif = ambilUserLogin();
+  if (userAktif && userAktif.role === 'user') {
+    const inputNama = document.getElementById('nama');
+    const inputEmail = document.getElementById('email');
+    if (inputNama && !inputNama.value) inputNama.value = userAktif.nama || '';
+    if (inputEmail && !inputEmail.value) inputEmail.value = userAktif.email || '';
+  }
+
   // Mobile Navigasi
   const menuToggle = document.getElementById('menuToggle');
   const mainNav = document.getElementById('mainNav');
@@ -228,6 +240,28 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
+  // Kalkulasi ongkir otomatis
+  const TARIF_PER_KM = 3000;
+  const jarakInput = document.getElementById('jarakAntar');
+  const estimasiOngkir = document.getElementById('estimasiOngkir');
+
+  function hitungOngkir(jarak) {
+    const jarakBulat = Math.max(1, Math.ceil(jarak));
+    return jarakBulat * TARIF_PER_KM;
+  }
+
+  function formatRupiah(angka) {
+    return 'Rp ' + angka.toLocaleString('id-ID');
+  }
+
+  if (jarakInput && estimasiOngkir) {
+    jarakInput.addEventListener('input', function () {
+      const jarak = parseFloat(this.value) || 0;
+      const ongkir = hitungOngkir(jarak);
+      estimasiOngkir.textContent = 'Estimasi ongkir: ' + formatRupiah(ongkir);
+    });
+  }
+
   const orderForm = document.getElementById('orderForm');
   const ticketConfirmation = document.getElementById('ticketConfirmation');
   const recNama = document.getElementById('recNama');
@@ -246,11 +280,25 @@ document.addEventListener('DOMContentLoaded', function () {
       const email = document.getElementById('email').value.trim();
       const varian = document.getElementById('varian').value;
       const catatan = document.getElementById('catatan').value.trim();
+      const alamat = document.getElementById('alamat').value.trim();
+      const jarak = parseFloat(document.getElementById('jarakAntar').value) || 0;
 
       if (!nama || !email) {
         alert('Mohon isi nama dan email dengan benar.');
         return;
       }
+
+      if (!alamat) {
+        alert('Mohon isi alamat pengiriman.');
+        return;
+      }
+
+      if (jarak <= 0) {
+        alert('Mohon isi jarak antar (km) dengan benar.');
+        return;
+      }
+
+      const ongkir = hitungOngkir(jarak);
 
       const randomTicketNum = Math.floor(1000 + Math.random() * 9000);
       const ticketCode = 'BA-2026-' + randomTicketNum;
@@ -263,6 +311,9 @@ document.addEventListener('DOMContentLoaded', function () {
         varian: varian,
         jumlah: currentQuantity,
         catatan: catatan,
+        alamat: alamat,
+        jarak: jarak,
+        ongkir: ongkir,
         tanggal: new Date().toLocaleString('id-ID'),
         status: 'Diproses'
       };
@@ -279,6 +330,13 @@ document.addEventListener('DOMContentLoaded', function () {
       if (recCatatan) recCatatan.textContent = catatan ? catatan : '-';
       if (recTicketId) recTicketId.textContent = '#' + ticketCode;
 
+      const recAlamat = document.getElementById('recAlamat');
+      const recJarak = document.getElementById('recJarak');
+      const recOngkir = document.getElementById('recOngkir');
+      if (recAlamat) recAlamat.textContent = alamat;
+      if (recJarak) recJarak.textContent = jarak + ' km';
+      if (recOngkir) recOngkir.textContent = formatRupiah(ongkir);
+
       orderForm.style.display = 'none';
       if (ticketConfirmation) {
         ticketConfirmation.classList.add('show');
@@ -293,6 +351,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (stepperVal) stepperVal.textContent = 1;
       orderForm.style.display = 'block';
       ticketConfirmation.classList.remove('show');
+      if (estimasiOngkir) estimasiOngkir.textContent = 'Estimasi ongkir: Rp 0';
     });
   }
 });

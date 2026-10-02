@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="dashboard.css">
 </head>
+
 <body class="bg-wavy-pattern dash-body">
 
   <header class="dash-header">
@@ -17,6 +19,7 @@
       </a>
 
       <div class="dash-user-info">
+        <a href="index.html" class="btn-back-home">&larr; Beranda</a>
         <span class="dash-role-badge">Admin</span>
         <span id="adminNameLabel">-</span>
         <button type="button" class="btn-logout" id="logoutBtn">Keluar</button>
@@ -53,6 +56,9 @@
               <th>Email</th>
               <th>Varian</th>
               <th>Jumlah</th>
+              <th>Alamat</th>
+              <th>Jarak</th>
+              <th>Ongkir</th>
               <th>Catatan</th>
               <th>Tanggal</th>
               <th>Status</th>
@@ -63,7 +69,8 @@
         </table>
 
         <div class="dash-empty-state" id="emptyState">
-          Belum ada pesanan yang masuk. Pesanan baru dari form <a href="index.html#pesan">Pesan</a> akan otomatis muncul di sini.
+          Belum ada pesanan yang masuk. Pesanan baru dari form <a href="index.html#pesan">Pesan</a> akan otomatis muncul
+          di sini.
         </div>
       </div>
     </div>
@@ -72,4 +79,5 @@
   <script src="auth.js"></script>
   <script src="admin.js"></script>
 </body>
+
 </html>

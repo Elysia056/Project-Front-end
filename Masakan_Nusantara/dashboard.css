@@ -123,6 +123,22 @@
   display: block;
 }
 
+.login-success {
+  display: none;
+  background-color: #d9f0d3;
+  border: 1px solid #8bc34a;
+  color: #2e7d32;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 6px;
+  margin-bottom: 1.25rem;
+}
+
+.login-success.show {
+  display: block;
+}
+
 .password-field-wrapper {
   display: flex;
   align-items: center;
@@ -299,6 +315,11 @@
 .status-badge.status-diproses {
   background-color: #fdecc8;
   color: #8a5310;
+}
+
+.status-badge.status-dikirim {
+  background-color: #cfe6f7;
+  color: #1c5a8c;
 }
 
 .status-badge.status-selesai {

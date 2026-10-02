@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daftar | Bika Ambon</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body class="bg-wavy-pattern login-page-body">
+
+  <header class="dash-header">
+    <div class="container">
+      <a href="index.html" class="dash-logo">
+        Bika Ambon
+        <span>Kelompok 1</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="login-main">
+    <div class="login-card">
+      <h2>Daftar Akun</h2>
+      <p class="login-subtitle">// buat akun pelanggan baru</p>
+
+      <div class="login-error" id="signupError"></div>
+      <div class="login-success" id="signupSuccess"></div>
+
+      <form id="signupForm">
+        <div class="form-group">
+          <label for="namaLengkap" class="form-label">Nama Lengkap</label>
+          <input type="text" id="namaLengkap" name="namaLengkap" class="form-input" placeholder="Nama Anda" required>
+        </div>
+
+        <div class="form-group">
+          <label for="emailSignup" class="form-label">Email</label>
+          <input type="email" id="emailSignup" name="emailSignup" class="form-input" placeholder="nama@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="usernameSignup" class="form-label">Username</label>
+          <input type="text" id="usernameSignup" name="usernameSignup" class="form-input" placeholder="username unik" required>
+        </div>
+
+        <div class="form-group">
+          <label for="passwordSignup" class="form-label">Password</label>
+          <div class="password-field-wrapper">
+            <input type="password" id="passwordSignup" name="passwordSignup" class="form-input" placeholder="Min. 6 karakter" required minlength="6">
+            <button type="button" class="btn-toggle-password" id="togglePasswordSignupBtn">Tampilkan</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="passwordConfirm" class="form-label">Konfirmasi Password</label>
+          <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-input" placeholder="Ulangi password" required minlength="6">
+        </div>
+
+        <button type="submit" class="btn-submit-ticket">Daftar Sekarang</button>
+      </form>
+
+      <p class="login-hint" style="text-align:center; margin-top: 1.5rem;">
+        Sudah punya akun? <a href="login.html" style="color: var(--accent-amber-dark); font-weight: 700;">Masuk di sini</a>
+      </p>
+
+      <a href="index.html" class="login-back-link">&larr; Kembali ke halaman utama</a>
+    </div>
+  </main>
+
+  <script src="auth.js"></script>
+  <script src="signup.js"></script>
+</body>
+</html>

@@ -24,10 +24,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
       let akunDitemukan = null;
 
+      // Ambil SEMUA akun (admin default + user hasil sign up)
+      const semuaAkun = ambilSemuaAkun();
+
       // Mencari akun yang cocok menggunakan perulangan for
-      for (let i = 0; i < AKUN_TERDAFTAR.length; i++) {
-        if (AKUN_TERDAFTAR[i].username === username && AKUN_TERDAFTAR[i].password === password) {
-          akunDitemukan = AKUN_TERDAFTAR[i];
+      for (let i = 0; i < semuaAkun.length; i++) {
+        if (semuaAkun[i].username === username && semuaAkun[i].password === password) {
+          akunDitemukan = semuaAkun[i];
           break;
         }
       }
@@ -47,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       } else {
         if (loginError) {
-          loginError.textContent = 'Username atau password salah. Silakan coba lagi.';
+          loginError.textContent = 'Username atau password salah. Silakan coba lagi atau daftar dulu.';
           loginError.classList.add('show');
         }
       }

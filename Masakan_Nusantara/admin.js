@@ -71,17 +71,20 @@ document.addEventListener('DOMContentLoaded', function () {
         '<td>' + pesanan.email + '</td>' +
         '<td>' + pesanan.varian + '</td>' +
         '<td>' + pesanan.jumlah + ' Loyang</td>' +
+        '<td>' + (pesanan.alamat || '-') + '</td>' +
+        '<td>' + (pesanan.jarak ? pesanan.jarak + ' km' : '-') + '</td>' +
+        '<td>' + (pesanan.ongkir ? 'Rp ' + pesanan.ongkir.toLocaleString('id-ID') : '-') + '</td>' +
         '<td>' + (pesanan.catatan ? pesanan.catatan : '-') + '</td>' +
         '<td>' + pesanan.tanggal + '</td>' +
         '<td>' +
-          '<select class="status-select" data-index="' + index + '">' +
-            '<option value="Diproses">Diproses</option>' +
-            '<option value="Selesai">Selesai</option>' +
-            '<option value="Dibatalkan">Dibatalkan</option>' +
-          '</select>' +
+        '<select class="status-select" data-index="' + index + '">' +
+        '<option value="Diproses">Diproses</option>' +
+        '<option value="Dikirim">Dikirim</option>' +
+        '<option value="Selesai">Selesai</option>' +
+        '<option value="Dibatalkan">Dibatalkan</option>' +
+        '</select>' +
         '</td>' +
         '<td><button type="button" class="btn-hapus" data-index="' + index + '">Hapus</button></td>';
-
       // Set pilihan select sesuai status pesanan saat ini
       const statusSelect = baris.querySelector('.status-select');
       if (statusSelect) {

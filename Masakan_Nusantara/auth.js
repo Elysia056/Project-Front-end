@@ -1,19 +1,18 @@
-// Daftar akun yang terdaftar
-const AKUN_TERDAFTAR = [
+// Daftar akun default untuk admin
+const AKUN_DEFAULT = [
   {
     username: 'admin',
     password: 'admin123',
     role: 'admin',
     nama: 'Admin Bika Ambon'
-  },
-  {
-    username: 'user',
-    password: 'user123',
-    role: 'user',
-    nama: 'Pelanggan Setia',
-    email: 'user@bikaambon.com'
   }
 ];
+
+// Ambil semua akun: default (admin) + hasil sign up user
+function ambilSemuaAkun() {
+  const dariSignup = JSON.parse(localStorage.getItem('bikaAmbonUsers') || '[]');
+  return AKUN_DEFAULT.concat(dariSignup);
+}
 
 // Mengambil data user yang sedang login dari localStorage
 function ambilUserLogin() {
@@ -25,7 +24,6 @@ function ambilUserLogin() {
 }
 
 // Mengecek apakah halaman boleh diakses sesuai role yang dibutuhkan
-// Jika tidak boleh, otomatis redirect ke login.html
 function cekAkses(roleDibutuhkan) {
   const user = ambilUserLogin();
 
@@ -48,4 +46,27 @@ function cekAkses(roleDibutuhkan) {
 function logout() {
   localStorage.removeItem('currentUser');
   window.location.href = 'login.html';
+}
+
+// Render tombol auth di navbar (MASUK atau username saja, tanpa tombol Keluar)
+// Dipanggil di setiap halaman yang punya elemen #navAuthArea
+function renderNavAuth() {
+  const navAuthArea = document.getElementById('navAuthArea');
+  if (!navAuthArea) return;
+
+  const user = ambilUserLogin();
+
+  if (user) {
+    // Sudah login → tampilkan badge username saja (klik untuk ke dashboard)
+    const dashboardUrl = user.role === 'admin' ? 'admin.html' : 'user.html';
+
+    navAuthArea.innerHTML =
+      '<a href="' + dashboardUrl + '" class="nav-user-badge" title="Buka Dashboard">' +
+        '<span class="nav-user-name">' + user.username + '</span>' +
+      '</a>';
+  } else {
+    // Belum login → tampilkan tombol MASUK
+    navAuthArea.innerHTML =
+      '<a href="login.html" class="nav-link">MASUK</a>';
+  }
 }

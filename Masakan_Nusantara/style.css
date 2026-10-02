@@ -37,7 +37,7 @@ body {
   background-color: var(--bg-color);
   line-height: 1.6;
   position: relative;
-  padding-top: 64px; /* Ruang offset untuk navbar fixed */
+  padding-top: 64px;
 }
 
 /* Wavy background pattern menggunakan gambar PNG bg-pattern */
@@ -735,7 +735,7 @@ body {
 }
 
 .gallery-card:hover .gallery-art-frame img {
-  transform: scale(1.12); /* Animasi Zoom In saat kursor di atas gambar */
+  transform: scale(1.12);
 }
 
 .gallery-label {
@@ -1158,6 +1158,48 @@ body {
 .back-to-top:hover {
   border-color: var(--accent-amber);
   color: #ffd885;
+}
+
+/* Hint kecil di bawah field jarak antar */
+.form-hint-mono {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-amber-dark);
+  margin-top: 0.35rem;
+  letter-spacing: 0.03em;
+}
+
+/* Badge username di navbar (setelah login) */
+.nav-user-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  text-decoration: none;
+  padding: 0.45rem 1rem;
+  border-radius: 50px;
+  border: 1px solid var(--accent-amber);
+  background-color: rgba(212, 130, 39, 0.08);
+  transition: all 0.25s ease;
+}
+
+.nav-user-badge:hover {
+  background-color: rgba(212, 130, 39, 0.18);
+  transform: translateY(-1px);
+  border-color: var(--accent-amber-dark);
+}
+
+.nav-user-icon {
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.nav-user-name {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: 0.02em;
 }
 
 /* Responsive Media */

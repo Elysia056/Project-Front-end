@@ -45,11 +45,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     pesananSaya.forEach(function (pesanan) {
       const baris = document.createElement('tr');
-
       baris.innerHTML =
         '<td>' + pesanan.id + '</td>' +
         '<td>' + pesanan.varian + '</td>' +
         '<td>' + pesanan.jumlah + ' Loyang</td>' +
+        '<td>' + (pesanan.alamat || '-') + '</td>' +
+        '<td>' + (pesanan.jarak ? pesanan.jarak + ' km' : '-') + '</td>' +
+        '<td>' + (pesanan.ongkir ? 'Rp ' + pesanan.ongkir.toLocaleString('id-ID') : '-') + '</td>' +
         '<td>' + pesanan.tanggal + '</td>' +
         '<td><span class="status-badge status-' + pesanan.status.toLowerCase() + '">' + pesanan.status + '</span></td>';
 
