@@ -1,13 +1,4 @@
-// ==========================================================================
-// admin.js
-// Logika halaman admin.html: menampilkan seluruh pesanan yang masuk lewat
-// form "Pesan" di index.html, lalu memungkinkan Admin mengubah status atau
-// menghapus pesanan. Semua data pesanan disimpan di localStorage dengan
-// key 'bikaAmbonOrders' (array of object), diisi oleh script.js.
-// ==========================================================================
-
 document.addEventListener('DOMContentLoaded', function () {
-  // Cek akses: hanya role 'admin' yang boleh membuka halaman ini
   const admin = cekAkses('admin');
   if (!admin) {
     return;
@@ -34,18 +25,15 @@ document.addEventListener('DOMContentLoaded', function () {
     return 'Rp ' + angka.toLocaleString('id-ID');
   }
 
-  // Mengambil daftar pesanan dari localStorage
   function ambilPesanan() {
     const data = localStorage.getItem('bikaAmbonOrders');
     return data ? JSON.parse(data) : [];
   }
 
-  // Menyimpan kembali daftar pesanan ke localStorage
   function simpanPesanan(daftarPesanan) {
     localStorage.setItem('bikaAmbonOrders', JSON.stringify(daftarPesanan));
   }
 
-  // Menggambar ulang seluruh tabel berdasarkan data terbaru
   function tampilkanPesanan() {
     const daftarPesanan = ambilPesanan();
 
@@ -61,18 +49,15 @@ document.addEventListener('DOMContentLoaded', function () {
     let totalSelesai = 0;
     let totalPendapatan = 0;
 
-    // Perulangan forEach untuk membuat baris tabel satu per satu
     daftarPesanan.forEach(function (pesanan, index) {
       totalLoyang += pesanan.jumlah;
       if (pesanan.status === 'Selesai') {
         totalSelesai++;
       }
-      // Pendapatan dihitung dari pesanan yang belum dibatalkan
       if (pesanan.status !== 'Dibatalkan') {
         totalPendapatan += pesanan.totalBayar || 0;
       }
 
-      // Membuat elemen <tr> baru dengan createElement 
       const baris = document.createElement('tr');
 
       baris.innerHTML =
@@ -86,7 +71,14 @@ document.addEventListener('DOMContentLoaded', function () {
         '<td>' + (pesanan.jarak ? pesanan.jarak + ' km' : '-') + '</td>' +
         '<td>' + (pesanan.ongkir ? formatRupiah(pesanan.ongkir) : '-') + '</td>' +
         '<td>' + (pesanan.metodeBayar || '-') + '</td>' +
-        '<td>' + (pesanan.totalBayar ? formatRupiah(pesanan.totalBayar) : '-') + '</td>' +
+        '<td>' +
+          (pesanan.buktiTransfer
+            ? '<button type="button" class="btn-lihat-bukti" data-bukti-index="' + index + '">Lihat Bukti</button>'
+            : '-') +
+        '</td>' +
+        '<td><strong style="color: var(--accent-amber-dark);">' +
+          (pesanan.totalBayar ? formatRupiah(pesanan.totalBayar) : '-') +
+        '</strong></td>' +
         '<td>' + (pesanan.catatan ? pesanan.catatan : '-') + '</td>' +
         '<td>' + pesanan.tanggal + '</td>' +
         '<td>' +
@@ -98,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
         '</select>' +
         '</td>' +
         '<td><button type="button" class="btn-hapus" data-index="' + index + '">Hapus</button></td>';
-      // Set pilihan select sesuai status pesanan saat ini
+
       const statusSelect = baris.querySelector('.status-select');
       if (statusSelect) {
         statusSelect.value = pesanan.status;
@@ -115,8 +107,6 @@ document.addEventListener('DOMContentLoaded', function () {
     pasangEventBaris();
   }
 
-  // Memasang event listener pada tiap select status & tombol hapus
-  // (dipanggil ulang tiap kali tabel digambar ulang)
   function pasangEventBaris() {
     const semuaSelectStatus = document.querySelectorAll('.status-select');
     semuaSelectStatus.forEach(function (select) {
@@ -136,12 +126,41 @@ document.addEventListener('DOMContentLoaded', function () {
         const konfirmasi = confirm('Yakin ingin menghapus pesanan ini?');
         if (konfirmasi) {
           const daftar = ambilPesanan();
-          daftar.splice(idx, 1); // Metode splice()
+          daftar.splice(idx, 1);
           simpanPesanan(daftar);
           tampilkanPesanan();
         }
       });
     });
+
+    const semuaTombolBukti = document.querySelectorAll('.btn-lihat-bukti');
+    const buktiModal = document.getElementById('buktiModal');
+    const buktiModalImg = document.getElementById('buktiModalImg');
+    const buktiModalClose = document.getElementById('buktiModalClose');
+
+    semuaTombolBukti.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const idx = parseInt(this.getAttribute('data-bukti-index'));
+        const daftar = ambilPesanan();
+        const pesanan = daftar[idx];
+        if (pesanan && pesanan.buktiTransfer && buktiModal && buktiModalImg) {
+          buktiModalImg.src = pesanan.buktiTransfer;
+          buktiModal.classList.add('show');
+        }
+      });
+    });
+
+    if (buktiModalClose && buktiModal) {
+      buktiModalClose.addEventListener('click', function () {
+        buktiModal.classList.remove('show');
+      });
+
+      buktiModal.addEventListener('click', function (e) {
+        if (e.target === buktiModal) {
+          buktiModal.classList.remove('show');
+        }
+      });
+    }
   }
 
   tampilkanPesanan();

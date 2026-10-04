@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (inputEmail && !inputEmail.value) inputEmail.value = userAktif.email || '';
   }
 
-  // Mobile Navigasi
+  // Mobile navigasi (tombol 3 titik)
   const menuToggle = document.getElementById('menuToggle');
   const mainNav = document.getElementById('mainNav');
 
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Smooth Scrolling
+  // Smooth scroll ke section saat link nav diklik
   const navLinks = document.querySelectorAll('.nav-link, .btn-pesan-nav, .indicator-dot, .back-to-top');
 
   navLinks.forEach(function (link) {
@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', function () {
             behavior: 'smooth'
           });
 
-          // Tutup menu mobile jika sedang terbuka
           if (mainNav && mainNav.classList.contains('active')) {
             mainNav.classList.remove('active');
           }
@@ -50,7 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Scrollspy
+  // Scrollspy: tandai nav & indicator sesuai section yang sedang dilihat
   const sections = document.querySelectorAll('section[id]');
   const allNavLinks = document.querySelectorAll('.nav-link');
   const allIndicators = document.querySelectorAll('.indicator-dot');
@@ -64,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function () {
       const sectionId = section.getAttribute('id');
 
       if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-        // Update top navbar
         allNavLinks.forEach(function (nav) {
           if (nav.getAttribute('href') === '#' + sectionId) {
             nav.classList.add('active');
@@ -73,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function () {
           }
         });
 
-        // Update left hexagon indicator
         allIndicators.forEach(function (ind) {
           if (ind.getAttribute('href') === '#' + sectionId) {
             ind.classList.add('active');
@@ -88,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
   window.addEventListener('scroll', updateActiveSection);
   updateActiveSection();
 
-  // Interaktif Belah Rongganya
+  // Interaktif "Belah Rongganya" (slider geser)
   const sliceContainer = document.getElementById('sliceContainer');
   const sliceCrust = document.getElementById('sliceCrust');
   const sliceDivider = document.getElementById('sliceDivider');
@@ -117,7 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   if (sliceContainer) {
-    // Mouse events
     sliceContainer.addEventListener('mousedown', function (e) {
       isDraggingSlice = true;
       handleSliceMove(e.clientX);
@@ -132,7 +128,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (isDraggingSlice) isDraggingSlice = false;
     });
 
-    // Touch events untuk ponsel / tablet
     sliceContainer.addEventListener('touchstart', function (e) {
       isDraggingSlice = true;
       if (e.touches.length > 0) {
@@ -158,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Cerita Tambahan
+  // Tombol "Baca asal-usul Jalan Ambon"
   const historyToggleBtn = document.getElementById('historyToggleBtn');
   const historyBox = document.getElementById('historyBox');
 
@@ -175,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Galeri Modal Preview
+  // Galeri: modal preview saat card diklik
   const galleryCards = document.querySelectorAll('.gallery-card');
   const galleryModal = document.getElementById('galleryModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
@@ -217,28 +212,65 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Form Pesanan & Stepper Jumlah
-  const btnMinus = document.getElementById('btnMinus');
-  const btnPlus = document.getElementById('btnPlus');
-  const stepperVal = document.getElementById('stepperVal');
-  const hiddenJumlah = document.getElementById('hiddenJumlah');
-  const subtotalHarga = document.getElementById('subtotalHarga');
-  let currentQuantity = 1;
-
-  // Harga per loyang
+  // Konfigurasi harga, tarif ongkir, dan lokasi toko
   const HARGA_PER_LOYANG = 150000;
+  const TARIF_PER_KM = 3000;
+  const LOKASI_TOKO = {
+    nama: 'Bika Ambon Zulaikha - Jl. Mojopahit No.70 A-C, Medan',
+    lat: 3.5952,
+    lng: 98.6577
+  };
 
   function formatRupiah(angka) {
     return 'Rp ' + angka.toLocaleString('id-ID');
   }
 
-  function hitungSubtotal(jumlah) {
-    return HARGA_PER_LOYANG * jumlah;
+  function hitungOngkir(jarak) {
+    const jarakBulat = Math.max(1, Math.ceil(jarak));
+    return jarakBulat * TARIF_PER_KM;
   }
 
-  function perbaruiSubtotal() {
+  function hitungJarakHaversine(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+      Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  const btnMinus = document.getElementById('btnMinus');
+  const btnPlus = document.getElementById('btnPlus');
+  const stepperVal = document.getElementById('stepperVal');
+  const hiddenJumlah = document.getElementById('hiddenJumlah');
+  const subtotalHarga = document.getElementById('subtotalHarga');
+  const jarakInput = document.getElementById('jarakAntar');
+  const estimasiOngkir = document.getElementById('estimasiOngkir');
+  const totalBayarBox = document.getElementById('totalBayarBox');
+  const alamatInput = document.getElementById('alamat');
+  const jarakStatus = document.getElementById('jarakStatus');
+  let currentQuantity = 1;
+
+  function updateSemuaHarga() {
+    const subtotal = HARGA_PER_LOYANG * currentQuantity;
+    const jarak = parseFloat(jarakInput ? jarakInput.value : 0) || 0;
+    const ongkir = hitungOngkir(jarak);
+    const total = subtotal + ongkir;
+
     if (subtotalHarga) {
-      subtotalHarga.textContent = 'Subtotal: ' + formatRupiah(hitungSubtotal(currentQuantity));
+      subtotalHarga.textContent = 'Subtotal: ' + formatRupiah(subtotal);
+    }
+    if (estimasiOngkir) {
+      estimasiOngkir.textContent = 'Estimasi ongkir: ' + formatRupiah(ongkir);
+    }
+    if (totalBayarBox) {
+      totalBayarBox.innerHTML =
+        'Subtotal: <strong>' + formatRupiah(subtotal) + '</strong>' +
+        ' + Ongkir: <strong>' + formatRupiah(ongkir) + '</strong>' +
+        ' = <strong>' + formatRupiah(total) + '</strong>';
     }
   }
 
@@ -248,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function () {
         currentQuantity--;
         stepperVal.textContent = currentQuantity;
         if (hiddenJumlah) hiddenJumlah.value = currentQuantity;
-        perbaruiSubtotal();
+        updateSemuaHarga();
       }
     });
 
@@ -256,25 +288,339 @@ document.addEventListener('DOMContentLoaded', function () {
       currentQuantity++;
       stepperVal.textContent = currentQuantity;
       if (hiddenJumlah) hiddenJumlah.value = currentQuantity;
-      perbaruiSubtotal();
+      updateSemuaHarga();
     });
   }
 
-  // Kalkulasi ongkir otomatis
-  const TARIF_PER_KM = 3000;
-  const jarakInput = document.getElementById('jarakAntar');
-  const estimasiOngkir = document.getElementById('estimasiOngkir');
+  updateSemuaHarga();
 
-  function hitungOngkir(jarak) {
-    const jarakBulat = Math.max(1, Math.ceil(jarak));
-    return jarakBulat * TARIF_PER_KM;
+  let map = null;
+  let markerUser = null;
+  let garisRute = null;
+
+  function initMap() {
+    const mapEl = document.getElementById('mapPicker');
+    if (!mapEl) return;
+    if (typeof L === 'undefined') {
+      console.warn('Leaflet belum termuat.');
+      return;
+    }
+
+    map = L.map('mapPicker').setView([LOKASI_TOKO.lat, LOKASI_TOKO.lng], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap',
+      maxZoom: 19
+    }).addTo(map);
+
+    const iconToko = L.divIcon({
+      className: 'map-marker-toko',
+      html: '<div class="marker-pin marker-pin-toko">🏪</div>',
+      iconSize: [36, 36],
+      iconAnchor: [18, 36]
+    });
+
+    L.marker([LOKASI_TOKO.lat, LOKASI_TOKO.lng], { icon: iconToko })
+      .addTo(map)
+      .bindPopup('<b>Toko Bika Ambon</b><br>' + LOKASI_TOKO.nama);
+
+    map.on('click', function (e) {
+      setLokasiUser(e.latlng.lat, e.latlng.lng, null);
+    });
   }
 
-  if (jarakInput && estimasiOngkir) {
-    jarakInput.addEventListener('input', function () {
-      const jarak = parseFloat(this.value) || 0;
-      const ongkir = hitungOngkir(jarak);
-      estimasiOngkir.textContent = 'Estimasi ongkir: ' + formatRupiah(ongkir);
+  function setLokasiUser(lat, lng, alamatManual) {
+    if (!map) return;
+
+    const iconUser = L.divIcon({
+      className: 'map-marker-user',
+      html: '<div class="marker-pin marker-pin-user">📍</div>',
+      iconSize: [36, 36],
+      iconAnchor: [18, 36]
+    });
+
+    if (markerUser) {
+      markerUser.setLatLng([lat, lng]);
+    } else {
+      markerUser = L.marker([lat, lng], { icon: iconUser, draggable: true }).addTo(map);
+      markerUser.on('dragend', function (ev) {
+        const pos = ev.target.getLatLng();
+        setLokasiUser(pos.lat, pos.lng, null);
+      });
+    }
+
+    if (garisRute) {
+      map.removeLayer(garisRute);
+    }
+    garisRute = L.polyline([
+      [LOKASI_TOKO.lat, LOKASI_TOKO.lng],
+      [lat, lng]
+    ], {
+      color: '#d48227',
+      weight: 3,
+      dashArray: '6 6'
+    }).addTo(map);
+
+    const jarak = hitungJarakHaversine(LOKASI_TOKO.lat, LOKASI_TOKO.lng, lat, lng);
+    const jarakBulat = Math.round(jarak * 10) / 10;
+    if (jarakInput) jarakInput.value = jarakBulat;
+
+    if (jarakStatus) {
+      jarakStatus.textContent = '✓ Jarak dari toko: ' + jarakBulat + ' km (dari peta)';
+      jarakStatus.style.color = '#2e7d32';
+    }
+
+    if (!alamatManual) {
+      reverseGeocode(lat, lng);
+    }
+
+    updateSemuaHarga();
+  }
+
+  function reverseGeocode(lat, lng) {
+    const url = 'https://nominatim.openstreetmap.org/reverse?format=json&lat=' +
+      lat + '&lon=' + lng + '&zoom=18&addressdetails=1';
+
+    fetch(url, { headers: { 'Accept': 'application/json' } })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.display_name && alamatInput) {
+          alamatInput.value = data.display_name;
+        }
+      })
+      .catch(function () {});
+  }
+
+  function geocodeAlamat(alamat, callback) {
+    const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
+      encodeURIComponent(alamat + ', Indonesia');
+
+    fetch(url, { headers: { 'Accept': 'application/json' } })
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.length > 0) {
+          callback(parseFloat(data[0].lat), parseFloat(data[0].lon), data[0].display_name);
+        } else {
+          callback(null, null, null);
+        }
+      })
+      .catch(function () {
+        callback(null, null, null);
+      });
+  }
+
+  initMap();
+
+  const btnCariAlamat = document.getElementById('btnCariAlamat');
+  if (btnCariAlamat) {
+    btnCariAlamat.addEventListener('click', function () {
+      const alamat = alamatInput ? alamatInput.value.trim() : '';
+      if (alamat.length < 5) {
+        alert('Mohon isi alamat dulu (minimal 5 karakter).');
+        return;
+      }
+
+      if (jarakStatus) {
+        jarakStatus.textContent = 'Mencari lokasi dari alamat...';
+        jarakStatus.style.color = 'var(--accent-amber-dark)';
+      }
+
+      geocodeAlamat(alamat, function (lat, lng, displayName) {
+        if (lat !== null && lng !== null && map) {
+          map.setView([lat, lng], 15);
+          setLokasiUser(lat, lng, alamat);
+          if (jarakStatus) {
+            jarakStatus.textContent = '✓ Lokasi ditemukan: ' + displayName;
+            jarakStatus.style.color = '#2e7d32';
+          }
+        } else {
+          if (jarakStatus) {
+            jarakStatus.textContent = '✗ Alamat tidak ditemukan. Coba klik peta langsung.';
+            jarakStatus.style.color = '#8a2f24';
+          }
+        }
+      });
+    });
+  }
+
+  const btnLokasiSaya = document.getElementById('btnLokasiSaya');
+  if (btnLokasiSaya) {
+    btnLokasiSaya.addEventListener('click', function () {
+      if (!navigator.geolocation) {
+        alert('Browser kamu tidak mendukung geolokasi.');
+        return;
+      }
+
+      if (jarakStatus) {
+        jarakStatus.textContent = 'Mengambil lokasi kamu...';
+        jarakStatus.style.color = 'var(--accent-amber-dark)';
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        function (pos) {
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          if (map) {
+            map.setView([lat, lng], 15);
+            setLokasiUser(lat, lng, null);
+          }
+        },
+        function () {
+          if (jarakStatus) {
+            jarakStatus.textContent = '✗ Gagal ambil lokasi. Izinkan akses lokasi di browser.';
+            jarakStatus.style.color = '#8a2f24';
+          }
+        },
+        { enableHighAccuracy: true, timeout: 10000 }
+      );
+    });
+  }
+
+  const btnResetMap = document.getElementById('btnResetMap');
+  if (btnResetMap) {
+    btnResetMap.addEventListener('click', function () {
+      if (!map) return;
+      map.setView([LOKASI_TOKO.lat, LOKASI_TOKO.lng], 12);
+      if (markerUser) {
+        map.removeLayer(markerUser);
+        markerUser = null;
+      }
+      if (garisRute) {
+        map.removeLayer(garisRute);
+        garisRute = null;
+      }
+      if (jarakInput) jarakInput.value = '';
+      if (alamatInput) alamatInput.value = '';
+      if (jarakStatus) {
+        jarakStatus.textContent = 'Ketik alamat atau klik peta di bawah untuk pilih lokasi antar';
+        jarakStatus.style.color = '';
+      }
+      updateSemuaHarga();
+    });
+  }
+
+  // Info rekening & upload bukti transfer
+  const REKENING_INFO = {
+    'Transfer BCA': {
+      judul: 'Transfer ke Rekening BCA',
+      detail: '<strong>Bank BCA</strong><br>' +
+              'No. Rek: <strong>1234567890</strong><br>' +
+              'Atas Nama: <strong>Bika Ambon Kelompok 1</strong>',
+      perluBukti: true
+    },
+    'GoPay': {
+      judul: 'Transfer ke GoPay',
+      detail: '<strong>GoPay / E-Wallet</strong><br>' +
+              'No. HP: <strong>0812-3456-7890</strong><br>' +
+              'Atas Nama: <strong>Bika Ambon Kelompok 1</strong>',
+      perluBukti: true
+    },
+    'Cash': {
+      judul: 'Bayar di Tempat (COD)',
+      detail: 'Pembayaran dilakukan saat pesanan diantar ke alamat kamu.',
+      perluBukti: false
+    }
+  };
+
+  const metodeBayarSelect = document.getElementById('metodeBayar');
+  const paymentInfoBox = document.getElementById('paymentInfoBox');
+  const buktiTransferGroup = document.getElementById('buktiTransferGroup');
+  const buktiTransferInput = document.getElementById('buktiTransfer');
+  const buktiPreview = document.getElementById('buktiPreview');
+  let buktiBase64 = null;
+
+  const buktiModalGlobal = document.getElementById('buktiModal');
+  const buktiModalCloseGlobal = document.getElementById('buktiModalClose');
+  const buktiModalImg = document.getElementById('buktiModalImg');
+
+  if (buktiModalCloseGlobal && buktiModalGlobal) {
+    buktiModalCloseGlobal.addEventListener('click', function () {
+      buktiModalGlobal.classList.remove('show');
+    });
+    buktiModalGlobal.addEventListener('click', function (ev) {
+      if (ev.target === buktiModalGlobal) {
+        buktiModalGlobal.classList.remove('show');
+      }
+    });
+  }
+
+  function updateMetodeBayar() {
+    const metode = metodeBayarSelect ? metodeBayarSelect.value : '';
+    const info = REKENING_INFO[metode];
+
+    if (!info || !paymentInfoBox) {
+      if (paymentInfoBox) paymentInfoBox.style.display = 'none';
+      if (buktiTransferGroup) buktiTransferGroup.style.display = 'none';
+      return;
+    }
+
+    paymentInfoBox.style.display = 'block';
+    paymentInfoBox.innerHTML =
+      '<div class="payment-info-title">' + info.judul + '</div>' +
+      '<div class="payment-info-detail">' + info.detail + '</div>';
+
+    if (info.perluBukti) {
+      if (buktiTransferGroup) buktiTransferGroup.style.display = 'block';
+    } else {
+      if (buktiTransferGroup) buktiTransferGroup.style.display = 'none';
+      buktiBase64 = null;
+      if (buktiPreview) buktiPreview.innerHTML = '';
+      if (buktiTransferInput) buktiTransferInput.value = '';
+    }
+  }
+
+  if (metodeBayarSelect) {
+    metodeBayarSelect.addEventListener('change', updateMetodeBayar);
+    updateMetodeBayar();
+  }
+
+  // Upload bukti transfer → tampil tombol "Lihat Bukti"
+  if (buktiTransferInput) {
+    buktiTransferInput.addEventListener('change', function () {
+      const file = this.files[0];
+      if (!file) return;
+
+      if (file.size > 2 * 1024 * 1024) {
+        alert('Ukuran file maksimal 2MB.');
+        this.value = '';
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        buktiBase64 = e.target.result;
+        if (buktiPreview) {
+          buktiPreview.innerHTML =
+            '<button type="button" class="btn-lihat-bukti-small" id="btnLihatBuktiSmall">' +
+              '<i class="bx bx-show"></i> Lihat Bukti' +
+            '</button>' +
+            '<button type="button" class="btn-hapus-bukti-small" id="btnHapusBuktiSmall" title="Hapus bukti">' +
+              '<i class="bx bx-trash"></i> Hapus' +
+            '</button>';
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // Delegation: klik tombol "Lihat Bukti" dan "Hapus"
+  if (buktiPreview) {
+    buktiPreview.addEventListener('click', function (ev) {
+      const target = ev.target.closest('button');
+      if (!target) return;
+
+      if (target.id === 'btnLihatBuktiSmall') {
+        if (buktiModalImg && buktiModalGlobal && buktiBase64) {
+          buktiModalImg.src = buktiBase64;
+          buktiModalGlobal.classList.add('show');
+        }
+      }
+
+      if (target.id === 'btnHapusBuktiSmall') {
+        buktiBase64 = null;
+        if (buktiTransferInput) buktiTransferInput.value = '';
+        buktiPreview.innerHTML = '';
+      }
     });
   }
 
@@ -290,7 +636,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (orderForm) {
     orderForm.addEventListener('submit', function (e) {
-      e.preventDefault(); // Mencegah reload form bawaan browser
+      e.preventDefault();
 
       const nama = document.getElementById('nama').value.trim();
       const email = document.getElementById('email').value.trim();
@@ -306,12 +652,12 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (!alamat) {
-        alert('Mohon isi alamat pengiriman.');
+        alert('Mohon isi alamat pengiriman atau pilih lokasi di peta.');
         return;
       }
 
       if (jarak <= 0) {
-        alert('Mohon isi jarak antar (km) dengan benar.');
+        alert('Jarak belum terhitung. Mohon pilih lokasi antar di peta atau klik "Cari dari Alamat".');
         return;
       }
 
@@ -320,14 +666,19 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
+      const infoBayar = REKENING_INFO[metodeBayar];
+      if (infoBayar && infoBayar.perluBukti && !buktiBase64) {
+        alert('Mohon upload bukti transfer untuk metode ' + metodeBayar + '.');
+        return;
+      }
+
       const ongkir = hitungOngkir(jarak);
-      const subtotal = hitungSubtotal(currentQuantity);
+      const subtotal = HARGA_PER_LOYANG * currentQuantity;
       const totalBayar = subtotal + ongkir;
 
       const randomTicketNum = Math.floor(1000 + Math.random() * 9000);
       const ticketCode = 'BA-2026-' + randomTicketNum;
 
-      // Simpan pesanan ke localStorage supaya bisa dilihat di Dashboard Admin & User
       const pesananBaru = {
         id: '#' + ticketCode,
         nama: nama,
@@ -341,6 +692,7 @@ document.addEventListener('DOMContentLoaded', function () {
         jarak: jarak,
         ongkir: ongkir,
         metodeBayar: metodeBayar,
+        buktiTransfer: buktiBase64 || null,
         totalBayar: totalBayar,
         tanggal: new Date().toLocaleString('id-ID'),
         status: 'Diproses'
@@ -365,6 +717,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const recOngkir = document.getElementById('recOngkir');
       const recMetode = document.getElementById('recMetode');
       const recTotal = document.getElementById('recTotal');
+
       if (recHarga) recHarga.textContent = formatRupiah(HARGA_PER_LOYANG) + ' / loyang';
       if (recSubtotal) recSubtotal.textContent = formatRupiah(subtotal);
       if (recAlamat) recAlamat.textContent = alamat;
@@ -385,10 +738,31 @@ document.addEventListener('DOMContentLoaded', function () {
       orderForm.reset();
       currentQuantity = 1;
       if (stepperVal) stepperVal.textContent = 1;
+      if (hiddenJumlah) hiddenJumlah.value = 1;
       orderForm.style.display = 'block';
       ticketConfirmation.classList.remove('show');
-      if (estimasiOngkir) estimasiOngkir.textContent = 'Estimasi ongkir: Rp 0';
-      perbaruiSubtotal();
+
+      buktiBase64 = null;
+      if (buktiPreview) buktiPreview.innerHTML = '';
+      if (paymentInfoBox) paymentInfoBox.style.display = 'none';
+      if (buktiTransferGroup) buktiTransferGroup.style.display = 'none';
+
+      if (map) {
+        map.setView([LOKASI_TOKO.lat, LOKASI_TOKO.lng], 12);
+      }
+      if (markerUser && map) {
+        map.removeLayer(markerUser);
+        markerUser = null;
+      }
+      if (garisRute && map) {
+        map.removeLayer(garisRute);
+        garisRute = null;
+      }
+      if (jarakStatus) {
+        jarakStatus.textContent = 'Ketik alamat atau klik peta di bawah untuk pilih lokasi antar';
+        jarakStatus.style.color = '';
+      }
+      updateSemuaHarga();
     });
   }
 });
