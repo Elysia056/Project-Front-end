@@ -7,6 +7,7 @@
   <title>Bika Ambon | Kelompok 1</title>
   <meta name="description" content="Bika Ambon.">
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -45,7 +46,6 @@
 
   <header class="main-header" id="header">
     <div class="container header-inner">
-      <!-- Logo Area -->
       <a href="#beranda" class="logo-area">
         <div class="logo-badge"></div>
         <div class="logo-text">
@@ -54,7 +54,6 @@
         </div>
       </a>
 
-      <!-- Desktop & Mobile Navigasi -->
       <nav class="main-nav" id="mainNav">
         <ul class="nav-links">
           <li class="nav-item"><a href="#beranda" class="nav-link active">BERANDA</a></li>
@@ -73,7 +72,6 @@
         </ul>
       </nav>
 
-      <!-- Mobile 3-Dots Button -->
       <button class="menu-toggle" id="menuToggle" aria-label="Buka Menu Navigasi" type="button">
         &bull;&bull;&bull;
       </button>
@@ -82,7 +80,6 @@
 
   <main>
 
-    <!-- Beranda -->
     <section id="beranda" class="section hero-section">
       <div class="container">
         <div class="section-kicker">// kue sarang lebah khas medan</div>
@@ -90,26 +87,21 @@
         <h2 class="hero-title-main">Belah</h2>
         <h2 class="hero-title-outline">Rongganya.</h2>
 
-        <!-- Interactive Box -->
         <div class="slice-wrapper">
           <div class="slice-container" id="sliceContainer">
-            <!-- Left layer -->
             <div class="slice-sponge" id="sliceSponge">
               <div class="sponge-badge">Rongga Dalam</div>
             </div>
 
-            <!-- Right layer -->
             <div class="slice-crust" id="sliceCrust">
               <div class="crust-badge">Kulit Luar</div>
             </div>
 
-            <!-- scissors handle ✂ -->
             <div class="slice-divider" id="sliceDivider">
               <div class="slice-handle" title="Geser ke kiri / kanan">&#9986;</div>
             </div>
           </div>
 
-          <!-- Slider Subtitle & Readout -->
           <div class="slice-meta">
             <span>geser garis untuk membelah &rarr;</span>
             <div>
@@ -121,13 +113,11 @@
       </div>
     </section>
 
-    <!-- Cerita -->
     <section id="cerita" class="section cerita-section">
       <div class="container">
         <div class="section-kicker">// cerita &amp; filosofi</div>
 
         <div class="cerita-grid">
-          <!-- Left Column -->
           <div class="cerita-content">
             <div class="cerita-lead">
               <span class="drop-cap">B</span>
@@ -156,7 +146,6 @@
             </div>
           </div>
 
-          <!-- Right Column: Stats -->
           <div class="cerita-stats">
             <div class="stat-item">
               <div class="stat-number">100%</div>
@@ -175,14 +164,12 @@
       </div>
     </section>
 
-    <!-- Keunikan -->
     <section id="keunikan" class="section keunikan-section">
       <div class="container">
         <div class="section-kicker">// kenapa berbeda</div>
         <h2 class="section-title">Tiga hal yang tak bisa ditiru sembarangan</h2>
 
         <div class="cards-grid">
-          <!-- Card 01 -->
           <div class="keunikan-card">
             <div>
               <div class="card-icon-badge"></div>
@@ -194,7 +181,6 @@
             <div class="card-line"></div>
           </div>
 
-          <!-- Card 02 -->
           <div class="keunikan-card">
             <div>
               <div class="card-icon-badge"></div>
@@ -206,7 +192,6 @@
             <div class="card-line"></div>
           </div>
 
-          <!-- Card 03 -->
           <div class="keunikan-card">
             <div>
               <div class="card-icon-badge"></div>
@@ -221,7 +206,6 @@
       </div>
     </section>
 
-    <!-- Galeri -->
     <section id="galeri" class="section galeri-section">
       <div class="container">
         <div class="galeri-header-flex">
@@ -230,10 +214,8 @@
         <h2 class="section-title">Sudut-sudut Rongganya</h2>
 
         <div class="galeri-layout">
-          <!-- Horizontal scroll cards dengan Gambar PNG sesuai asset -->
           <div class="gallery-scroller" id="galleryScroller">
 
-            <!-- Card 001: Klasik -->
             <div class="gallery-card" data-code="001 - potongan klasik" data-title="Potongan Klasik"
               data-desc="Dua potong bika ambon berserat vertikal sempurna disajikan di atas piring saji tradisi bersama helai daun pandan wangi."
               data-img="images/PotonganKlasik.jpeg">
@@ -243,7 +225,6 @@
               <div class="gallery-label">001 - potongan klasik</div>
             </div>
 
-            <!-- Card 002: Rongga Tebal -->
             <div class="gallery-card" data-code="002 - rongga tebal, close-up" data-title="Rongga Tebal, Close-Up"
               data-desc="Tampilan makro lubang sarang lebah yang terbentuk sempurna akibat pelepasan karbondioksida alami ragi nira kelapa."
               data-img="images/RonggaCloseUp.png">
@@ -253,7 +234,6 @@
               <div class="gallery-label">002 - rongga tebal, close-up</div>
             </div>
 
-            <!-- Card 003: Dipanggang Perlahan -->
             <div class="gallery-card" data-code="003 - dipanggang perlahan" data-title="Dipanggang Perlahan"
               data-desc="Loyang tembaga kuno bersuhu stabil dengan tutup arang panas membakar adonan perlahan dari bawah ke atas."
               data-img="images/Dipanggang.png">
@@ -263,7 +243,6 @@
               <div class="gallery-label">003 - dipanggang perlahan</div>
             </div>
 
-            <!-- Card 004: Siap Disajikan -->
             <div class="gallery-card" data-code="004 - siap disajikan" data-title="Siap Disajikan"
               data-desc="Bika ambon beraroma harum pandan daun suji yang dipotong rapi siap dinikmati bersama secangkir kopi Sidikalang."
               data-img="images/Disajikan.jpg">
@@ -273,7 +252,6 @@
               <div class="gallery-label">004 - siap disajikan</div>
             </div>
 
-            <!-- Card 005: Potong Hangat -->
             <div class="gallery-card" data-code="005 - potong hangat, uap masih naik"
               data-title="Potong Hangat, Uap Masih Naik"
               data-desc="Kue yang baru saja keluar dari tungku, dipotong saat masih hangat mengepul dengan keharuman daun jeruk dan serai."
@@ -286,13 +264,11 @@
 
           </div>
 
-          <!-- Vertical Track Accent on Right -->
           <div class="gallery-track-accent"></div>
         </div>
       </div>
     </section>
 
-    <!-- Proses -->
     <section id="proses" class="section proses-section">
       <div class="container">
         <div class="section-kicker" style="text-align: center;">// proses</div>
@@ -301,7 +277,6 @@
         <div class="timeline-wrapper">
           <div class="timeline-line"></div>
 
-          <!-- Step 1 -->
           <div class="timeline-item left">
             <div class="timeline-badge">1</div>
             <div class="timeline-box">
@@ -310,7 +285,6 @@
             </div>
           </div>
 
-          <!-- Step 2 -->
           <div class="timeline-item right">
             <div class="timeline-badge">2</div>
             <div class="timeline-box">
@@ -319,7 +293,6 @@
             </div>
           </div>
 
-          <!-- Step 3 -->
           <div class="timeline-item left">
             <div class="timeline-badge">3</div>
             <div class="timeline-box">
@@ -328,7 +301,6 @@
             </div>
           </div>
 
-          <!-- Step 4 -->
           <div class="timeline-item right">
             <div class="timeline-badge">4</div>
             <div class="timeline-box">
@@ -340,27 +312,20 @@
       </div>
     </section>
 
-    <!-- Pesan -->
-    <!-- Lokasi & Kontak -->
     <section id="lokasi" class="section lokasi-section">
       <div class="container">
         <div class="section-kicker">// lokasi &amp; kontak</div>
         <h2 class="section-title">Datang atau Sapa Kami</h2>
 
         <div class="lokasi-grid">
-          <!-- Peta Google Maps -->
           <div class="map-frame">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d67854.63374613885!2d98.70956846910109!3d3.604385660983691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x303131d386574799%3A0x68a1c8e19428ac71!2sBika%20Ambon%20Zulaikha!5e0!3m2!1sen!2sid!4v1790502930653!5m2!1sen!2sid" 
-            width="600" 
-            height="450" 
-            style="border:0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="strict-origin-when-cross-origin">
-          </iframe>
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d67854.63374613885!2d98.70956846910109!3d3.604385660983691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x303131d386574799%3A0x68a1c8e19428ac71!2sBika%20Ambon%20Zulaikha!5e0!3m2!1sen!2sid!4v1790502930653!5m2!1sen!2sid"
+              width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
           </div>
 
-          <!-- Info Kontak & Sosmed -->
           <div class="kontak-info">
             <div class="kontak-item">
               <i class='bx bxs-map'></i>
@@ -385,8 +350,7 @@
                 <p>+62 812-3456-7890</p>
               </div>
             </div>
-            
-            <!-- Icons Sosial Media -->
+
             <div class="social-icons">
               <a href="https://instagram.com/" target="_blank" rel="noopener" class="social-icon-btn"
                 aria-label="Instagram">
@@ -410,7 +374,6 @@
       </div>
     </section>
 
-    <!-- Pesan -->
     <section id="pesan" class="section pesan-section">
       <div class="container">
         <div class="ticket-container">
@@ -421,7 +384,6 @@
 
           <div class="ticket-dashed-line"></div>
 
-          <!-- Order Form -->
           <form id="orderForm">
             <div class="form-group">
               <label for="nama" class="form-label">Nama</label>
@@ -467,12 +429,32 @@
               <label for="alamat" class="form-label">Alamat Pengiriman</label>
               <textarea id="alamat" name="alamat" rows="3" class="form-textarea"
                 placeholder="Jalan, No. Rumah, Kelurahan, Kecamatan, Kota" required></textarea>
+              <small class="form-hint-mono" id="jarakStatus">Ketik alamat atau klik peta di bawah untuk pilih lokasi antar</small>
             </div>
 
             <div class="form-group">
-              <label for="jarakAntar" class="form-label">Jarak Antar (km)</label>
-              <input type="number" id="jarakAntar" name="jarakAntar" class="form-input" placeholder="Contoh: 5" min="0"
-                step="0.5" required>
+              <label class="form-label">Pilih Lokasi di Peta</label>
+              <div id="mapPicker" class="map-picker"></div>
+              <div class="map-controls">
+                <button type="button" class="btn-map-action" id="btnCariAlamat">
+                  <i class='bx bx-search-alt'></i>
+                  <span>Cari dari Alamat</span>
+                </button>
+                <button type="button" class="btn-map-action" id="btnLokasiSaya">
+                  <i class='bx bx-current-location'></i>
+                  <span>Lokasi Saya</span>
+                </button>
+                <button type="button" class="btn-map-action btn-reset-map" id="btnResetMap">
+                  <i class='bx bx-reset'></i>
+                  <span>Reset</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="jarakAntar" class="form-label">Jarak Antar (km) — otomatis</label>
+              <input type="number" id="jarakAntar" name="jarakAntar" class="form-input"
+                placeholder="Terisi otomatis dari peta" min="0" step="0.1" readonly required>
               <small class="form-hint-mono" id="estimasiOngkir">Estimasi ongkir: Rp 0</small>
             </div>
 
@@ -486,10 +468,25 @@
               </select>
             </div>
 
+            <div class="payment-info-box" id="paymentInfoBox"></div>
+
+            <div class="form-group" id="buktiTransferGroup" style="display:none;">
+              <label for="buktiTransfer" class="form-label">Bukti Transfer / Pembayaran</label>
+              <input type="file" id="buktiTransfer" name="buktiTransfer" class="form-input-file"
+                accept="image/png, image/jpeg, image/jpg, image/webp">
+              <small class="form-hint-mono">Format: JPG, PNG, WEBP. Maks 2MB.</small>
+              <div class="bukti-preview" id="buktiPreview"></div>
+            </div>
+
+            <div class="form-group">
+              <div class="total-bayar-box" id="totalBayarBox">
+                Subtotal: <strong>Rp 150.000</strong> + Ongkir: <strong>Rp 0</strong> = <strong>Rp 150.000</strong>
+              </div>
+            </div>
+
             <button type="submit" class="btn-submit-ticket">Kirim Pesanan</button>
           </form>
 
-          <!-- Order Konfirmasi Receipt -->
           <div class="ticket-confirmation" id="ticketConfirmation">
             <div class="confirmation-header">&#10004; Pesanan Berhasil Diterima!</div>
             <div class="receipt-row">
@@ -555,7 +552,6 @@
 
   </main>
 
-  <!-- Footer -->
   <footer class="main-footer">
     <div class="container">
       <h2 class="footer-giant-title">BIKA AMBON</h2>
@@ -567,7 +563,6 @@
     </div>
   </footer>
 
-  <!-- Galeri Lightbox -->
   <div class="gallery-modal" id="galleryModal">
     <div class="modal-content">
       <button class="modal-close-btn" id="modalCloseBtn" aria-label="Tutup" type="button">&times;</button>
@@ -582,6 +577,15 @@
     </div>
   </div>
 
+   <div class="bukti-modal" id="buktiModal">
+    <div class="bukti-modal-content">
+      <button class="bukti-modal-close" id="buktiModalClose" type="button">&times;</button>
+      <h3 class="bukti-modal-title">Bukti Transfer</h3>
+      <img id="buktiModalImg" src="" alt="Bukti Transfer">
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="auth.js"></script>
   <script src="script.js"></script>
 
