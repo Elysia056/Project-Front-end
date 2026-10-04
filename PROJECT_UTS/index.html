@@ -442,6 +442,7 @@
                 <option value="Keju Lembut">Keju Lembut</option>
                 <option value="Cokelat Rongga">Cokelat Rongga</option>
               </select>
+              <small class="form-hint-mono">Harga: Rp 150.000 / loyang</small>
             </div>
 
             <div class="form-group">
@@ -453,6 +454,7 @@
                 <input type="hidden" id="hiddenJumlah" name="jumlah" value="1">
                 <span class="stepper-unit">Loyang</span>
               </div>
+              <small class="form-hint-mono" id="subtotalHarga">Subtotal: Rp 150.000</small>
             </div>
 
             <div class="form-group">
@@ -472,6 +474,16 @@
               <input type="number" id="jarakAntar" name="jarakAntar" class="form-input" placeholder="Contoh: 5" min="0"
                 step="0.5" required>
               <small class="form-hint-mono" id="estimasiOngkir">Estimasi ongkir: Rp 0</small>
+            </div>
+
+            <div class="form-group">
+              <label for="metodeBayar" class="form-label">Metode Pembayaran</label>
+              <select id="metodeBayar" name="metodeBayar" class="form-select" required>
+                <option value="" disabled selected>Pilih metode pembayaran</option>
+                <option value="Cash">Cash (Bayar di Tempat)</option>
+                <option value="Transfer BCA">Transfer BCA</option>
+                <option value="GoPay">GoPay</option>
+              </select>
             </div>
 
             <button type="submit" class="btn-submit-ticket">Kirim Pesanan</button>
@@ -501,6 +513,14 @@
               <strong id="recJumlah">-</strong>
             </div>
             <div class="receipt-row">
+              <span>Harga Satuan:</span>
+              <span id="recHarga">-</span>
+            </div>
+            <div class="receipt-row">
+              <span>Subtotal:</span>
+              <span id="recSubtotal">-</span>
+            </div>
+            <div class="receipt-row">
               <span>Catatan:</span>
               <span id="recCatatan">-</span>
             </div>
@@ -515,6 +535,14 @@
             <div class="receipt-row">
               <span>Ongkos Kirim:</span>
               <strong id="recOngkir">-</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Metode Pembayaran:</span>
+              <strong id="recMetode">-</strong>
+            </div>
+            <div class="receipt-row">
+              <span>Total Bayar:</span>
+              <strong id="recTotal">-</strong>
             </div>
 
             <button type="button" class="btn-submit-ticket" id="btnResetOrder" style="margin-top: 1.25rem;">

@@ -49,9 +49,12 @@ document.addEventListener('DOMContentLoaded', function () {
         '<td>' + pesanan.id + '</td>' +
         '<td>' + pesanan.varian + '</td>' +
         '<td>' + pesanan.jumlah + ' Loyang</td>' +
+        '<td>' + (pesanan.subtotal ? 'Rp ' + pesanan.subtotal.toLocaleString('id-ID') : '-') + '</td>' +
         '<td>' + (pesanan.alamat || '-') + '</td>' +
         '<td>' + (pesanan.jarak ? pesanan.jarak + ' km' : '-') + '</td>' +
         '<td>' + (pesanan.ongkir ? 'Rp ' + pesanan.ongkir.toLocaleString('id-ID') : '-') + '</td>' +
+        '<td>' + (pesanan.metodeBayar || '-') + '</td>' +
+        '<td>' + (pesanan.totalBayar ? 'Rp ' + pesanan.totalBayar.toLocaleString('id-ID') : '-') + '</td>' +
         '<td>' + pesanan.tanggal + '</td>' +
         '<td><span class="status-badge status-' + pesanan.status.toLowerCase() + '">' + pesanan.status + '</span></td>';
 

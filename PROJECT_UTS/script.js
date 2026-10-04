@@ -222,7 +222,25 @@ document.addEventListener('DOMContentLoaded', function () {
   const btnPlus = document.getElementById('btnPlus');
   const stepperVal = document.getElementById('stepperVal');
   const hiddenJumlah = document.getElementById('hiddenJumlah');
+  const subtotalHarga = document.getElementById('subtotalHarga');
   let currentQuantity = 1;
+
+  // Harga per loyang
+  const HARGA_PER_LOYANG = 150000;
+
+  function formatRupiah(angka) {
+    return 'Rp ' + angka.toLocaleString('id-ID');
+  }
+
+  function hitungSubtotal(jumlah) {
+    return HARGA_PER_LOYANG * jumlah;
+  }
+
+  function perbaruiSubtotal() {
+    if (subtotalHarga) {
+      subtotalHarga.textContent = 'Subtotal: ' + formatRupiah(hitungSubtotal(currentQuantity));
+    }
+  }
 
   if (btnMinus && btnPlus && stepperVal) {
     btnMinus.addEventListener('click', function () {
@@ -230,6 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
         currentQuantity--;
         stepperVal.textContent = currentQuantity;
         if (hiddenJumlah) hiddenJumlah.value = currentQuantity;
+        perbaruiSubtotal();
       }
     });
 
@@ -237,6 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
       currentQuantity++;
       stepperVal.textContent = currentQuantity;
       if (hiddenJumlah) hiddenJumlah.value = currentQuantity;
+      perbaruiSubtotal();
     });
   }
 
@@ -248,10 +268,6 @@ document.addEventListener('DOMContentLoaded', function () {
   function hitungOngkir(jarak) {
     const jarakBulat = Math.max(1, Math.ceil(jarak));
     return jarakBulat * TARIF_PER_KM;
-  }
-
-  function formatRupiah(angka) {
-    return 'Rp ' + angka.toLocaleString('id-ID');
   }
 
   if (jarakInput && estimasiOngkir) {
@@ -282,6 +298,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const catatan = document.getElementById('catatan').value.trim();
       const alamat = document.getElementById('alamat').value.trim();
       const jarak = parseFloat(document.getElementById('jarakAntar').value) || 0;
+      const metodeBayar = document.getElementById('metodeBayar').value;
 
       if (!nama || !email) {
         alert('Mohon isi nama dan email dengan benar.');
@@ -298,7 +315,14 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
       }
 
+      if (!metodeBayar) {
+        alert('Mohon pilih metode pembayaran.');
+        return;
+      }
+
       const ongkir = hitungOngkir(jarak);
+      const subtotal = hitungSubtotal(currentQuantity);
+      const totalBayar = subtotal + ongkir;
 
       const randomTicketNum = Math.floor(1000 + Math.random() * 9000);
       const ticketCode = 'BA-2026-' + randomTicketNum;
@@ -310,10 +334,14 @@ document.addEventListener('DOMContentLoaded', function () {
         email: email,
         varian: varian,
         jumlah: currentQuantity,
+        harga: HARGA_PER_LOYANG,
+        subtotal: subtotal,
         catatan: catatan,
         alamat: alamat,
         jarak: jarak,
         ongkir: ongkir,
+        metodeBayar: metodeBayar,
+        totalBayar: totalBayar,
         tanggal: new Date().toLocaleString('id-ID'),
         status: 'Diproses'
       };
@@ -330,12 +358,20 @@ document.addEventListener('DOMContentLoaded', function () {
       if (recCatatan) recCatatan.textContent = catatan ? catatan : '-';
       if (recTicketId) recTicketId.textContent = '#' + ticketCode;
 
+      const recHarga = document.getElementById('recHarga');
+      const recSubtotal = document.getElementById('recSubtotal');
       const recAlamat = document.getElementById('recAlamat');
       const recJarak = document.getElementById('recJarak');
       const recOngkir = document.getElementById('recOngkir');
+      const recMetode = document.getElementById('recMetode');
+      const recTotal = document.getElementById('recTotal');
+      if (recHarga) recHarga.textContent = formatRupiah(HARGA_PER_LOYANG) + ' / loyang';
+      if (recSubtotal) recSubtotal.textContent = formatRupiah(subtotal);
       if (recAlamat) recAlamat.textContent = alamat;
       if (recJarak) recJarak.textContent = jarak + ' km';
       if (recOngkir) recOngkir.textContent = formatRupiah(ongkir);
+      if (recMetode) recMetode.textContent = metodeBayar;
+      if (recTotal) recTotal.textContent = formatRupiah(totalBayar);
 
       orderForm.style.display = 'none';
       if (ticketConfirmation) {
@@ -352,6 +388,7 @@ document.addEventListener('DOMContentLoaded', function () {
       orderForm.style.display = 'block';
       ticketConfirmation.classList.remove('show');
       if (estimasiOngkir) estimasiOngkir.textContent = 'Estimasi ongkir: Rp 0';
+      perbaruiSubtotal();
     });
   }
 });
