@@ -411,7 +411,7 @@ function PesanSection() {
                       if (jumlah > 1) setJumlah(jumlah - 1);
                     }}
                   >
-                    &minus;
+                    -
                   </button>
                   <span className="stepper-val" id="stepperVal">
                     {jumlah}
@@ -423,7 +423,7 @@ function PesanSection() {
                     aria-label="Tambah"
                     onClick={() => setJumlah(jumlah + 1)}
                   >
-                    &plus;
+                    +
                   </button>
                   <span className="stepper-unit">Loyang</span>
                 </div>
