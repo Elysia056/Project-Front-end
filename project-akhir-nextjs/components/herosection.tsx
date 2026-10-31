@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
 
 function HeroSection() {
   const [persen, setPersen] = useState(40);
@@ -47,7 +49,7 @@ function HeroSection() {
 
   return (
     <section id="beranda" className="section hero-section">
-      <div className="container">
+      <Container>
         <div className="section-kicker">{"// kue sarang lebah khas medan"}</div>
 
         <h2 className="hero-title-main">Belah</h2>
@@ -98,18 +100,19 @@ function HeroSection() {
               <span>
                 Rongga: <strong id="slicePercentText">{Math.round(persen)}%</strong>
               </span>
-              <button
+              <Button
+                variant="link"
+                size="sm"
                 className="reset-btn"
                 id="resetSliceBtn"
-                type="button"
                 onClick={() => setPersen(40)}
               >
                 (Tengah)
-              </button>
+              </Button>
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

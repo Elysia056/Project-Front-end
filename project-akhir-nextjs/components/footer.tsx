@@ -1,10 +1,11 @@
 "use client";
+import Container from "react-bootstrap/Container";
 import { scrollKeSection } from "@/lib/scroll";
 
 export default function Footer() {
   return (
     <footer className="main-footer">
-      <div className="container">
+      <Container>
         <h2 className="footer-giant-title">BIKA AMBON</h2>
         <p className="footer-copyright">&copy; 2026 Kelompok 1</p>
         <a
@@ -15,7 +16,7 @@ export default function Footer() {
           <span>KEMBALI KE ATAS</span>
           <span>&uarr;</span>
         </a>
-      </div>
+      </Container>
     </footer>
   );
 }

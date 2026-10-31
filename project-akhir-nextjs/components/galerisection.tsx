@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
+import Container from "react-bootstrap/Container";
+import Modal from "react-bootstrap/Modal";
 
 interface ItemGaleri {
   code: string;
@@ -66,7 +68,7 @@ function GaleriSection() {
   return (
     <>
       <section id="galeri" className="section galeri-section">
-        <div className="container">
+        <Container>
           <div className="galeri-header-flex">
             <div className="section-kicker">{"// galeri"}</div>
           </div>
@@ -95,49 +97,40 @@ function GaleriSection() {
 
             <div className="gallery-track-accent"></div>
           </div>
-        </div>
+        </Container>
       </section>
 
       {/* Galeri: modal preview saat card diklik */}
-      <div
-        className={modalTampil ? "gallery-modal show" : "gallery-modal"}
+      <Modal
+        show={modalTampil}
+        onHide={() => setModalTampil(false)}
+        centered
+        size="lg"
         id="galleryModal"
-        onClick={(e) => {
-          if (e.target === e.currentTarget) setModalTampil(false);
-        }}
       >
-        <div className="modal-content">
-          <button
-            className="modal-close-btn"
-            id="modalCloseBtn"
-            aria-label="Tutup"
-            type="button"
-            onClick={() => setModalTampil(false)}
-          >
-            &times;
-          </button>
-          <div className="modal-artwork" id="modalArtwork">
-            <Image
-              id="modalImg"
-              src={terpilih.img}
-              alt={terpilih.title}
-              width={terpilih.lebar}
-              height={terpilih.tinggi}
-            />
-          </div>
-          <div className="modal-body">
-            <div className="modal-code" id="modalCode">
-              {terpilih.code}
-            </div>
-            <h3 className="modal-title" id="modalTitle">
-              {terpilih.title}
-            </h3>
-            <p className="modal-desc" id="modalDesc">
-              {terpilih.desc}
-            </p>
-          </div>
-        </div>
-      </div>
+        <Modal.Header closeButton>
+          <Modal.Title className="font-serif" id="modalTitle">
+            {terpilih.title}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Image
+            id="modalImg"
+            src={terpilih.img}
+            alt={terpilih.title}
+            width={terpilih.lebar}
+            height={terpilih.tinggi}
+            className="img-fluid rounded mb-3 d-block mx-auto"
+            style={{ maxHeight: "55vh", width: "auto" }}
+          />
+          <small className="text-muted d-block mb-1" id="modalCode">
+            {terpilih.code}
+          </small>
+          <p className="mb-0" id="modalDesc">
+            {terpilih.desc}
+          </p>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

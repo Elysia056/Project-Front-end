@@ -1,4 +1,5 @@
 "use client";
+import Container from "react-bootstrap/Container";
 
 interface Langkah {
   judul: string;
@@ -30,7 +31,7 @@ const daftarLangkah: Langkah[] = [
 function ProsesSection() {
   return (
     <section id="proses" className="section proses-section">
-      <div className="container">
+      <Container>
         <div className="section-kicker" style={{ textAlign: "center" }}>
           {"// proses"}
         </div>
@@ -54,7 +55,7 @@ function ProsesSection() {
             </div>
           ))}
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

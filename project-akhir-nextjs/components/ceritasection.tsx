@@ -1,5 +1,8 @@
 "use client";
 import { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import { Row, Col } from "react-bootstrap";
 
 const statistik = [
   { angka: "100%", label: "Bahan Alami, Tanpa Pengawet" },
@@ -12,11 +15,11 @@ function CeritaSection() {
 
   return (
     <section id="cerita" className="section cerita-section">
-      <div className="container">
+      <Container>
         <div className="section-kicker">{"// cerita & filosofi"}</div>
 
-        <div className="cerita-grid">
-          <div className="cerita-content">
+        <Row className="g-5 align-items-center">
+          <Col lg={8}>
             <div className="cerita-lead">
               <span className="drop-cap">B</span>
               <p className="lead-text">
@@ -40,16 +43,16 @@ function CeritaSection() {
               </p>
             </div>
 
-            <button
-              type="button"
-              className="history-toggle-btn"
+            <Button
+              variant="link"
+              className="history-toggle-btn p-0"
               id="historyToggleBtn"
               onClick={() => setRiwayatTerbuka(!riwayatTerbuka)}
             >
               {riwayatTerbuka
                 ? "Tutup catatan sejarah \u2191"
                 : "Baca asal-usul Jalan Ambon \u2192"}
-            </button>
+            </Button>
             <div
               className={riwayatTerbuka ? "history-box show" : "history-box"}
               id="historyBox"
@@ -61,18 +64,18 @@ function CeritaSection() {
               fermentasi air nira segar, menciptakan tekstur sarang lebah unik
               yang harum dan kenyal.
             </div>
-          </div>
+          </Col>
 
-          <div className="cerita-stats">
+          <Col lg={4}>
             {statistik.map((item, index) => (
-              <div className="stat-item" key={index}>
+              <div className="stat-item mb-4" key={index}>
                 <div className="stat-number">{item.angka}</div>
                 <div className="stat-label">{item.label}</div>
               </div>
             ))}
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </section>
   );
 }

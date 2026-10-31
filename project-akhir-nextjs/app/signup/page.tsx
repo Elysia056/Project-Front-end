@@ -1,5 +1,11 @@
 "use client";
 import { useState } from "react";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import DashHeader from "@/components/dashheader";
 import { Akun, ambilSemuaAkun } from "@/lib/auth";
 
@@ -89,143 +95,105 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="login-page-body">
+    <div className="min-vh-100 d-flex flex-column">
       <DashHeader />
 
-      <main className="login-main">
-        <div className="login-card">
-          <h2>Daftar Akun</h2>
-          <p className="login-subtitle">{"// buat akun pelanggan baru"}</p>
+      <Container className="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+        <Card className="shadow w-100" style={{ maxWidth: 480 }}>
+          <Card.Body className="p-4 p-md-5">
+            <h2 className="font-serif fw-bold">Daftar Akun</h2>
+            <p className="form-hint-mono mb-3">{"// buat akun pelanggan baru"}</p>
 
-          <div
-            className={error ? "login-error show" : "login-error"}
-            id="signupError"
-          >
-            {error}
-          </div>
-          <div
-            className={sukses ? "login-success show" : "login-success"}
-            id="signupSuccess"
-          >
-            {sukses}
-          </div>
+            <Alert variant="danger" show={error !== ""} id="signupError">
+              {error}
+            </Alert>
+            <Alert variant="success" show={sukses !== ""} id="signupSuccess">
+              {sukses}
+            </Alert>
 
-          <form id="signupForm" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="namaLengkap" className="form-label">
-                Nama Lengkap
-              </label>
-              <input
-                type="text"
-                id="namaLengkap"
-                name="namaLengkap"
-                className="form-input"
-                placeholder="Nama Anda"
-                required
-                value={namaLengkap}
-                onChange={(e) => setNamaLengkap(e.target.value)}
-              />
-            </div>
+            <Form id="signupForm" onSubmit={handleSubmit}>
+              <Form.Group className="mb-3" controlId="namaLengkap">
+                <Form.Label>Nama Lengkap</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="namaLengkap"
+                  placeholder="Nama Anda"
+                  required
+                  value={namaLengkap}
+                  onChange={(e) => setNamaLengkap(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="emailSignup">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  type="email"
+                  name="emailSignup"
+                  placeholder="nama@email.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="usernameSignup">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="usernameSignup"
+                  placeholder="username unik"
+                  required
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="passwordSignup">
+                <Form.Label>Password</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    type={tampilPassword ? "text" : "password"}
+                    name="passwordSignup"
+                    placeholder="Min. 6 karakter"
+                    required
+                    minLength={6}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <Button
+                    variant="outline-secondary"
+                    id="togglePasswordSignupBtn"
+                    onClick={() => setTampilPassword(!tampilPassword)}
+                  >
+                    {tampilPassword ? "Sembunyikan" : "Tampilkan"}
+                  </Button>
+                </InputGroup>
+              </Form.Group>
 
-            <div className="form-group">
-              <label htmlFor="emailSignup" className="form-label">
-                Email
-              </label>
-              <input
-                type="email"
-                id="emailSignup"
-                name="emailSignup"
-                className="form-input"
-                placeholder="nama@email.com"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="usernameSignup" className="form-label">
-                Username
-              </label>
-              <input
-                type="text"
-                id="usernameSignup"
-                name="usernameSignup"
-                className="form-input"
-                placeholder="username unik"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="passwordSignup" className="form-label">
-                Password
-              </label>
-              <div className="password-field-wrapper">
-                <input
-                  type={tampilPassword ? "text" : "password"}
-                  id="passwordSignup"
-                  name="passwordSignup"
-                  className="form-input"
-                  placeholder="Min. 6 karakter"
+              <Form.Group className="mb-4" controlId="passwordConfirm">
+                <Form.Label>Konfirmasi Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="passwordConfirm"
+                  placeholder="Ulangi password"
                   required
                   minLength={6}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
                 />
-                <button
-                  type="button"
-                  className="btn-toggle-password"
-                  id="togglePasswordSignupBtn"
-                  onClick={() => setTampilPassword(!tampilPassword)}
-                >
-                  {tampilPassword ? "Sembunyikan" : "Tampilkan"}
-                </button>
-              </div>
-            </div>
+              </Form.Group>
 
-            <div className="form-group">
-              <label htmlFor="passwordConfirm" className="form-label">
-                Konfirmasi Password
-              </label>
-              <input
-                type="password"
-                id="passwordConfirm"
-                name="passwordConfirm"
-                className="form-input"
-                placeholder="Ulangi password"
-                required
-                minLength={6}
-                value={passwordConfirm}
-                onChange={(e) => setPasswordConfirm(e.target.value)}
-              />
-            </div>
+              <Button type="submit" variant="dark" className="w-100 py-2">
+                Daftar Sekarang
+              </Button>
+            </Form>
 
-            <button type="submit" className="btn-submit-ticket">
-              Daftar Sekarang
-            </button>
-          </form>
-
-          <p
-            className="login-hint"
-            style={{ textAlign: "center", marginTop: "1.5rem" }}
-          >
-            Sudah punya akun?{" "}
-            <a
-              href="/login"
-              style={{ color: "var(--accent-amber-dark)", fontWeight: 700 }}
-            >
-              Masuk di sini
-            </a>
-          </p>
-
-          <a href="/" className="login-back-link">
-            &larr; Kembali ke halaman utama
-          </a>
-        </div>
-      </main>
+            <p className="text-center mt-4">
+              Sudah punya akun? <a href="/login">Masuk di sini</a>
+            </p>
+            <p className="text-center mb-0">
+              <a href="/">&larr; Kembali ke halaman utama</a>
+            </p>
+          </Card.Body>
+        </Card>
+      </Container>
     </div>
   );
 }

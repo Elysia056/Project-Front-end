@@ -1,5 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
 import DashHeader from "@/components/dashheader";
 import { ambilSemuaAkun, ambilUserLogin } from "@/lib/auth";
 
@@ -32,7 +38,7 @@ export default function LoginPage() {
     // Ambil SEMUA akun (admin default + user hasil sign up)
     const semuaAkun = ambilSemuaAkun();
 
-    // cari akun yang cocok menggunakan perulangan for
+    // Mencari akun yang cocok menggunakan perulangan for
     for (let i = 0; i < semuaAkun.length; i++) {
       if (
         semuaAkun[i].username === usernameBersih &&
@@ -59,84 +65,69 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="login-page-body">
+    <div className="min-vh-100 d-flex flex-column">
       <DashHeader />
 
-      <main className="login-main">
-        <div className="login-card">
-          <h2>Masuk</h2>
-          <p className="login-subtitle">{"// login untuk Admin & Pelanggan"}</p>
+      <Container className="flex-grow-1 d-flex align-items-center justify-content-center py-5">
+        <Card className="shadow w-100" style={{ maxWidth: 440 }}>
+          <Card.Body className="p-4 p-md-5">
+            <h2 className="font-serif fw-bold">Masuk</h2>
+            <p className="form-hint-mono mb-3">
+              {"// login untuk Admin & Pelanggan"}
+            </p>
 
-          <div
-            className={error ? "login-error show" : "login-error"}
-            id="loginError"
-          >
-            {error}
-          </div>
+            <Alert variant="danger" show={error !== ""} id="loginError">
+              {error}
+            </Alert>
 
-          <form id="loginForm" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="username" className="form-label">
-                Username
-              </label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                className="form-input"
-                placeholder="admin / user"
-                required
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <div className="password-field-wrapper">
-                <input
-                  type={tampilPassword ? "text" : "password"}
-                  id="password"
-                  name="password"
-                  className="form-input"
-                  placeholder="Masukkan password"
+            <Form id="loginForm" onSubmit={handleSubmit}>
+              <Form.Group className="mb-3" controlId="username">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="username"
+                  placeholder="admin / user"
                   required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
                 />
-                <button
-                  type="button"
-                  className="btn-toggle-password"
-                  id="togglePasswordBtn"
-                  onClick={() => setTampilPassword(!tampilPassword)}
-                >
-                  {tampilPassword ? "Sembunyikan" : "Tampilkan"}
-                </button>
-              </div>
-            </div>
+              </Form.Group>
 
-            <button type="submit" className="btn-submit-ticket">
-              Masuk
-            </button>
-          </form>
+              <Form.Group className="mb-4" controlId="password">
+                <Form.Label>Password</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    type={tampilPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Masukkan password"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <Button
+                    variant="outline-secondary"
+                    id="togglePasswordBtn"
+                    onClick={() => setTampilPassword(!tampilPassword)}
+                  >
+                    {tampilPassword ? "Sembunyikan" : "Tampilkan"}
+                  </Button>
+                </InputGroup>
+              </Form.Group>
 
-          <p className="login-hint" style={{ textAlign: "center" }}>
-            Belum punya akun?{" "}
-            <a
-              href="/signup"
-              style={{ color: "var(--accent-amber-dark)", fontWeight: 700 }}
-            >
-              Daftar di sini
-            </a>
-          </p>
+              <Button type="submit" variant="dark" className="w-100 py-2">
+                Masuk
+              </Button>
+            </Form>
 
-          <a href="/" className="login-back-link">
-            &larr; Kembali ke halaman utama
-          </a>
-        </div>
-      </main>
+            <p className="text-center mt-4">
+              Belum punya akun? <a href="/signup">Daftar di sini</a>
+            </p>
+            <p className="text-center mb-0">
+              <a href="/">&larr; Kembali ke halaman utama</a>
+            </p>
+          </Card.Body>
+        </Card>
+      </Container>
     </div>
   );
 }

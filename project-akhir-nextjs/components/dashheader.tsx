@@ -1,4 +1,6 @@
 "use client";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
 
 interface DashHeaderProps {
   children?: React.ReactNode;
@@ -6,15 +8,15 @@ interface DashHeaderProps {
 
 function DashHeader({ children }: DashHeaderProps) {
   return (
-    <header className="dash-header">
-      <div className="container">
-        <a href="/" className="dash-logo">
+    <Navbar variant="dark" className="navbar-dash py-3">
+      <Container className="flex-wrap gap-2">
+        <Navbar.Brand href="/" className="dash-logo-text">
           Bika Ambon
-          <span>Kelompok 1</span>
-        </a>
+          <small>Kelompok 1</small>
+        </Navbar.Brand>
         {children}
-      </div>
-    </header>
+      </Container>
+    </Navbar>
   );
 }
 

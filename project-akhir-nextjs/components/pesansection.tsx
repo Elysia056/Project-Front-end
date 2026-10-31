@@ -1,5 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import ListGroup from "react-bootstrap/ListGroup";
+import { Row, Col } from "react-bootstrap";
 import BuktiModal from "@/components/buktimodal";
 import MapPicker, { TampilanPeta, TitikPeta } from "@/components/mappicker";
 import { ambilUserLogin } from "@/lib/auth";
@@ -333,376 +341,326 @@ function PesanSection() {
     setStruk(null);
   };
 
+  const barisStruk: [string, string, string][] = struk
+    ? [
+        ["Nomor Tiket:", struk.id, "recTicketId"],
+        ["Nama Pemesan:", struk.nama, "recNama"],
+        ["Email:", struk.email, "recEmail"],
+        ["Varian Pilihan:", struk.varian, "recVarian"],
+        ["Jumlah:", struk.jumlah + " Loyang", "recJumlah"],
+        ["Harga Satuan:", formatRupiah(struk.harga) + " / loyang", "recHarga"],
+        ["Subtotal:", formatRupiah(struk.subtotal), "recSubtotal"],
+        ["Catatan:", struk.catatan ? struk.catatan : "-", "recCatatan"],
+        ["Alamat Antar:", struk.alamat, "recAlamat"],
+        ["Jarak Antar:", struk.jarak + " km", "recJarak"],
+        ["Ongkos Kirim:", formatRupiah(struk.ongkir), "recOngkir"],
+        ["Metode Pembayaran:", struk.metodeBayar, "recMetode"],
+        ["Total Bayar:", formatRupiah(struk.totalBayar), "recTotal"],
+      ]
+    : [];
+
   return (
     <>
-    <section id="pesan" className="section pesan-section">
-      <div className="container">
-        <div className="ticket-container">
-          <div className="ticket-header">
-            <span>TIKET PESANAN</span>
-            <span id="displayTicketHeader">#BA-2026</span>
-          </div>
-
-          <div className="ticket-dashed-line"></div>
-
-          {!struk ? (
-            <form id="orderForm" onSubmit={handleSubmit}>
-              <div className="form-group">
-                <label htmlFor="nama" className="form-label">
-                  Nama
-                </label>
-                <input
-                  type="text"
-                  id="nama"
-                  name="nama"
-                  className="form-input"
-                  placeholder="Nama lengkap"
-                  required
-                  value={nama}
-                  onChange={(e) => setNama(e.target.value)}
-                />
+      <section id="pesan" className="section pesan-section">
+        <Container>
+          <Card className="ticket-container mx-auto">
+            <Card.Body className="p-4 p-md-5">
+              <div className="ticket-header">
+                <span>TIKET PESANAN</span>
+                <span id="displayTicketHeader">#BA-2026</span>
               </div>
 
-              <div className="form-group">
-                <label htmlFor="email" className="form-label">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="form-input"
-                  placeholder="nama@email.com"
-                  required
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
+              <div className="ticket-dashed-line"></div>
 
-              <div className="form-group">
-                <label htmlFor="varian" className="form-label">
-                  Varian
-                </label>
-                <select
-                  id="varian"
-                  name="varian"
-                  className="form-select"
-                  value={varian}
-                  onChange={(e) => setVarian(e.target.value)}
-                >
-                  {VARIAN.map((item) => (
-                    <option key={item} value={item}>
-                      {item}
-                    </option>
-                  ))}
-                </select>
-                <small className="form-hint-mono">Harga: Rp 150.000 / loyang</small>
-              </div>
+              {!struk ? (
+                <Form id="orderForm" onSubmit={handleSubmit}>
+                  <Form.Group className="mb-3" controlId="nama">
+                    <Form.Label>Nama</Form.Label>
+                    <Form.Control
+                      type="text"
+                      name="nama"
+                      placeholder="Nama lengkap"
+                      required
+                      value={nama}
+                      onChange={(e) => setNama(e.target.value)}
+                    />
+                  </Form.Group>
 
-              <div className="form-group">
-                <label className="form-label">Jumlah</label>
-                <div className="quantity-stepper">
-                  <button
-                    type="button"
-                    className="stepper-btn"
-                    id="btnMinus"
-                    aria-label="Kurangi"
-                    onClick={() => {
-                      if (jumlah > 1) setJumlah(jumlah - 1);
-                    }}
-                  >
-                    -
-                  </button>
-                  <span className="stepper-val" id="stepperVal">
-                    {jumlah}
-                  </span>
-                  <button
-                    type="button"
-                    className="stepper-btn"
-                    id="btnPlus"
-                    aria-label="Tambah"
-                    onClick={() => setJumlah(jumlah + 1)}
-                  >
-                    +
-                  </button>
-                  <span className="stepper-unit">Loyang</span>
-                </div>
-                <small className="form-hint-mono" id="subtotalHarga">
-                  Subtotal: {formatRupiah(subtotal)}
-                </small>
-              </div>
+                  <Form.Group className="mb-3" controlId="email">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      placeholder="nama@email.com"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                  </Form.Group>
 
-              <div className="form-group">
-                <label htmlFor="catatan" className="form-label">
-                  Catatan
-                </label>
-                <textarea
-                  id="catatan"
-                  name="catatan"
-                  rows={3}
-                  className="form-textarea"
-                  placeholder="Contoh: tanpa keju, untuk ulang tahun"
-                  value={catatan}
-                  onChange={(e) => setCatatan(e.target.value)}
-                ></textarea>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="alamat" className="form-label">
-                  Alamat Pengiriman
-                </label>
-                <textarea
-                  id="alamat"
-                  name="alamat"
-                  rows={3}
-                  className="form-textarea"
-                  placeholder="Jalan, No. Rumah, Kelurahan, Kecamatan, Kota"
-                  required
-                  value={alamat}
-                  onChange={(e) => setAlamat(e.target.value)}
-                ></textarea>
-                <small
-                  className="form-hint-mono"
-                  id="jarakStatus"
-                  style={{ color: status.warna }}
-                >
-                  {status.teks}
-                </small>
-              </div>
-
-              <div className="form-group">
-                <label className="form-label">Pilih Lokasi di Peta</label>
-                <MapPicker
-                  lokasi={lokasi}
-                  tampilan={tampilan}
-                  onPilih={(lat, lng) => setLokasiUser(lat, lng, false)}
-                />
-                <div className="map-controls">
-                  <button
-                    type="button"
-                    className="btn-map-action"
-                    id="btnCariAlamat"
-                    onClick={handleCariAlamat}
-                  >
-                    <i className="bx bx-search-alt"></i>
-                    <span>Cari dari Alamat</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-map-action"
-                    id="btnLokasiSaya"
-                    onClick={handleLokasiSaya}
-                  >
-                    <i className="bx bx-current-location"></i>
-                    <span>Lokasi Saya</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="btn-map-action btn-reset-map"
-                    id="btnResetMap"
-                    onClick={handleResetMap}
-                  >
-                    <i className="bx bx-reset"></i>
-                    <span>Reset</span>
-                  </button>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="jarakAntar" className="form-label">
-                  Jarak Antar (km) — otomatis
-                </label>
-                <input
-                  type="number"
-                  id="jarakAntar"
-                  name="jarakAntar"
-                  className="form-input"
-                  placeholder="Terisi otomatis dari peta"
-                  min="0"
-                  step="0.1"
-                  readOnly
-                  required
-                  value={jarak}
-                />
-                <small className="form-hint-mono" id="estimasiOngkir">
-                  Estimasi ongkir: {formatRupiah(ongkir)}
-                </small>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="metodeBayar" className="form-label">
-                  Metode Pembayaran
-                </label>
-                <select
-                  id="metodeBayar"
-                  name="metodeBayar"
-                  className="form-select"
-                  required
-                  value={metodeBayar}
-                  onChange={(e) => handleMetodeBayar(e.target.value)}
-                >
-                  <option value="" disabled>
-                    Pilih metode pembayaran
-                  </option>
-                  <option value="Cash">Cash (Bayar di Tempat)</option>
-                  <option value="Transfer BCA">Transfer BCA</option>
-                  <option value="GoPay">GoPay</option>
-                </select>
-              </div>
-
-              <div
-                className="payment-info-box"
-                id="paymentInfoBox"
-                style={{ display: infoBayar ? "block" : "none" }}
-              >
-                {infoBayar && (
-                  <>
-                    <div className="payment-info-title">{infoBayar.judul}</div>
-                    <div className="payment-info-detail">
-                      {infoBayar.catatan}
-                      {infoBayar.baris.map((baris, index) => (
-                        <span key={index}>
-                          {baris.label}
-                          <strong>{baris.nilai}</strong>
-                          {index < infoBayar.baris.length - 1 && <br />}
-                        </span>
+                  <Form.Group className="mb-3" controlId="varian">
+                    <Form.Label>Varian</Form.Label>
+                    <Form.Select
+                      name="varian"
+                      value={varian}
+                      onChange={(e) => setVarian(e.target.value)}
+                    >
+                      {VARIAN.map((item) => (
+                        <option key={item} value={item}>
+                          {item}
+                        </option>
                       ))}
-                    </div>
-                  </>
-                )}
-              </div>
+                    </Form.Select>
+                    <Form.Text className="form-hint-mono">
+                      Harga: Rp 150.000 / loyang
+                    </Form.Text>
+                  </Form.Group>
 
-              {infoBayar && infoBayar.perluBukti && (
-                <div className="form-group" id="buktiTransferGroup">
-                  <label htmlFor="buktiTransfer" className="form-label">
-                    Bukti Transfer / Pembayaran
-                  </label>
-                  <input
-                    type="file"
-                    id="buktiTransfer"
-                    name="buktiTransfer"
-                    className="form-input-file"
-                    accept="image/png, image/jpeg, image/jpg, image/webp"
-                    onChange={handleBukti}
-                  />
-                  <small className="form-hint-mono">
-                    Format: JPG, PNG, WEBP. Maks 2MB.
-                  </small>
-                  <div className="bukti-preview" id="buktiPreview">
-                    {buktiBase64 && (
-                      <>
-                        <button
-                          type="button"
-                          className="btn-lihat-bukti-small"
-                          id="btnLihatBuktiSmall"
-                          onClick={() => setBuktiTampil(true)}
+                  <Form.Group className="mb-3">
+                    <Form.Label>Jumlah</Form.Label>
+                    <InputGroup style={{ maxWidth: 240 }}>
+                      <Button
+                        variant="outline-dark"
+                        id="btnMinus"
+                        aria-label="Kurangi"
+                        onClick={() => {
+                          if (jumlah > 1) setJumlah(jumlah - 1);
+                        }}
+                      >
+                        -
+                      </Button>
+                      <InputGroup.Text
+                        id="stepperVal"
+                        className="flex-grow-1 justify-content-center fw-bold bg-white"
+                      >
+                        {jumlah}
+                      </InputGroup.Text>
+                      <Button
+                        variant="outline-dark"
+                        id="btnPlus"
+                        aria-label="Tambah"
+                        onClick={() => setJumlah(jumlah + 1)}
+                      >
+                        +
+                      </Button>
+                      <InputGroup.Text>Loyang</InputGroup.Text>
+                    </InputGroup>
+                    <Form.Text className="form-hint-mono" id="subtotalHarga">
+                      Subtotal: {formatRupiah(subtotal)}
+                    </Form.Text>
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="catatan">
+                    <Form.Label>Catatan</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      name="catatan"
+                      placeholder="Contoh: tanpa keju, untuk ulang tahun"
+                      value={catatan}
+                      onChange={(e) => setCatatan(e.target.value)}
+                    />
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="alamat">
+                    <Form.Label>Alamat Pengiriman</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      rows={3}
+                      name="alamat"
+                      placeholder="Jalan, No. Rumah, Kelurahan, Kecamatan, Kota"
+                      required
+                      value={alamat}
+                      onChange={(e) => setAlamat(e.target.value)}
+                    />
+                    <Form.Text
+                      className="form-hint-mono"
+                      id="jarakStatus"
+                      style={{ color: status.warna }}
+                    >
+                      {status.teks}
+                    </Form.Text>
+                  </Form.Group>
+
+                  <Form.Group className="mb-3">
+                    <Form.Label>Pilih Lokasi di Peta</Form.Label>
+                    <MapPicker
+                      lokasi={lokasi}
+                      tampilan={tampilan}
+                      onPilih={(lat, lng) => setLokasiUser(lat, lng, false)}
+                    />
+                    <Row className="g-2 mt-1">
+                      <Col xs={12} sm={4}>
+                        <Button
+                          variant="outline-amber"
+                          size="sm"
+                          className="w-100"
+                          id="btnCariAlamat"
+                          onClick={handleCariAlamat}
                         >
-                          <i className="bx bx-show"></i> Lihat Bukti
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-hapus-bukti-small"
-                          id="btnHapusBuktiSmall"
-                          title="Hapus bukti"
-                          onClick={() => setBuktiBase64(null)}
+                          <i className="bx bx-search-alt"></i> Cari dari Alamat
+                        </Button>
+                      </Col>
+                      <Col xs={12} sm={4}>
+                        <Button
+                          variant="outline-amber"
+                          size="sm"
+                          className="w-100"
+                          id="btnLokasiSaya"
+                          onClick={handleLokasiSaya}
                         >
-                          <i className="bx bx-trash"></i> Hapus
-                        </button>
-                      </>
-                    )}
+                          <i className="bx bx-current-location"></i> Lokasi Saya
+                        </Button>
+                      </Col>
+                      <Col xs={12} sm={4}>
+                        <Button
+                          variant="outline-secondary"
+                          size="sm"
+                          className="w-100"
+                          id="btnResetMap"
+                          onClick={handleResetMap}
+                        >
+                          <i className="bx bx-reset"></i> Reset
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="jarakAntar">
+                    <Form.Label>Jarak Antar (km) - otomatis</Form.Label>
+                    <Form.Control
+                      type="number"
+                      name="jarakAntar"
+                      placeholder="Terisi otomatis dari peta"
+                      min="0"
+                      step="0.1"
+                      readOnly
+                      required
+                      value={jarak}
+                    />
+                    <Form.Text className="form-hint-mono" id="estimasiOngkir">
+                      Estimasi ongkir: {formatRupiah(ongkir)}
+                    </Form.Text>
+                  </Form.Group>
+
+                  <Form.Group className="mb-3" controlId="metodeBayar">
+                    <Form.Label>Metode Pembayaran</Form.Label>
+                    <Form.Select
+                      name="metodeBayar"
+                      required
+                      value={metodeBayar}
+                      onChange={(e) => handleMetodeBayar(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Pilih metode pembayaran
+                      </option>
+                      <option value="Cash">Cash (Bayar di Tempat)</option>
+                      <option value="Transfer BCA">Transfer BCA</option>
+                      <option value="GoPay">GoPay</option>
+                    </Form.Select>
+                  </Form.Group>
+
+                  {infoBayar && (
+                    <Alert variant="warning" id="paymentInfoBox">
+                      <Alert.Heading as="div" className="fs-6 fw-bold">
+                        {infoBayar.judul}
+                      </Alert.Heading>
+                      <div className="small">
+                        {infoBayar.catatan}
+                        {infoBayar.baris.map((baris, index) => (
+                          <span key={index}>
+                            {baris.label}
+                            <strong>{baris.nilai}</strong>
+                            {index < infoBayar.baris.length - 1 && <br />}
+                          </span>
+                        ))}
+                      </div>
+                    </Alert>
+                  )}
+
+                  {infoBayar && infoBayar.perluBukti && (
+                    <Form.Group className="mb-3" controlId="buktiTransfer">
+                      <Form.Label>Bukti Transfer / Pembayaran</Form.Label>
+                      <Form.Control
+                        type="file"
+                        name="buktiTransfer"
+                        accept="image/png, image/jpeg, image/jpg, image/webp"
+                        onChange={handleBukti}
+                      />
+                      <Form.Text className="form-hint-mono">
+                        Format: JPG, PNG, WEBP. Maks 2MB.
+                      </Form.Text>
+                      {buktiBase64 && (
+                        <div className="d-flex gap-2 mt-2" id="buktiPreview">
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            id="btnLihatBuktiSmall"
+                            onClick={() => setBuktiTampil(true)}
+                          >
+                            <i className="bx bx-show"></i> Lihat Bukti
+                          </Button>
+                          <Button
+                            variant="outline-danger"
+                            size="sm"
+                            id="btnHapusBuktiSmall"
+                            title="Hapus bukti"
+                            onClick={() => setBuktiBase64(null)}
+                          >
+                            <i className="bx bx-trash"></i> Hapus
+                          </Button>
+                        </div>
+                      )}
+                    </Form.Group>
+                  )}
+
+                  <div className="total-bayar-box mb-3" id="totalBayarBox">
+                    Subtotal: <strong>{formatRupiah(subtotal)}</strong> + Ongkir:{" "}
+                    <strong>{formatRupiah(ongkir)}</strong> ={" "}
+                    <strong>{formatRupiah(total)}</strong>
                   </div>
+
+                  <Button type="submit" variant="dark" className="w-100 py-3">
+                    Kirim Pesanan
+                  </Button>
+                </Form>
+              ) : (
+                <div id="ticketConfirmation">
+                  <Alert variant="success" className="fw-bold text-center">
+                    &#10004; Pesanan Berhasil Diterima!
+                  </Alert>
+                  <ListGroup variant="flush">
+                    {barisStruk.map(([label, nilai, id]) => (
+                      <ListGroup.Item
+                        key={id}
+                        className="d-flex justify-content-between gap-3 bg-transparent px-0"
+                      >
+                        <span>{label}</span>
+                        <strong id={id} className="text-end">
+                          {nilai}
+                        </strong>
+                      </ListGroup.Item>
+                    ))}
+                  </ListGroup>
+                  <Button
+                    variant="dark"
+                    className="w-100 py-3 mt-4"
+                    id="btnResetOrder"
+                    onClick={handleBuatBaru}
+                  >
+                    Buat Pesanan Baru
+                  </Button>
                 </div>
               )}
+            </Card.Body>
+          </Card>
+        </Container>
+      </section>
 
-              <div className="form-group">
-                <div className="total-bayar-box" id="totalBayarBox">
-                  Subtotal: <strong>{formatRupiah(subtotal)}</strong> + Ongkir:{" "}
-                  <strong>{formatRupiah(ongkir)}</strong> ={" "}
-                  <strong>{formatRupiah(total)}</strong>
-                </div>
-              </div>
-
-              <button type="submit" className="btn-submit-ticket">
-                Kirim Pesanan
-              </button>
-            </form>
-          ) : (
-            <div className="ticket-confirmation show" id="ticketConfirmation">
-              <div className="confirmation-header">
-                &#10004; Pesanan Berhasil Diterima!
-              </div>
-              <div className="receipt-row">
-                <span>Nomor Tiket:</span>
-                <strong id="recTicketId">{struk.id}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Nama Pemesan:</span>
-                <strong id="recNama">{struk.nama}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Email:</span>
-                <span id="recEmail">{struk.email}</span>
-              </div>
-              <div className="receipt-row">
-                <span>Varian Pilihan:</span>
-                <strong id="recVarian">{struk.varian}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Jumlah:</span>
-                <strong id="recJumlah">{struk.jumlah} Loyang</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Harga Satuan:</span>
-                <span id="recHarga">{formatRupiah(struk.harga)} / loyang</span>
-              </div>
-              <div className="receipt-row">
-                <span>Subtotal:</span>
-                <span id="recSubtotal">{formatRupiah(struk.subtotal)}</span>
-              </div>
-              <div className="receipt-row">
-                <span>Catatan:</span>
-                <span id="recCatatan">{struk.catatan ? struk.catatan : "-"}</span>
-              </div>
-              <div className="receipt-row">
-                <span>Alamat Antar:</span>
-                <span id="recAlamat">{struk.alamat}</span>
-              </div>
-              <div className="receipt-row">
-                <span>Jarak Antar:</span>
-                <strong id="recJarak">{struk.jarak} km</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Ongkos Kirim:</span>
-                <strong id="recOngkir">{formatRupiah(struk.ongkir)}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Metode Pembayaran:</span>
-                <strong id="recMetode">{struk.metodeBayar}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Total Bayar:</span>
-                <strong id="recTotal">{formatRupiah(struk.totalBayar)}</strong>
-              </div>
-
-              <button
-                type="button"
-                className="btn-submit-ticket"
-                id="btnResetOrder"
-                style={{ marginTop: "1.25rem" }}
-                onClick={handleBuatBaru}
-              >
-                Buat Pesanan Baru
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-
-    <BuktiModal
-      src={buktiTampil ? buktiBase64 : null}
-      onClose={() => setBuktiTampil(false)}
-    />
+      <BuktiModal
+        src={buktiTampil ? buktiBase64 : null}
+        onClose={() => setBuktiTampil(false)}
+      />
     </>
   );
 }

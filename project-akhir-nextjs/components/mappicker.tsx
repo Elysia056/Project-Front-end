@@ -153,7 +153,7 @@ function MapPicker({ lokasi, tampilan, onPilih }: MapPickerProps) {
     ).addTo(map);
   }, [lokasi]);
 
-  // Pindahin tampilan peta (cari alamat, lokasi saya, reset)
+  // Pindahkan tampilan peta (cari alamat, lokasi saya, reset)
   useEffect(() => {
     if (tampilan.id === 0 || !mapRef.current) return;
     mapRef.current.setView([tampilan.lat, tampilan.lng], tampilan.zoom);

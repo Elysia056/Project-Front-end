@@ -1,4 +1,6 @@
 "use client";
+import Container from "react-bootstrap/Container";
+import { Row, Col } from "react-bootstrap";
 
 const daftarSosial = [
   { href: "https://instagram.com/", label: "Instagram", ikon: "bx bxl-instagram" },
@@ -10,11 +12,12 @@ const daftarSosial = [
 function LokasiSection() {
   return (
     <section id="lokasi" className="section lokasi-section">
-      <div className="container">
+      <Container>
         <div className="section-kicker">{"// lokasi & kontak"}</div>
         <h2 className="section-title">Datang atau Sapa Kami</h2>
 
-        <div className="lokasi-grid">
+        <Row className="g-4">
+          <Col lg={7}>
           <div className="map-frame">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d67854.63374613885!2d98.70956846910109!3d3.604385660983691!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x303131d386574799%3A0x68a1c8e19428ac71!2sBika%20Ambon%20Zulaikha!5e0!3m2!1sen!2sid!4v1790502930653!5m2!1sen!2sid"
@@ -26,7 +29,9 @@ function LokasiSection() {
               referrerPolicy="strict-origin-when-cross-origin"
             ></iframe>
           </div>
+          </Col>
 
+          <Col lg={5}>
           <div className="kontak-info">
             <div className="kontak-item">
               <i className="bx bxs-map"></i>
@@ -70,8 +75,9 @@ function LokasiSection() {
               ))}
             </div>
           </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     </section>
   );
 }

@@ -1,4 +1,6 @@
 "use client";
+import Container from "react-bootstrap/Container";
+import { Row, Col } from "react-bootstrap";
 
 interface Keunikan {
   nomor: string;
@@ -30,15 +32,16 @@ const daftarKeunikan: Keunikan[] = [
 function KeunikanSection() {
   return (
     <section id="keunikan" className="section keunikan-section">
-      <div className="container">
+      <Container>
         <div className="section-kicker">{"// kenapa berbeda"}</div>
         <h2 className="section-title">
           Tiga hal yang tak bisa ditiru sembarangan
         </h2>
 
-        <div className="cards-grid">
+        <Row className="g-4">
           {daftarKeunikan.map((item) => (
-            <div className="keunikan-card" key={item.nomor}>
+            <Col md={6} lg={4} key={item.nomor}>
+            <div className="keunikan-card h-100">
               <div>
                 <div className="card-icon-badge"></div>
                 <span className="card-num">{item.nomor}</span>
@@ -47,9 +50,10 @@ function KeunikanSection() {
               </div>
               <div className="card-line"></div>
             </div>
+            </Col>
           ))}
-        </div>
-      </div>
+        </Row>
+      </Container>
     </section>
   );
 }

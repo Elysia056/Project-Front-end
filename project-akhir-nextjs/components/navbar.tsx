@@ -1,5 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
 import { Akun, ambilUserLogin } from "@/lib/auth";
 import { scrollKeSection } from "@/lib/scroll";
 
@@ -16,87 +20,75 @@ const daftarMenu = [
   { id: "lokasi", label: "LOKASI" },
 ];
 
-function Navbar({ aktif }: NavbarProps) {
-  const [menuAktif, setMenuAktif] = useState(false);
+function NavigationBar({ aktif }: NavbarProps) {
+  const [menuTerbuka, setMenuTerbuka] = useState(false);
   const [user, setUser] = useState<Akun | null>(null);
 
-  // Render tombol auth di navbar (MASUK atau nama user)
+  // Tombol auth di navbar (MASUK atau nama user)
   useEffect(() => {
     setUser(ambilUserLogin());
   }, []);
 
-  const handleKlik = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (scrollKeSection(e, href)) {
-      setMenuAktif(false);
+  const handleKlik = (e: React.MouseEvent<HTMLElement>, href: string) => {
+    if (scrollKeSection(e as React.MouseEvent<HTMLAnchorElement>, href)) {
+      setMenuTerbuka(false);
     }
   };
 
   return (
-    <header className="main-header" id="header">
-      <div className="container header-inner">
-        <a href="#beranda" className="logo-area">
+    <Navbar
+      expand="lg"
+      sticky="top"
+      className="navbar-bika py-2"
+      expanded={menuTerbuka}
+      onToggle={(terbuka) => setMenuTerbuka(terbuka)}
+    >
+      <Container>
+        <Navbar.Brand href="#beranda" className="logo-area">
           <div className="logo-badge"></div>
           <div className="logo-text">
             <h1>Bika Ambon</h1>
             <span className="tagline">Kelompok 1</span>
           </div>
-        </a>
-
-        <nav className={menuAktif ? "main-nav active" : "main-nav"} id="mainNav">
-          <ul className="nav-links">
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarUtama" />
+        <Navbar.Collapse id="navbarUtama" className="justify-content-end">
+          <Nav className="align-items-lg-center gap-lg-2">
             {daftarMenu.map((menu) => (
-              <li className="nav-item" key={menu.id}>
-                <a
-                  href={"#" + menu.id}
-                  className={
-                    aktif === menu.id ? "nav-link active" : "nav-link"
-                  }
-                  onClick={(e) => handleKlik(e, "#" + menu.id)}
-                >
-                  {menu.label}
-                </a>
-              </li>
-            ))}
-            <li className="nav-item" id="navAuthArea">
-              {user ? (
-                <a
-                  href={user.role === "admin" ? "/admin" : "/user"}
-                  className="nav-user-badge"
-                  title="Buka Dashboard"
-                >
-                  <span className="nav-user-name">{user.username}</span>
-                </a>
-              ) : (
-                <a href="/login" className="nav-link">
-                  MASUK
-                </a>
-              )}
-            </li>
-            <li className="nav-item">
-              <a
-                href="#pesan"
-                className="btn-pesan-nav"
-                onClick={(e) => handleKlik(e, "#pesan")}
+              <Nav.Link
+                key={menu.id}
+                href={"#" + menu.id}
+                active={aktif === menu.id}
+                onClick={(e) => handleKlik(e, "#" + menu.id)}
               >
-                <span>PESAN</span>
-                <span>&rarr;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-
-        <button
-          className="menu-toggle"
-          id="menuToggle"
-          aria-label="Buka Menu Navigasi"
-          type="button"
-          onClick={() => setMenuAktif(!menuAktif)}
-        >
-          &bull;&bull;&bull;
-        </button>
-      </div>
-    </header>
+                {menu.label}
+              </Nav.Link>
+            ))}
+            {user ? (
+              <Nav.Link
+                href={user.role === "admin" ? "/admin" : "/user"}
+                className="nav-user-badge"
+                title="Buka Dashboard"
+              >
+                <span className="nav-user-name">{user.username}</span>
+              </Nav.Link>
+            ) : (
+              <Nav.Link href="/login">MASUK</Nav.Link>
+            )}
+            <Button
+              href="#pesan"
+              variant="dark"
+              size="sm"
+              className="ms-lg-2 mt-2 mt-lg-0 px-3"
+              onClick={(e) => handleKlik(e, "#pesan")}
+            >
+              PESAN &rarr;
+            </Button>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
-export default Navbar;
+export default NavigationBar;

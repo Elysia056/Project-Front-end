@@ -26,7 +26,7 @@ export function ambilSemuaAkun(): Akun[] {
   return AKUN_DEFAULT.concat(dariSignup);
 }
 
-// Ambil data user yang sedang login dari localStorage
+// Mengambil data user yang sedang login dari localStorage
 export function ambilUserLogin(): Akun | null {
   const data = localStorage.getItem("currentUser");
   if (!data) {
@@ -41,7 +41,7 @@ export function logout() {
   window.location.href = "/login";
 }
 
-// Cek kalau halaman boleh diakses sesuai role yang dibutuhkan
+// Mengecek apakah halaman boleh diakses sesuai role yang dibutuhkan
 // Mengembalikan user kalau boleh, null kalau belum / tidak boleh
 export function useCekAkses(roleDibutuhkan: "admin" | "user"): Akun | null {
   const [user, setUser] = useState<Akun | null>(null);
