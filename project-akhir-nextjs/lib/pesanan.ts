@@ -17,6 +17,9 @@ export interface Pesanan {
   status: string;
 }
 
+// Bentuk data yang dikirim form pemesanan ke API (id, tanggal, status dibuat server/database)
+export type PesananInput = Omit<Pesanan, "id" | "tanggal" | "status">;
+
 // Konfigurasi harga, tarif ongkir, dan lokasi toko
 export const HARGA_PER_LOYANG = 150000;
 export const TARIF_PER_KM = 3000;
@@ -54,11 +57,7 @@ export function hitungJarakHaversine(
   return R * c;
 }
 
-export function ambilPesanan(): Pesanan[] {
-  const data = localStorage.getItem("bikaAmbonOrders");
-  return data ? JSON.parse(data) : [];
-}
-
-export function simpanPesanan(daftarPesanan: Pesanan[]) {
-  localStorage.setItem("bikaAmbonOrders", JSON.stringify(daftarPesanan));
+// Tanggal dari database berupa teks ISO, diubah menjadi format Indonesia saat ditampilkan
+export function formatTanggal(tanggal: string): string {
+  return new Date(tanggal).toLocaleString("id-ID");
 }

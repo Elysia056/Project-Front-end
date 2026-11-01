@@ -2,28 +2,16 @@ import { useEffect, useRef, useState } from "react";
 
 export interface Akun {
   username: string;
-  password: string;
   role: "admin" | "user";
   nama: string;
-  email?: string;
+  email?: string | null;
 }
 
-// Daftar akun default untuk admin
-const AKUN_DEFAULT: Akun[] = [
-  {
-    username: "admin",
-    password: "admin123",
-    role: "admin",
-    nama: "Admin Bika Ambon",
-  },
-];
-
-// Ambil semua akun: default (admin) + hasil sign up user
-export function ambilSemuaAkun(): Akun[] {
-  const dariSignup: Akun[] = JSON.parse(
-    localStorage.getItem("bikaAmbonUsers") || "[]"
-  );
-  return AKUN_DEFAULT.concat(dariSignup);
+// Menyimpan data user yang berhasil login (tanpa password).
+// Data akun sendiri sekarang ada di database PostgreSQL (tabel User),
+// localStorage hanya dipakai untuk mengingat siapa yang sedang login.
+export function simpanUserLogin(akun: Akun) {
+  localStorage.setItem("currentUser", JSON.stringify(akun));
 }
 
 // Mengambil data user yang sedang login dari localStorage

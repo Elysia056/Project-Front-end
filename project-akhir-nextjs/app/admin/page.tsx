@@ -12,7 +12,7 @@ import Nav from "react-bootstrap/Nav";
 import BuktiModal from "@/components/buktimodal";
 import DashHeader from "@/components/dashheader";
 import { logout, useCekAkses } from "@/lib/auth";
-import { Pesanan, ambilPesanan, formatRupiah, simpanPesanan } from "@/lib/pesanan";
+import { Pesanan, formatRupiah, formatTanggal } from "@/lib/pesanan";
 
 export default function AdminPage() {
   const admin = useCekAkses("admin");
@@ -20,29 +20,42 @@ export default function AdminPage() {
   const [buktiSrc, setBuktiSrc] = useState<string | null>(null);
 
   useEffect(() => {
-    if (admin) {
-      setDaftarPesanan(ambilPesanan());
+    if (!admin) return;
+
+    // Ambil semua pesanan dari database lewat API
+    async function muatPesanan() {
+      const res = await fetch("/api/pesanan");
+      if (res.ok) {
+        setDaftarPesanan((await res.json()) as Pesanan[]);
+      }
     }
+    muatPesanan();
   }, [admin]);
 
   if (!admin) {
     return null;
   }
 
-  const ubahStatus = (index: number, statusBaru: string) => {
-    const daftar = ambilPesanan();
-    daftar[index].status = statusBaru;
-    simpanPesanan(daftar);
-    setDaftarPesanan(daftar);
+  // id pesanan berbentuk "#BA-2026-1234", jadi harus di-encode saat masuk ke URL
+  const ubahStatus = async (id: string, statusBaru: string) => {
+    const res = await fetch(`/api/pesanan/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: statusBaru }),
+    });
+    if (res.ok) {
+      const diubah: Pesanan = await res.json();
+      setDaftarPesanan((prev) => prev.map((p) => (p.id === diubah.id ? diubah : p)));
+    }
   };
 
-  const hapusPesanan = (index: number) => {
-    const konfirmasi = confirm("Yakin ingin menghapus pesanan ini?");
-    if (konfirmasi) {
-      const daftar = ambilPesanan();
-      daftar.splice(index, 1);
-      simpanPesanan(daftar);
-      setDaftarPesanan(daftar);
+  const hapusPesanan = async (id: string) => {
+    if (!confirm("Yakin ingin menghapus pesanan ini?")) return;
+    const res = await fetch(`/api/pesanan/${encodeURIComponent(id)}`, {
+      method: "DELETE",
+    });
+    if (res.ok) {
+      setDaftarPesanan((prev) => prev.filter((p) => p.id !== id));
     }
   };
 
@@ -135,8 +148,8 @@ export default function AdminPage() {
                   </tr>
                 </thead>
                 <tbody id="tabelPesananBody">
-                  {daftarPesanan.map((pesanan, index) => (
-                    <tr key={index}>
+                  {daftarPesanan.map((pesanan) => (
+                    <tr key={pesanan.id}>
                       <td>{pesanan.id}</td>
                       <td>{pesanan.nama}</td>
                       <td>{pesanan.email}</td>
@@ -167,13 +180,13 @@ export default function AdminPage() {
                         </strong>
                       </td>
                       <td>{pesanan.catatan ? pesanan.catatan : "-"}</td>
-                      <td>{pesanan.tanggal}</td>
+                      <td>{formatTanggal(pesanan.tanggal)}</td>
                       <td>
                         <Form.Select
                           size="sm"
                           className="status-select"
                           value={pesanan.status}
-                          onChange={(e) => ubahStatus(index, e.target.value)}
+                          onChange={(e) => ubahStatus(pesanan.id, e.target.value)}
                         >
                           <option value="Diproses">Diproses</option>
                           <option value="Dikirim">Dikirim</option>
@@ -186,7 +199,7 @@ export default function AdminPage() {
                           variant="outline-danger"
                           size="sm"
                           className="btn-hapus"
-                          onClick={() => hapusPesanan(index)}
+                          onClick={() => hapusPesanan(pesanan.id)}
                         >
                           Hapus
                         </Button>

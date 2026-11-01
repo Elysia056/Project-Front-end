@@ -15,11 +15,10 @@ import {
   HARGA_PER_LOYANG,
   LOKASI_TOKO,
   Pesanan,
-  ambilPesanan,
+  PesananInput,
   formatRupiah,
   hitungJarakHaversine,
   hitungOngkir,
-  simpanPesanan,
 } from "@/lib/pesanan";
 
 interface InfoBayar {
@@ -89,6 +88,7 @@ function PesanSection() {
   const [lokasi, setLokasi] = useState<TitikPeta | null>(null);
   const [tampilan, setTampilan] = useState<TampilanPeta>(TAMPILAN_AWAL);
   const [struk, setStruk] = useState<Pesanan | null>(null);
+  const [menyimpan, setMenyimpan] = useState(false);
 
   // Auto-isi form pesan kalau user sudah login
   useEffect(() => {
@@ -262,7 +262,7 @@ function PesanSection() {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const namaBersih = nama.trim();
@@ -296,11 +296,8 @@ function PesanSection() {
       return;
     }
 
-    const randomTicketNum = Math.floor(1000 + Math.random() * 9000);
-    const ticketCode = "BA-2026-" + randomTicketNum;
-
-    const pesananBaru: Pesanan = {
-      id: "#" + ticketCode,
+    // Nomor tiket, tanggal, dan status dibuat oleh server/database
+    const pesananBaru: PesananInput = {
       nama: namaBersih,
       email: emailBersih,
       varian: varian,
@@ -314,15 +311,25 @@ function PesanSection() {
       metodeBayar: metodeBayar,
       buktiTransfer: buktiBase64 || null,
       totalBayar: total,
-      tanggal: new Date().toLocaleString("id-ID"),
-      status: "Diproses",
     };
 
-    const daftarPesanan = ambilPesanan();
-    daftarPesanan.push(pesananBaru);
-    simpanPesanan(daftarPesanan);
+    setMenyimpan(true);
+    try {
+      // Simpan pesanan ke database lewat API
+      const res = await fetch("/api/pesanan", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(pesananBaru),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
 
-    setStruk(pesananBaru);
+      setStruk(data as Pesanan);
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Gagal menyimpan pesanan.");
+    } finally {
+      setMenyimpan(false);
+    }
   };
 
   const handleBuatBaru = () => {
@@ -620,8 +627,13 @@ function PesanSection() {
                     <strong>{formatRupiah(total)}</strong>
                   </div>
 
-                  <Button type="submit" variant="dark" className="w-100 py-3">
-                    Kirim Pesanan
+                  <Button
+                    type="submit"
+                    variant="dark"
+                    className="w-100 py-3"
+                    disabled={menyimpan}
+                  >
+                    {menyimpan ? "Menyimpan..." : "Kirim Pesanan"}
                   </Button>
                 </Form>
               ) : (

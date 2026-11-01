@@ -7,13 +7,14 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import DashHeader from "@/components/dashheader";
-import { ambilSemuaAkun, ambilUserLogin } from "@/lib/auth";
+import { Akun, ambilUserLogin, simpanUserLogin } from "@/lib/auth";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [tampilPassword, setTampilPassword] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Jika sudah login sebelumnya, langsung arahkan ke dashboard masing-masing
   useEffect(() => {
@@ -27,40 +28,32 @@ export default function LoginPage() {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError("");
+    setLoading(true);
 
-    const usernameBersih = username.trim();
-    const passwordBersih = password.trim();
+    try {
+      // Cek username dan password ke database lewat API
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
 
-    let akunDitemukan = null;
+      const akun = data as Akun;
+      simpanUserLogin(akun);
 
-    // Ambil SEMUA akun (admin default + user hasil sign up)
-    const semuaAkun = ambilSemuaAkun();
-
-    // Mencari akun yang cocok menggunakan perulangan for
-    for (let i = 0; i < semuaAkun.length; i++) {
-      if (
-        semuaAkun[i].username === usernameBersih &&
-        semuaAkun[i].password === passwordBersih
-      ) {
-        akunDitemukan = semuaAkun[i];
-        break;
-      }
-    }
-
-    if (akunDitemukan) {
-      // Simpan status login ke localStorage
-      localStorage.setItem("currentUser", JSON.stringify(akunDitemukan));
-      setError("");
-
-      if (akunDitemukan.role === "admin") {
+      if (akun.role === "admin") {
         window.location.href = "/admin";
       } else {
         window.location.href = "/user";
       }
-    } else {
-      setError("Username atau password salah. Silakan coba lagi atau daftar dulu.");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Gagal login. Coba lagi.");
+      setLoading(false);
     }
   };
 
@@ -114,8 +107,13 @@ export default function LoginPage() {
                 </InputGroup>
               </Form.Group>
 
-              <Button type="submit" variant="dark" className="w-100 py-2">
-                Masuk
+              <Button
+                type="submit"
+                variant="dark"
+                className="w-100 py-2"
+                disabled={loading}
+              >
+                {loading ? "Memeriksa..." : "Masuk"}
               </Button>
             </Form>
 

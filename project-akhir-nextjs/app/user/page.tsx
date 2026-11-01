@@ -10,7 +10,7 @@ import Nav from "react-bootstrap/Nav";
 import BuktiModal from "@/components/buktimodal";
 import DashHeader from "@/components/dashheader";
 import { logout, useCekAkses } from "@/lib/auth";
-import { Pesanan, ambilPesanan, formatRupiah } from "@/lib/pesanan";
+import { Pesanan, formatRupiah, formatTanggal } from "@/lib/pesanan";
 
 export default function UserPage() {
   const user = useCekAkses("user");
@@ -18,11 +18,17 @@ export default function UserPage() {
   const [buktiSrc, setBuktiSrc] = useState<string | null>(null);
 
   useEffect(() => {
-    if (user) {
-      setPesananSaya(
-        ambilPesanan().filter((pesanan) => pesanan.email === user.email)
-      );
+    if (!user || !user.email) return;
+    const email = user.email;
+
+    // Ambil pesanan milik email akun ini dari database lewat API
+    async function muatPesanan() {
+      const res = await fetch(`/api/pesanan?email=${encodeURIComponent(email)}`);
+      if (res.ok) {
+        setPesananSaya((await res.json()) as Pesanan[]);
+      }
     }
+    muatPesanan();
   }, [user]);
 
   if (!user) {
@@ -88,8 +94,8 @@ export default function UserPage() {
                   </tr>
                 </thead>
                 <tbody id="tabelPesananSayaBody">
-                  {pesananSaya.map((pesanan, index) => (
-                    <tr key={index}>
+                  {pesananSaya.map((pesanan) => (
+                    <tr key={pesanan.id}>
                       <td>{pesanan.id}</td>
                       <td>{pesanan.varian}</td>
                       <td>{pesanan.jumlah} Loyang</td>
@@ -117,7 +123,7 @@ export default function UserPage() {
                           {pesanan.totalBayar ? formatRupiah(pesanan.totalBayar) : "-"}
                         </strong>
                       </td>
-                      <td>{pesanan.tanggal}</td>
+                      <td>{formatTanggal(pesanan.tanggal)}</td>
                       <td>
                         <Badge
                           bg={warnaStatus[pesanan.status] || "secondary"}

@@ -7,7 +7,6 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 import DashHeader from "@/components/dashheader";
-import { Akun, ambilSemuaAkun } from "@/lib/auth";
 
 export default function SignupPage() {
   const [namaLengkap, setNamaLengkap] = useState("");
@@ -18,13 +17,11 @@ export default function SignupPage() {
   const [tampilPassword, setTampilPassword] = useState(false);
   const [error, setError] = useState("");
   const [sukses, setSukses] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const namaBersih = namaLengkap.trim();
-    const emailBersih = email.trim();
-    const usernameBersih = username.trim();
     const passwordBersih = password.trim();
     const confirmBersih = passwordConfirm.trim();
 
@@ -44,54 +41,40 @@ export default function SignupPage() {
       return;
     }
 
-    // Ambil daftar user dari localStorage (user yang sudah sign up sebelumnya)
-    const daftarUser: Akun[] = JSON.parse(
-      localStorage.getItem("bikaAmbonUsers") || "[]"
-    );
+    setLoading(true);
+    try {
+      // Simpan akun baru ke database lewat API
+      // (pengecekan username dan email kembar dilakukan di server)
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nama: namaLengkap,
+          email,
+          username,
+          password: passwordBersih,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
 
-    // Cek apakah username sudah dipakai (termasuk cek admin)
-    const semuaAkun = ambilSemuaAkun();
-    const usernameDipakai = semuaAkun.some(
-      (u) => u.username.toLowerCase() === usernameBersih.toLowerCase()
-    );
-    const emailDipakai = daftarUser.some(
-      (u) => (u.email || "").toLowerCase() === emailBersih.toLowerCase()
-    );
+      // Tampilkan sukses
+      setSukses("Pendaftaran berhasil! Mengalihkan ke halaman login...");
+      setNamaLengkap("");
+      setEmail("");
+      setUsername("");
+      setPassword("");
+      setPasswordConfirm("");
 
-    if (usernameDipakai) {
-      setError("Username sudah dipakai. Coba yang lain.");
-      return;
+      // Redirect ke login setelah 1.5 detik
+      setTimeout(() => {
+        window.location.href = "/login";
+      }, 1500);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Gagal mendaftar. Coba lagi.");
+    } finally {
+      setLoading(false);
     }
-
-    if (emailDipakai) {
-      setError("Email sudah terdaftar. Silakan login.");
-      return;
-    }
-
-    // Buat user baru
-    const userBaru: Akun = {
-      username: usernameBersih,
-      password: passwordBersih,
-      role: "user",
-      nama: namaBersih,
-      email: emailBersih,
-    };
-
-    daftarUser.push(userBaru);
-    localStorage.setItem("bikaAmbonUsers", JSON.stringify(daftarUser));
-
-    // Tampilkan sukses
-    setSukses("Pendaftaran berhasil! Mengalihkan ke halaman login...");
-    setNamaLengkap("");
-    setEmail("");
-    setUsername("");
-    setPassword("");
-    setPasswordConfirm("");
-
-    // Redirect ke login setelah 1.5 detik
-    setTimeout(() => {
-      window.location.href = "/login";
-    }, 1500);
   };
 
   return (
@@ -180,8 +163,13 @@ export default function SignupPage() {
                 />
               </Form.Group>
 
-              <Button type="submit" variant="dark" className="w-100 py-2">
-                Daftar Sekarang
+              <Button
+                type="submit"
+                variant="dark"
+                className="w-100 py-2"
+                disabled={loading}
+              >
+                {loading ? "Menyimpan..." : "Daftar Sekarang"}
               </Button>
             </Form>
 
