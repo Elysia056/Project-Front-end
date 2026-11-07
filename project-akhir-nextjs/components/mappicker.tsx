@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { LOKASI_TOKO } from "@/lib/pesanan";
 
 export interface TitikPeta {
   lat: number;
@@ -15,6 +14,7 @@ export interface TampilanPeta {
 }
 
 interface MapPickerProps {
+  toko: { nama: string; lat: number; lng: number }; // lokasi toko (diatur admin)
   lokasi: TitikPeta | null;
   tampilan: TampilanPeta;
   onPilih: (lat: number, lng: number) => void;
@@ -22,7 +22,8 @@ interface MapPickerProps {
 
 const URL_LEAFLET = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
 
-function MapPicker({ lokasi, tampilan, onPilih }: MapPickerProps) {
+function MapPicker({ toko, lokasi, tampilan, onPilih }: MapPickerProps) {
+  const LOKASI_TOKO = toko;
   const mapEl = useRef<HTMLDivElement>(null);
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const mapRef = useRef<any>(null);

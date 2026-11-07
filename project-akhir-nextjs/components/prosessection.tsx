@@ -1,46 +1,21 @@
 "use client";
 import Container from "react-bootstrap/Container";
 
-interface Langkah {
-  judul: string;
-  deskripsi: string;
-}
+import type { KontenProses } from "@/lib/konten";
 
-const daftarLangkah: Langkah[] = [
-  {
-    judul: "Fermentasi Alami",
-    deskripsi:
-      "Air nira dan telur dibiarkan bereaksi hingga menghasilkan gelembung udara halus.",
-  },
-  {
-    judul: "Campur Pandan & Kunyit",
-    deskripsi:
-      "Warna dan aroma khas ditambahkan dari bahan segar yang diperas langsung.",
-  },
-  {
-    judul: "Panggang Suhu Rendah",
-    deskripsi: "Rongga terbentuk perlahan tanpa merusak tekstur kenyalnya.",
-  },
-  {
-    judul: "Potong & Sajikan",
-    deskripsi:
-      "Dipotong hangat agar aroma pandannya masih terasa saat sampai ke kamu.",
-  },
-];
-
-function ProsesSection() {
+function ProsesSection({ data }: { data: KontenProses }) {
   return (
     <section id="proses" className="section proses-section">
       <Container>
         <div className="section-kicker" style={{ textAlign: "center" }}>
-          {"// proses"}
+          {data.kicker}
         </div>
-        <h2 className="section-title">Dari Adonan ke Rongga</h2>
+        <h2 className="section-title">{data.judul}</h2>
 
         <div className="timeline-wrapper">
           <div className="timeline-line"></div>
 
-          {daftarLangkah.map((langkah, index) => (
+          {data.langkah.map((langkah, index) => (
             <div
               className={
                 index % 2 === 0 ? "timeline-item left" : "timeline-item right"

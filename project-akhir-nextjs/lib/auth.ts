@@ -23,8 +23,13 @@ export function ambilUserLogin(): Akun | null {
   return JSON.parse(data);
 }
 
-// Logout: hapus data login lalu kembali ke halaman login
-export function logout() {
+// Logout: hapus sesi di server, hapus data login di browser, lalu kembali ke halaman login
+export async function logout() {
+  try {
+    await fetch("/api/auth/logout", { method: "POST" });
+  } catch {
+    // tetap lanjut keluar di browser
+  }
   localStorage.removeItem("currentUser");
   window.location.href = "/login";
 }

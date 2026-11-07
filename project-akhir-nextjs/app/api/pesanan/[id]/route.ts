@@ -1,7 +1,8 @@
 // Route Handler dinamis: /api/pesanan/:id
-// PATCH  -> mengubah status pesanan
-// DELETE -> menghapus pesanan
+// PATCH  -> mengubah status pesanan (khusus admin)
+// DELETE -> menghapus pesanan (khusus admin)
 import { prisma } from "@/lib/prisma";
+import { wajibAdmin } from "@/lib/sesi";
 
 // params di Next.js 15+ berupa Promise
 type Context = { params: Promise<{ id: string }> };
@@ -16,6 +17,9 @@ async function ambilId(context: Context) {
 }
 
 export async function PATCH(request: Request, context: Context) {
+  const admin = await wajibAdmin();
+  if (admin.error) return admin.error;
+
   const id = await ambilId(context);
   const body = (await request.json()) as PatchBody;
 
@@ -27,6 +31,7 @@ export async function PATCH(request: Request, context: Context) {
     const pesanan = await prisma.pesanan.update({
       where: { id },
       data: { status: body.status },
+      include: { items: { orderBy: { id: "asc" } } },
     });
     return Response.json(pesanan);
   } catch {
@@ -35,6 +40,9 @@ export async function PATCH(request: Request, context: Context) {
 }
 
 export async function DELETE(_request: Request, context: Context) {
+  const admin = await wajibAdmin();
+  if (admin.error) return admin.error;
+
   const id = await ambilId(context);
   try {
     await prisma.pesanan.delete({ where: { id } });

@@ -10,7 +10,7 @@ import Nav from "react-bootstrap/Nav";
 import BuktiModal from "@/components/buktimodal";
 import DashHeader from "@/components/dashheader";
 import { logout, useCekAkses } from "@/lib/auth";
-import { Pesanan, formatRupiah, formatTanggal } from "@/lib/pesanan";
+import { Pesanan, daftarItem, formatRupiah, formatTanggal } from "@/lib/pesanan";
 
 export default function UserPage() {
   const user = useCekAkses("user");
@@ -18,12 +18,16 @@ export default function UserPage() {
   const [buktiSrc, setBuktiSrc] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!user || !user.email) return;
-    const email = user.email;
+    if (!user) return;
 
-    // Ambil pesanan milik email akun ini dari database lewat API
+    // Ambil pesanan milik akun ini dari database lewat API
+    // (server membaca sesi login dan hanya mengirim pesanan dengan email akun ini)
     async function muatPesanan() {
-      const res = await fetch(`/api/pesanan?email=${encodeURIComponent(email)}`);
+      const res = await fetch("/api/pesanan");
+      if (res.status === 401) {
+        logout(); // sesi di server sudah berakhir
+        return;
+      }
       if (res.ok) {
         setPesananSaya((await res.json()) as Pesanan[]);
       }
@@ -80,8 +84,8 @@ export default function UserPage() {
                 <thead>
                   <tr>
                     <th>Tiket</th>
-                    <th>Varian</th>
-                    <th>Jumlah</th>
+                    <th>Rasa</th>
+                    <th>Total</th>
                     <th>Subtotal</th>
                     <th>Alamat</th>
                     <th>Jarak</th>
@@ -97,7 +101,13 @@ export default function UserPage() {
                   {pesananSaya.map((pesanan) => (
                     <tr key={pesanan.id}>
                       <td>{pesanan.id}</td>
-                      <td>{pesanan.varian}</td>
+                      <td>
+                        {daftarItem(pesanan).map((item, i) => (
+                          <div key={i}>
+                            {item.varian} &times;{item.jumlah}
+                          </div>
+                        ))}
+                      </td>
                       <td>{pesanan.jumlah} Loyang</td>
                       <td>{pesanan.subtotal ? formatRupiah(pesanan.subtotal) : "-"}</td>
                       <td>{pesanan.alamat || "-"}</td>

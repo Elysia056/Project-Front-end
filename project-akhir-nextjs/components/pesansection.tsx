@@ -11,11 +11,11 @@ import { Row, Col } from "react-bootstrap";
 import BuktiModal from "@/components/buktimodal";
 import MapPicker, { TampilanPeta, TitikPeta } from "@/components/mappicker";
 import { ambilUserLogin } from "@/lib/auth";
+import type { KontenPesan } from "@/lib/konten";
 import {
-  HARGA_PER_LOYANG,
-  LOKASI_TOKO,
   Pesanan,
   PesananInput,
+  daftarItem,
   formatRupiah,
   hitungJarakHaversine,
   hitungOngkir,
@@ -28,56 +28,55 @@ interface InfoBayar {
   catatan?: string;
 }
 
-// Info rekening & upload bukti transfer
-const REKENING_INFO: Record<string, InfoBayar> = {
-  "Transfer BCA": {
-    judul: "Transfer ke Rekening BCA",
-    perluBukti: true,
-    baris: [
-      { label: "", nilai: "Bank BCA" },
-      { label: "No. Rek: ", nilai: "1234567890" },
-      { label: "Atas Nama: ", nilai: "Bika Ambon Kelompok 1" },
-    ],
-  },
-  GoPay: {
-    judul: "Transfer ke GoPay",
-    perluBukti: true,
-    baris: [
-      { label: "", nilai: "GoPay / E-Wallet" },
-      { label: "No. HP: ", nilai: "0812-3456-7890" },
-      { label: "Atas Nama: ", nilai: "Bika Ambon Kelompok 1" },
-    ],
-  },
-  Cash: {
-    judul: "Bayar di Tempat (COD)",
-    perluBukti: false,
-    baris: [],
-    catatan: "Pembayaran dilakukan saat pesanan diantar ke alamat kamu.",
-  },
-};
-
-const VARIAN = [
-  "Original Pandan",
-  "Pandan Kunyit Spesial",
-  "Gula Merah Klasik",
-  "Keju Lembut",
-  "Cokelat Rongga",
-];
+// Info rekening & upload bukti transfer (nomor dan nama diatur admin)
+function buatRekeningInfo(data: KontenPesan): Record<string, InfoBayar> {
+  return {
+    "Transfer BCA": {
+      judul: "Transfer ke Rekening BCA",
+      perluBukti: true,
+      baris: [
+        { label: "", nilai: "Bank BCA" },
+        { label: "No. Rek: ", nilai: data.bca.noRek },
+        { label: "Atas Nama: ", nilai: data.bca.atasNama },
+      ],
+    },
+    GoPay: {
+      judul: "Transfer ke GoPay",
+      perluBukti: true,
+      baris: [
+        { label: "", nilai: "GoPay / E-Wallet" },
+        { label: "No. HP: ", nilai: data.gopay.noHp },
+        { label: "Atas Nama: ", nilai: data.gopay.atasNama },
+      ],
+    },
+    Cash: {
+      judul: "Bayar di Tempat (COD)",
+      perluBukti: false,
+      baris: [],
+      catatan: "Pembayaran dilakukan saat pesanan diantar ke alamat kamu.",
+    },
+  };
+}
 
 const STATUS_AWAL = "Ketik alamat atau klik peta di bawah untuk pilih lokasi antar";
 
-const TAMPILAN_AWAL: TampilanPeta = {
-  lat: LOKASI_TOKO.lat,
-  lng: LOKASI_TOKO.lng,
-  zoom: 12,
-  id: 0,
-};
+function PesanSection({ data }: { data: KontenPesan }) {
+  // Pengaturan dari admin: harga, tarif ongkir, varian, lokasi toko, dan rekening
+  const HARGA_PER_LOYANG = data.hargaPerLoyang;
+  const LOKASI_TOKO = data.toko;
+  const VARIAN = data.varian;
+  const REKENING_INFO = buatRekeningInfo(data);
+  const TAMPILAN_AWAL: TampilanPeta = {
+    lat: LOKASI_TOKO.lat,
+    lng: LOKASI_TOKO.lng,
+    zoom: 12,
+    id: 0,
+  };
 
-function PesanSection() {
   const [nama, setNama] = useState("");
   const [email, setEmail] = useState("");
-  const [varian, setVarian] = useState(VARIAN[0]);
-  const [jumlah, setJumlah] = useState(1);
+  // Jumlah loyang per rasa: satu pesanan boleh berisi beberapa rasa
+  const [jumlahRasa, setJumlahRasa] = useState<Record<string, number>>({ [VARIAN[0]]: 1 });
   const [catatan, setCatatan] = useState("");
   const [alamat, setAlamat] = useState("");
   const [jarak, setJarak] = useState("");
@@ -99,10 +98,16 @@ function PesanSection() {
     }
   }, []);
 
-  // Hitungan harga
-  const subtotal = HARGA_PER_LOYANG * jumlah;
+  // Rasa yang dipilih (jumlah > 0) dan hitungan harga
+  const pilihan = VARIAN.map((rasa) => ({ varian: rasa, jumlah: jumlahRasa[rasa] ?? 0 })).filter(
+    (item) => item.jumlah > 0
+  );
+  const totalLoyang = pilihan.reduce((total, item) => total + item.jumlah, 0);
+  const ubahJumlahRasa = (rasa: string, selisih: number) =>
+    setJumlahRasa((lama) => ({ ...lama, [rasa]: Math.max(0, (lama[rasa] ?? 0) + selisih) }));
+  const subtotal = HARGA_PER_LOYANG * totalLoyang;
   const jarakAngka = parseFloat(jarak) || 0;
-  const ongkir = hitungOngkir(jarakAngka);
+  const ongkir = hitungOngkir(jarakAngka, data.tarifPerKm);
   const total = subtotal + ongkir;
 
   const infoBayar = REKENING_INFO[metodeBayar];
@@ -286,6 +291,11 @@ function PesanSection() {
       return;
     }
 
+    if (totalLoyang < 1) {
+      alert("Pilih minimal satu rasa (jumlah minimal 1 loyang).");
+      return;
+    }
+
     if (!metodeBayar) {
       alert("Mohon pilih metode pembayaran.");
       return;
@@ -300,17 +310,12 @@ function PesanSection() {
     const pesananBaru: PesananInput = {
       nama: namaBersih,
       email: emailBersih,
-      varian: varian,
-      jumlah: jumlah,
-      harga: HARGA_PER_LOYANG,
-      subtotal: subtotal,
+      items: pilihan,
       catatan: catatan.trim(),
       alamat: alamatBersih,
       jarak: jarakAngka,
-      ongkir: ongkir,
       metodeBayar: metodeBayar,
       buktiTransfer: buktiBase64 || null,
-      totalBayar: total,
     };
 
     setMenyimpan(true);
@@ -335,8 +340,7 @@ function PesanSection() {
   const handleBuatBaru = () => {
     setNama("");
     setEmail("");
-    setVarian(VARIAN[0]);
-    setJumlah(1);
+    setJumlahRasa({ [VARIAN[0]]: 1 });
     setCatatan("");
     setAlamat("");
     setJarak("");
@@ -353,9 +357,12 @@ function PesanSection() {
         ["Nomor Tiket:", struk.id, "recTicketId"],
         ["Nama Pemesan:", struk.nama, "recNama"],
         ["Email:", struk.email, "recEmail"],
-        ["Varian Pilihan:", struk.varian, "recVarian"],
-        ["Jumlah:", struk.jumlah + " Loyang", "recJumlah"],
-        ["Harga Satuan:", formatRupiah(struk.harga) + " / loyang", "recHarga"],
+        ...daftarItem(struk).map((item, i): [string, string, string] => [
+          item.varian + ":",
+          item.jumlah + " Loyang \u00d7 " + formatRupiah(item.harga),
+          "recItem" + i,
+        ]),
+        ["Total Loyang:", struk.jumlah + " Loyang", "recJumlah"],
         ["Subtotal:", formatRupiah(struk.subtotal), "recSubtotal"],
         ["Catatan:", struk.catatan ? struk.catatan : "-", "recCatatan"],
         ["Alamat Antar:", struk.alamat, "recAlamat"],
@@ -405,55 +412,45 @@ function PesanSection() {
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="varian">
-                    <Form.Label>Varian</Form.Label>
-                    <Form.Select
-                      name="varian"
-                      value={varian}
-                      onChange={(e) => setVarian(e.target.value)}
-                    >
-                      {VARIAN.map((item) => (
-                        <option key={item} value={item}>
-                          {item}
-                        </option>
-                      ))}
-                    </Form.Select>
-                    <Form.Text className="form-hint-mono">
-                      Harga: Rp 150.000 / loyang
-                    </Form.Text>
-                  </Form.Group>
-
                   <Form.Group className="mb-3">
-                    <Form.Label>Jumlah</Form.Label>
-                    <InputGroup style={{ maxWidth: 240 }}>
-                      <Button
-                        variant="outline-dark"
-                        id="btnMinus"
-                        aria-label="Kurangi"
-                        onClick={() => {
-                          if (jumlah > 1) setJumlah(jumlah - 1);
-                        }}
-                      >
-                        -
-                      </Button>
-                      <InputGroup.Text
-                        id="stepperVal"
-                        className="flex-grow-1 justify-content-center fw-bold bg-white"
-                      >
-                        {jumlah}
-                      </InputGroup.Text>
-                      <Button
-                        variant="outline-dark"
-                        id="btnPlus"
-                        aria-label="Tambah"
-                        onClick={() => setJumlah(jumlah + 1)}
-                      >
-                        +
-                      </Button>
-                      <InputGroup.Text>Loyang</InputGroup.Text>
-                    </InputGroup>
-                    <Form.Text className="form-hint-mono" id="subtotalHarga">
-                      Subtotal: {formatRupiah(subtotal)}
+                    <Form.Label>Pilih Rasa &amp; Jumlah</Form.Label>
+                    <Form.Text className="form-hint-mono d-block mb-2">
+                      Harga: {formatRupiah(HARGA_PER_LOYANG)} / loyang. Kamu bisa
+                      memesan beberapa rasa sekaligus dalam satu pesanan.
+                    </Form.Text>
+                    {VARIAN.map((item) => {
+                      const n = jumlahRasa[item] ?? 0;
+                      return (
+                        <div
+                          key={item}
+                          className="d-flex align-items-center justify-content-between gap-3 py-2 border-bottom"
+                        >
+                          <span className={n > 0 ? "fw-bold" : ""}>{item}</span>
+                          <InputGroup size="sm" style={{ maxWidth: 170 }}>
+                            <Button
+                              variant="outline-dark"
+                              aria-label={"Kurangi " + item}
+                              disabled={n === 0}
+                              onClick={() => ubahJumlahRasa(item, -1)}
+                            >
+                              -
+                            </Button>
+                            <InputGroup.Text className="flex-grow-1 justify-content-center fw-bold bg-white">
+                              {n}
+                            </InputGroup.Text>
+                            <Button
+                              variant="outline-dark"
+                              aria-label={"Tambah " + item}
+                              onClick={() => ubahJumlahRasa(item, 1)}
+                            >
+                              +
+                            </Button>
+                          </InputGroup>
+                        </div>
+                      );
+                    })}
+                    <Form.Text className="form-hint-mono d-block mt-2" id="subtotalHarga">
+                      Total: {totalLoyang} loyang &middot; Subtotal: {formatRupiah(subtotal)}
                     </Form.Text>
                   </Form.Group>
 
@@ -492,6 +489,7 @@ function PesanSection() {
                   <Form.Group className="mb-3">
                     <Form.Label>Pilih Lokasi di Peta</Form.Label>
                     <MapPicker
+                      toko={LOKASI_TOKO}
                       lokasi={lokasi}
                       tampilan={tampilan}
                       onPilih={(lat, lng) => setLokasiUser(lat, lng, false)}

@@ -3,19 +3,20 @@ import { scrollKeSection } from "@/lib/scroll";
 
 interface SectionIndicatorProps {
   aktif: string;
+  menu: { id: string; label: string }[];
 }
 
-const daftarSection = [
-  { id: "beranda", label: "01. Beranda" },
-  { id: "cerita", label: "02. Cerita" },
-  { id: "keunikan", label: "03. Keunikan" },
-  { id: "galeri", label: "04. Galeri" },
-  { id: "proses", label: "05. Proses" },
-  { id: "lokasi", label: "06. Lokasi" },
-  { id: "pesan", label: "07. Pesan" },
-];
+// Label titik navigasi diambil dari menu navbar (diatur admin); "Pesan" selalu terakhir
+function rapikan(label: string) {
+  const kecil = label.toLowerCase();
+  return kecil.charAt(0).toUpperCase() + kecil.slice(1);
+}
 
-function SectionIndicator({ aktif }: SectionIndicatorProps) {
+function SectionIndicator({ aktif, menu }: SectionIndicatorProps) {
+  const daftarSection = [...menu, { id: "pesan", label: "Pesan" }].map((item, i) => ({
+    id: item.id,
+    label: String(i + 1).padStart(2, "0") + ". " + rapikan(item.label),
+  }));
   return (
     <aside className="section-indicator" aria-label="Navigasi Halaman">
       {daftarSection.map((item) => (

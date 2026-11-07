@@ -1132,3 +1132,41 @@ ul {
     height: 220px;
   }
 }
+
+/* Navigasi bagian di editor website (halaman admin) */
+.editor-nav .nav-link {
+  color: var(--text-main);
+  border-radius: 4px;
+}
+.editor-nav .nav-link:hover {
+  background-color: rgba(36, 23, 14, 0.08);
+}
+.editor-nav .nav-link.active {
+  background-color: var(--text-main);
+  color: #fff;
+}
+
+:root {
+  --bs-font-sans-serif: var(--font-sans);
+  --bs-font-monospace: var(--font-mono);
+}
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6,
+.modal-title {
+  font-family: var(--font-serif);
+}
+.btn,
+.badge,
+.nav-link,
+.form-label,
+.form-check-label {
+  font-family: var(--font-mono);
+}
+.btn {
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.navbar-bika .btn {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}

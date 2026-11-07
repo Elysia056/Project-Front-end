@@ -1,7 +1,4 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// File skema Prisma: mendefinisikan sumber data, generator, dan model tabel.
 
 generator client {
   provider = "prisma-client"
@@ -12,6 +9,7 @@ datasource db {
   provider = "postgresql"
 }
 
+// Akun pengguna (admin dan pelanggan)
 model User {
   id        Int      @id @default(autoincrement())
   username  String   @unique
@@ -20,8 +18,19 @@ model User {
   nama      String
   email     String?  @unique
   createdAt DateTime @default(now())
+  sesi      Sesi[]
 }
 
+// Sesi login: token acak yang disimpan di cookie browser
+model Sesi {
+  token     String   @id
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+// Pesanan dari pelanggan. Satu pesanan bisa berisi beberapa rasa (lihat ItemPesanan).
+// Kolom varian = ringkasan rasa, jumlah = total loyang, harga = harga per loyang saat dipesan.
 model Pesanan {
   id            String   @id
   nama          String
@@ -39,4 +48,43 @@ model Pesanan {
   totalBayar    Int
   tanggal       DateTime @default(now())
   status        String   @default("Diproses")
+  items         ItemPesanan[]
+}
+
+// Rincian rasa dalam satu pesanan (satu baris per rasa)
+model ItemPesanan {
+  id        Int     @id @default(autoincrement())
+  pesananId String
+  pesanan   Pesanan @relation(fields: [pesananId], references: [id], onDelete: Cascade)
+  varian    String
+  jumlah    Int
+  harga     Int
+  subtotal  Int
+}
+
+// Isi teks website per bagian (navbar, hero, cerita, dst.), disimpan sebagai JSON teks
+model Konten {
+  kunci     String   @id
+  nilai     String
+  updatedAt DateTime @updatedAt
+}
+
+// Foto di bagian Galeri
+model ItemGaleri {
+  id        Int    @id @default(autoincrement())
+  kode      String
+  judul     String
+  deskripsi String
+  gambar    String
+  lebar     Int
+  tinggi    Int
+  urutan    Int    @default(0)
+}
+
+// Gambar yang diunggah admin (disimpan di database karena Vercel tidak bisa menyimpan file)
+model Gambar {
+  id        String   @id @default(cuid())
+  mime      String
+  data      Bytes
+  createdAt DateTime @default(now())
 }

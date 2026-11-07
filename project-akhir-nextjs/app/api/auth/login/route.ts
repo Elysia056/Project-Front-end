@@ -1,11 +1,12 @@
-// Route Handler: POST /api/auth/login -> memeriksa username dan password
+// Route Handler: POST /api/auth/login -> memeriksa username dan password, lalu membuat sesi
 import { prisma } from "@/lib/prisma";
+import { buatSesi } from "@/lib/sesi";
 
 type LoginBody = { username?: string; password?: string };
 
 export async function POST(request: Request) {
   const body = (await request.json()) as LoginBody;
-  const username = body.username?.trim();
+  const username = body.username?.trim().toLowerCase();
   const password = body.password?.trim();
 
   if (!username || !password) {
@@ -19,6 +20,9 @@ export async function POST(request: Request) {
       { status: 401 }
     );
   }
+
+  // Sesi disimpan di database dan di cookie httpOnly (tidak bisa dibaca JavaScript browser)
+  await buatSesi(user.id);
 
   // Password tidak ikut dikirim ke browser
   return Response.json({

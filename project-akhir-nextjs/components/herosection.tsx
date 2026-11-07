@@ -2,8 +2,9 @@
 import { useEffect, useRef, useState } from "react";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import type { KontenHero } from "@/lib/konten";
 
-function HeroSection() {
+function HeroSection({ data }: { data: KontenHero }) {
   const [persen, setPersen] = useState(40);
   const sliceRef = useRef<HTMLDivElement>(null);
   const sedangGeser = useRef(false);
@@ -50,10 +51,10 @@ function HeroSection() {
   return (
     <section id="beranda" className="section hero-section">
       <Container>
-        <div className="section-kicker">{"// kue sarang lebah khas medan"}</div>
+        <div className="section-kicker">{data.kicker}</div>
 
-        <h2 className="hero-title-main">Belah</h2>
-        <h2 className="hero-title-outline">Rongganya.</h2>
+        <h2 className="hero-title-main">{data.judulUtama}</h2>
+        <h2 className="hero-title-outline">{data.judulOutline}</h2>
 
         <div className="slice-wrapper">
           <div
@@ -71,16 +72,29 @@ function HeroSection() {
               }
             }}
           >
-            <div className="slice-sponge" id="sliceSponge">
-              <div className="sponge-badge">Rongga Dalam</div>
+            <div
+              className="slice-sponge"
+              id="sliceSponge"
+              style={
+                data.gambarRongga
+                  ? { backgroundImage: `url('${data.gambarRongga}')` }
+                  : undefined
+              }
+            >
+              <div className="sponge-badge">{data.labelRongga}</div>
             </div>
 
             <div
               className="slice-crust"
               id="sliceCrust"
-              style={{ width: 100 - persen + "%" }}
+              style={{
+                width: 100 - persen + "%",
+                ...(data.gambarKulit
+                  ? { backgroundImage: `url('${data.gambarKulit}')` }
+                  : {}),
+              }}
             >
-              <div className="crust-badge">Kulit Luar</div>
+              <div className="crust-badge">{data.labelKulit}</div>
             </div>
 
             <div
@@ -95,7 +109,7 @@ function HeroSection() {
           </div>
 
           <div className="slice-meta">
-            <span>geser garis untuk membelah &rarr;</span>
+            <span>{data.petunjuk}</span>
             <div>
               <span>
                 Rongga: <strong id="slicePercentText">{Math.round(persen)}%</strong>

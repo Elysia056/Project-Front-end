@@ -9,15 +9,17 @@ import Form from "react-bootstrap/Form";
 import Table from "react-bootstrap/Table";
 import { Row, Col } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
+import EditorWebsite from "@/components/admin/editorwebsite";
 import BuktiModal from "@/components/buktimodal";
 import DashHeader from "@/components/dashheader";
 import { logout, useCekAkses } from "@/lib/auth";
-import { Pesanan, formatRupiah, formatTanggal } from "@/lib/pesanan";
+import { Pesanan, daftarItem, formatRupiah, formatTanggal } from "@/lib/pesanan";
 
 export default function AdminPage() {
   const admin = useCekAkses("admin");
   const [daftarPesanan, setDaftarPesanan] = useState<Pesanan[]>([]);
   const [buktiSrc, setBuktiSrc] = useState<string | null>(null);
+  const [tab, setTab] = useState<"pesanan" | "website">("pesanan");
 
   useEffect(() => {
     if (!admin) return;
@@ -25,6 +27,10 @@ export default function AdminPage() {
     // Ambil semua pesanan dari database lewat API
     async function muatPesanan() {
       const res = await fetch("/api/pesanan");
+      if (res.status === 401) {
+        logout(); // sesi di server sudah berakhir
+        return;
+      }
       if (res.ok) {
         setDaftarPesanan((await res.json()) as Pesanan[]);
       }
@@ -43,6 +49,10 @@ export default function AdminPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: statusBaru }),
     });
+    if (res.status === 401) {
+      logout();
+      return;
+    }
     if (res.ok) {
       const diubah: Pesanan = await res.json();
       setDaftarPesanan((prev) => prev.map((p) => (p.id === diubah.id ? diubah : p)));
@@ -54,6 +64,10 @@ export default function AdminPage() {
     const res = await fetch(`/api/pesanan/${encodeURIComponent(id)}`, {
       method: "DELETE",
     });
+    if (res.status === 401) {
+      logout();
+      return;
+    }
     if (res.ok) {
       setDaftarPesanan((prev) => prev.filter((p) => p.id !== id));
     }
@@ -100,10 +114,28 @@ export default function AdminPage() {
       <main className="py-5">
         <Container>
           <h1 className="font-serif fw-bold">Dashboard Admin</h1>
-          <p className="form-hint-mono mb-4">
-            {"// kelola seluruh pesanan yang masuk dari pelanggan"}
+          <p className="form-hint-mono mb-3">
+            {"// kelola pesanan dan ubah isi website dari satu tempat"}
           </p>
 
+          <Nav
+            variant="tabs"
+            className="mb-4"
+            activeKey={tab}
+            onSelect={(k) => k && setTab(k as "pesanan" | "website")}
+          >
+            <Nav.Item>
+              <Nav.Link eventKey="pesanan">Pesanan</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="website">Kelola Website</Nav.Link>
+            </Nav.Item>
+          </Nav>
+
+          {tab === "website" && <EditorWebsite />}
+
+          {tab === "pesanan" && (
+          <>
           <Row className="g-3 mb-4">
             {[
               ["statTotalPesanan", String(daftarPesanan.length), "Total Pesanan"],
@@ -132,8 +164,8 @@ export default function AdminPage() {
                     <th>Tiket</th>
                     <th>Nama</th>
                     <th>Email</th>
-                    <th>Varian</th>
-                    <th>Jumlah</th>
+                    <th>Rasa</th>
+                    <th>Total</th>
                     <th>Subtotal</th>
                     <th>Alamat</th>
                     <th>Jarak</th>
@@ -153,7 +185,13 @@ export default function AdminPage() {
                       <td>{pesanan.id}</td>
                       <td>{pesanan.nama}</td>
                       <td>{pesanan.email}</td>
-                      <td>{pesanan.varian}</td>
+                      <td>
+                        {daftarItem(pesanan).map((item, i) => (
+                          <div key={i}>
+                            {item.varian} &times;{item.jumlah}
+                          </div>
+                        ))}
+                      </td>
                       <td>{pesanan.jumlah} Loyang</td>
                       <td>{pesanan.subtotal ? formatRupiah(pesanan.subtotal) : "-"}</td>
                       <td>{pesanan.alamat || "-"}</td>
@@ -221,6 +259,8 @@ export default function AdminPage() {
               </Alert>
             </Card.Body>
           </Card>
+          </>
+          )}
         </Container>
       </main>
 

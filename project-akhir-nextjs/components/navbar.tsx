@@ -6,21 +6,14 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import { Akun, ambilUserLogin } from "@/lib/auth";
 import { scrollKeSection } from "@/lib/scroll";
+import type { KontenNavbar } from "@/lib/konten";
 
 interface NavbarProps {
   aktif: string;
+  data: KontenNavbar;
 }
 
-const daftarMenu = [
-  { id: "beranda", label: "BERANDA" },
-  { id: "cerita", label: "CERITA" },
-  { id: "keunikan", label: "KEUNIKAN" },
-  { id: "galeri", label: "GALERI" },
-  { id: "proses", label: "PROSES" },
-  { id: "lokasi", label: "LOKASI" },
-];
-
-function NavigationBar({ aktif }: NavbarProps) {
+function NavigationBar({ aktif, data }: NavbarProps) {
   const [menuTerbuka, setMenuTerbuka] = useState(false);
   const [user, setUser] = useState<Akun | null>(null);
 
@@ -47,14 +40,14 @@ function NavigationBar({ aktif }: NavbarProps) {
         <Navbar.Brand href="#beranda" className="logo-area">
           <div className="logo-badge"></div>
           <div className="logo-text">
-            <h1>Bika Ambon</h1>
-            <span className="tagline">Kelompok 1</span>
+            <h1>{data.brand}</h1>
+            <span className="tagline">{data.tagline}</span>
           </div>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarUtama" />
         <Navbar.Collapse id="navbarUtama" className="justify-content-end">
           <Nav className="align-items-lg-center gap-lg-2">
-            {daftarMenu.map((menu) => (
+            {data.menu.map((menu) => (
               <Nav.Link
                 key={menu.id}
                 href={"#" + menu.id}
@@ -73,7 +66,7 @@ function NavigationBar({ aktif }: NavbarProps) {
                 <span className="nav-user-name">{user.username}</span>
               </Nav.Link>
             ) : (
-              <Nav.Link href="/login">MASUK</Nav.Link>
+              <Nav.Link href="/login">{data.labelMasuk}</Nav.Link>
             )}
             <Button
               href="#pesan"
@@ -82,7 +75,7 @@ function NavigationBar({ aktif }: NavbarProps) {
               className="ms-lg-2 mt-2 mt-lg-0 px-3"
               onClick={(e) => handleKlik(e, "#pesan")}
             >
-              PESAN &rarr;
+              {data.tombolPesan}
             </Button>
           </Nav>
         </Navbar.Collapse>
