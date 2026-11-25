@@ -41,11 +41,11 @@ body {
 
 .section {
   position: relative;
-  min-height: 90vh;
+  min-height: 65vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 6rem 0;
+  padding: 3rem 0;
 }
 
 .section-kicker {
@@ -194,6 +194,39 @@ body {
   -webkit-text-stroke: 2.2px var(--text-main);
   letter-spacing: -0.03em;
   margin-bottom: 2rem;
+}
+
+/* Sisi kanan hero: deskripsi dan tombol */
+.hero-side {
+  padding-left: 2rem;
+  border-left: 3px solid var(--accent-amber);
+  text-align: center;
+}
+
+.hero-desc {
+  font-size: 1.15rem;
+  line-height: 1.85;
+  color: var(--text-muted);
+  margin-bottom: 1.8rem;
+}
+
+.hero-side .btn {
+  padding: 0.85rem 2rem;
+}
+
+.hero-login-note {
+  display: block;
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+@media (max-width: 1199px) {
+  .hero-side {
+    margin-top: 1rem;
+  }
 }
 
 .slice-wrapper {
@@ -536,12 +569,6 @@ body {
   padding: 0.5rem 0.2rem 1.5rem;
   scroll-behavior: smooth;
   width: 100%;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.gallery-scroller::-webkit-scrollbar {
-  display: none;
 }
 
 .gallery-card {
@@ -817,7 +844,7 @@ body {
 .map-frame iframe {
   width: 100%;
   height: 100%;
-  min-height: 320px;
+  min-height: 350px;
   border: 0;
   display: block;
 }
@@ -963,7 +990,6 @@ body {
   --bs-link-hover-color: var(--accent-amber);
 }
 
-/* Margin default Bootstrap dinolkan agar spasi sama seperti desain awal */
 h1, h2, h3, h4, h5, h6, p, ul, ol {
   margin: 0;
 }
@@ -975,7 +1001,7 @@ ul {
   font-family: var(--font-serif);
 }
 
-/* Tombol warna brand: dipakai lewat variant="amber" / "outline-amber" */
+/* Tombol warna brand */
 .btn-amber {
   --bs-btn-color: #fff;
   --bs-btn-bg: var(--accent-amber);
@@ -1166,6 +1192,7 @@ h1, h2, h3, h4, h5, h6,
   font-weight: 700;
   letter-spacing: 0.04em;
 }
+
 .navbar-bika .btn {
   font-size: 0.75rem;
   letter-spacing: 0.12em;
