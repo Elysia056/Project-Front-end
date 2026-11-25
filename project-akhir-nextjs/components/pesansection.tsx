@@ -693,17 +693,8 @@ function PesanSection() {
               >
                 Buat Pesanan Baru
               </button>
-              <Button
-  variant="outline-dark"
-  className="w-100 py-3 mt-4 no-print"
-  onClick={() => window.print()}
->
-  Cetak Struk
-</Button>
-
             </div>
           )}
-          
         </div>
       </div>
     </section>
