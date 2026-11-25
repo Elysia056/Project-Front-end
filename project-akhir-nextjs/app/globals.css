@@ -2218,3 +2218,24 @@ body {
     justify-content: center;
   }
 }
+
+@media print {
+  body * { visibility: hidden; }                     /* sembunyikan semua */
+
+  .ticket-container,
+  .ticket-container * { visibility: visible; }       /* kecuali struk */
+
+  .ticket-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    box-shadow: none;
+    border: 0;
+  }
+
+  .no-print { display: none !important; }    
+
+  html, body { height: 100vh; overflow: hidden; }
+}

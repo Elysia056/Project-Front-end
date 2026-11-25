@@ -13,6 +13,7 @@ import {
   hitungOngkir,
   simpanPesanan,
 } from "@/lib/pesanan";
+import { Button } from "react-bootstrap";
 
 interface InfoBayar {
   judul: string;
@@ -683,7 +684,6 @@ function PesanSection() {
                 <span>Total Bayar:</span>
                 <strong id="recTotal">{formatRupiah(struk.totalBayar)}</strong>
               </div>
-
               <button
                 type="button"
                 className="btn-submit-ticket"
@@ -693,8 +693,17 @@ function PesanSection() {
               >
                 Buat Pesanan Baru
               </button>
+              <Button
+  variant="outline-dark"
+  className="w-100 py-3 mt-4 no-print"
+  onClick={() => window.print()}
+>
+  Cetak Struk
+</Button>
+
             </div>
           )}
+          
         </div>
       </div>
     </section>
