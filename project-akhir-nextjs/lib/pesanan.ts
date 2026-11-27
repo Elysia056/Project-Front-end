@@ -23,6 +23,9 @@ export interface Pesanan {
   totalBayar: number;
   tanggal: string;
   status: string;
+  rating: number | null;
+  ulasan: string | null;
+  ratedAt: string | null;
   items?: ItemPesanan[]; // pesanan lama (sebelum fitur banyak rasa) tidak punya items
 }
 

@@ -12,6 +12,7 @@ import Nav from "react-bootstrap/Nav";
 import EditorWebsite from "@/components/admin/editorwebsite";
 import BuktiModal from "@/components/buktimodal";
 import DashHeader from "@/components/dashheader";
+import StarRating from "@/components/starrating";
 import { logout, useCekAkses } from "@/lib/auth";
 import { Pesanan, daftarItem, formatRupiah, formatTanggal } from "@/lib/pesanan";
 
@@ -183,6 +184,7 @@ export default function AdminPage() {
                     <th>Catatan</th>
                     <th>Tanggal</th>
                     <th>Status</th>
+                    <th>Rating</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -246,6 +248,20 @@ export default function AdminPage() {
                         <option value="Selesai"    style={{ color: "#24170e", backgroundColor: "#fff" }}>Selesai</option>
                         <option value="Dibatalkan" style={{ color: "#24170e", backgroundColor: "#fff" }}>Dibatalkan</option>
                         </Form.Select>
+                      </td>
+                      <td>
+                        {pesanan.rating ? (
+                          <>
+                            <StarRating value={pesanan.rating} readOnly size={18} />
+                            {pesanan.ulasan && (
+                              <div className="small text-muted">{pesanan.ulasan}</div>
+                            )}
+                          </>
+                        ) : pesanan.status === "Selesai" ? (
+                          <span className="text-muted small">Belum dirating</span>
+                        ) : (
+                          "-"
+                        )}
                       </td>
                       <td>
                         <Button

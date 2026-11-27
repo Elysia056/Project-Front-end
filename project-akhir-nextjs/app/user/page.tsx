@@ -12,6 +12,7 @@ import Nav from "react-bootstrap/Nav";
 import Table from "react-bootstrap/Table";
 import BuktiModal from "@/components/buktimodal";
 import DashHeader from "@/components/dashheader";
+import StarRating from "@/components/starrating";
 import { logout, useCekAkses } from "@/lib/auth";
 import { Pesanan, daftarItem, formatRupiah, formatTanggal } from "@/lib/pesanan";
 
@@ -26,6 +27,12 @@ export default function UserPage() {
   const [metodeUlang, setMetodeUlang] = useState<string>("Cash");
   const [buktiUlang, setBuktiUlang] = useState<string | null>(null);
   const [memesanUlang, setMemesanUlang] = useState<boolean>(false);
+
+  // State untuk Modal Rating
+  const [ratingTarget, setRatingTarget] = useState<Pesanan | null>(null);
+  const [nilai, setNilai] = useState(0);
+  const [ulasan, setUlasan] = useState("");
+  const [mengirimRating, setMengirimRating] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -124,6 +131,31 @@ export default function UserPage() {
     }
   };
 
+  const kirimRating = async () => {
+    if (!ratingTarget || nilai < 1) return;
+    setMengirimRating(true);
+    try {
+      const res = await fetch(
+        `/api/pesanan/${encodeURIComponent(ratingTarget.id)}/rating`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ rating: nilai, ulasan }),
+        }
+      );
+      const hasil = await res.json().catch(() => null);
+      if (!res.ok) throw new Error(hasil?.message ?? `Server error (${res.status})`);
+      setPesananSaya((prev) => prev.map((p) => (p.id === hasil.id ? hasil : p)));
+      setRatingTarget(null);
+      setNilai(0);
+      setUlasan("");
+    } catch (err) {
+      alert(err instanceof Error ? err.message : "Gagal mengirim rating.");
+    } finally {
+      setMengirimRating(false);
+    }
+  };
+
   return (
     <div className="min-vh-100">
       <DashHeader>
@@ -204,6 +236,7 @@ export default function UserPage() {
                     <th>Total Bayar</th>
                     <th>Tanggal</th>
                     <th>Status</th>
+                    <th>Rating</th>
                     <th>Aksi</th>
                   </tr>
                 </thead>
@@ -253,6 +286,22 @@ export default function UserPage() {
                         </Badge>
                       </td>
                       <td>
+                        {pesanan.rating ? (
+                          <StarRating value={pesanan.rating} readOnly size={18} />
+                        ) : pesanan.status === "Selesai" ? (
+                          <Button
+                            variant="warning"
+                            size="sm"
+                            className="text-nowrap"
+                            onClick={() => setRatingTarget(pesanan)}
+                          >
+                            Beri Rating
+                          </Button>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td>
                         {(pesanan.status === "Selesai" ||
                           pesanan.status === "Dibatalkan") ? (
                           <Button
@@ -299,6 +348,33 @@ export default function UserPage() {
       </main>
 
       <BuktiModal src={buktiSrc} onClose={() => setBuktiSrc(null)} />
+
+      {/* Modal Beri Rating */}
+      <Modal show={ratingTarget !== null} onHide={() => setRatingTarget(null)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Beri Rating {ratingTarget?.id}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-2">Bagaimana pelayanan kami?</p>
+          <StarRating value={nilai} onChange={setNilai} />
+          <Form.Control
+            as="textarea"
+            rows={3}
+            className="mt-3"
+            placeholder="Ulasan (opsional)"
+            value={ulasan}
+            onChange={(e) => setUlasan(e.target.value)}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="outline-dark" onClick={() => setRatingTarget(null)}>
+            Batal
+          </Button>
+          <Button variant="dark" disabled={nilai < 1 || mengirimRating} onClick={kirimRating}>
+            {mengirimRating ? "Mengirim..." : "Kirim"}
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* Modal Konfirmasi Pesan Lagi (Bisa Ubah Metode Pembayaran) */}
       <Modal
