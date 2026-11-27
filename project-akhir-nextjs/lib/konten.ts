@@ -1,3 +1,4 @@
+// Tipe dan isi bawaan (default) untuk seluruh teks website.
 export interface KontenNavbar {
   brand: string;
   tagline: string;
@@ -15,6 +16,10 @@ export interface KontenHero {
   petunjuk: string;
   gambarRongga: string;
   gambarKulit: string; // kosong = pakai warna bawaan
+  deskripsi: string; // teks penjelasan di sisi kanan hero
+  tombolLogin: string; // tombol untuk pengunjung yang belum login
+  tombolPesan: string; // tombol untuk pengguna yang sudah login
+  catatanLogin: string; // teks kecil di bawah tombol
 }
 
 export interface KontenCerita {
@@ -113,7 +118,7 @@ export const KONTEN_DEFAULT: SemuaKonten = {
       { id: "lokasi", label: "LOKASI" },
     ],
     labelMasuk: "MASUK",
-    tombolPesan: "PESAN \u2192",
+    tombolPesan: "PESAN",
   },
   hero: {
     kicker: "// kue sarang lebah khas medan",
@@ -124,6 +129,11 @@ export const KONTEN_DEFAULT: SemuaKonten = {
     petunjuk: "geser garis untuk membelah \u2192",
     gambarRongga: "/images/galeri-002-rongga.png",
     gambarKulit: "",
+    deskripsi:
+      "Kue sarang lebah khas Medan yang kenyal, berongga, dan harum pandan. Dibuat dari fermentasi alami tanpa pengawet, dipanggang perlahan, lalu diantar segar ke rumahmu.",
+    tombolLogin: "Login Sekarang",
+    tombolPesan: "Pesan Sekarang",
+    catatanLogin: "Masuk untuk memesan dan memantau status pesananmu.",
   },
   cerita: {
     kicker: "// cerita & filosofi",

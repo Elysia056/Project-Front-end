@@ -66,16 +66,25 @@ function NavigationBar({ aktif, data }: NavbarProps) {
                 <span className="nav-user-name">{user.username}</span>
               </Nav.Link>
             ) : (
-              <Nav.Link href="/login">{data.labelMasuk}</Nav.Link>
-            )}
-            <Button
+              <Button
               href="#pesan"
-              variant="dark"
+              variant="amber"
               size="sm"
               className="ms-lg-2 mt-2 mt-lg-0 px-3"
               onClick={(e) => handleKlik(e, "#pesan")}
             >
               {data.tombolPesan}
+            </Button>
+              // <Nav.Link href="/login">{data.labelMasuk}</Nav.Link>
+            )}
+            <Button
+              href="login"
+              variant="amber"
+              size="sm"
+              className="ms-lg-2 mt-2 mt-lg-0 px-3"
+              onClick={(e) => handleKlik(e, "login")}
+            >
+              {data.labelMasuk}
             </Button>
           </Nav>
         </Navbar.Collapse>

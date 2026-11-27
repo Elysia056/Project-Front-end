@@ -153,6 +153,11 @@ export default function EditorWebsite() {
                   bolehKosong
                   onChange={(src) => set({ ...d, gambarKulit: src })}
                 />
+                <div className="fw-semibold small mb-2">Sisi kanan hero</div>
+                <Teks label="Deskripsi singkat" baris={4} value={d.deskripsi} onChange={(v) => set({ ...d, deskripsi: v })} />
+                <Teks label="Tombol untuk pengunjung (belum login)" value={d.tombolLogin} onChange={(v) => set({ ...d, tombolLogin: v })} />
+                <Teks label="Tombol untuk pengguna yang sudah login" value={d.tombolPesan} onChange={(v) => set({ ...d, tombolPesan: v })} />
+                <Teks label="Teks kecil di bawah tombol" value={d.catatanLogin} onChange={(v) => set({ ...d, catatanLogin: v })} />
               </>
             )}
           />
