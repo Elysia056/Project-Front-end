@@ -697,6 +697,34 @@ body {
   line-height: 1.6;
 }
 
+/* Kotak nomor GANJIL (1, 3) -> Cokelat Gelap seperti kartu Keunikan */
+.timeline-item.left .timeline-box {
+  background-color: var(--bg-dark-card-hover);
+  border: 1px solid var(--border-dark);
+}
+
+.timeline-item.left .timeline-box h3 {
+  color: #ffffff;
+}
+
+.timeline-item.left .timeline-box p {
+  color: #cbbaa5;
+}
+
+/* Kotak nomor GENAP (2, 4) -> Krem Cerah asli halaman yang tanpa wavy */
+.timeline-item.right .timeline-box {
+  background-color: #f6f0e4;
+  border-color: var(--border-light);
+}
+
+.timeline-item.right .timeline-box h3 {
+  color: var(--text-main);
+}
+
+.timeline-item.right .timeline-box p {
+  color: var(--text-muted);
+}
+
 .timeline-badge {
   position: absolute;
   left: 50%;
