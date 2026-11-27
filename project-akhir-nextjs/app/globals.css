@@ -1225,3 +1225,23 @@ h1, h2, h3, h4, h5, h6,
   font-size: 0.75rem;
   letter-spacing: 0.12em;
 }
+  @media print {
+  body * { visibility: hidden; }
+
+  .ticket-container,
+  .ticket-container * { visibility: visible; }
+
+  .ticket-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    box-shadow: none;
+    border: 0;
+  }
+
+  .no-print { display: none !important; }    
+
+  html, body { height: 100vh; overflow: hidden; }
+}

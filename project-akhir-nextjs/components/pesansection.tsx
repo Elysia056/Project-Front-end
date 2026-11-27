@@ -20,7 +20,6 @@ import {
   hitungJarakHaversine,
   hitungOngkir,
 } from "@/lib/pesanan";
-import { Button } from "react-bootstrap";
 
 interface InfoBayar {
   judul: string;
@@ -127,9 +126,9 @@ function PesanSection({ data }: { data: KontenPesan }) {
 
     fetch(url, { headers: { Accept: "application/json" } })
       .then((res) => res.json())
-      .then((data) => {
-        if (data && data.display_name) {
-          setAlamat(data.display_name);
+      .then((hasil) => {
+        if (hasil && hasil.display_name) {
+          setAlamat(hasil.display_name);
         }
       })
       .catch(() => {});
@@ -145,12 +144,12 @@ function PesanSection({ data }: { data: KontenPesan }) {
 
     fetch(url, { headers: { Accept: "application/json" } })
       .then((res) => res.json())
-      .then((data) => {
-        if (data && data.length > 0) {
+      .then((hasil) => {
+        if (hasil && hasil.length > 0) {
           callback(
-            parseFloat(data[0].lat),
-            parseFloat(data[0].lon),
-            data[0].display_name
+            parseFloat(hasil[0].lat),
+            parseFloat(hasil[0].lon),
+            hasil[0].display_name
           );
         } else {
           callback(null, null, null);
@@ -327,10 +326,10 @@ function PesanSection({ data }: { data: KontenPesan }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(pesananBaru),
       });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+      const hasil = await res.json();
+      if (!res.ok) throw new Error(hasil.message);
 
-      setStruk(data as Pesanan);
+      setStruk(hasil as Pesanan);
     } catch (err) {
       alert(err instanceof Error ? err.message : "Gagal menyimpan pesanan.");
     } finally {
@@ -661,6 +660,13 @@ function PesanSection({ data }: { data: KontenPesan }) {
                   >
                     Buat Pesanan Baru
                   </Button>
+                  <Button
+                    variant="outline-dark"
+                    className="w-100 py-3 mt-4 no-print"
+                    onClick={() => window.print()}
+                  >
+                    Cetak Struk
+                  </Button>
                 </div>
               )}
             </Card.Body>
@@ -668,100 +674,10 @@ function PesanSection({ data }: { data: KontenPesan }) {
         </Container>
       </section>
 
-              <div className="form-group">
-                <div className="total-bayar-box" id="totalBayarBox">
-                  Subtotal: <strong>{formatRupiah(subtotal)}</strong> + Ongkir:{" "}
-                  <strong>{formatRupiah(ongkir)}</strong> ={" "}
-                  <strong>{formatRupiah(total)}</strong>
-                </div>
-              </div>
-
-              <button type="submit" className="btn-submit-ticket">
-                Kirim Pesanan
-              </button>
-            </form>
-          ) : (
-            <div className="ticket-confirmation show" id="ticketConfirmation">
-              <div className="confirmation-header">
-                &#10004; Pesanan Berhasil Diterima!
-              </div>
-              <div className="receipt-row">
-                <span>Nomor Tiket:</span>
-                <strong id="recTicketId">{struk.id}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Nama Pemesan:</span>
-                <strong id="recNama">{struk.nama}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Email:</span>
-                <span id="recEmail">{struk.email}</span>
-              </div>
-              <div className="receipt-row">
-                <span>Varian Pilihan:</span>
-                <strong id="recVarian">{struk.varian}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Jumlah:</span>
-                <strong id="recJumlah">{struk.jumlah} Loyang</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Harga Satuan:</span>
-                <span id="recHarga">{formatRupiah(struk.harga)} / loyang</span>
-              </div>
-              <div className="receipt-row">
-                <span>Subtotal:</span>
-                <span id="recSubtotal">{formatRupiah(struk.subtotal)}</span>
-              </div>
-              <div className="receipt-row">
-                <span>Catatan:</span>
-                <span id="recCatatan">{struk.catatan ? struk.catatan : "-"}</span>
-              </div>
-              <div className="receipt-row">
-                <span>Alamat Antar:</span>
-                <span id="recAlamat">{struk.alamat}</span>
-              </div>
-              <div className="receipt-row">
-                <span>Jarak Antar:</span>
-                <strong id="recJarak">{struk.jarak} km</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Ongkos Kirim:</span>
-                <strong id="recOngkir">{formatRupiah(struk.ongkir)}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Metode Pembayaran:</span>
-                <strong id="recMetode">{struk.metodeBayar}</strong>
-              </div>
-              <div className="receipt-row">
-                <span>Total Bayar:</span>
-                <strong id="recTotal">{formatRupiah(struk.totalBayar)}</strong>
-              </div>
-              <button
-                type="button"
-                className="btn-submit-ticket"
-                id="btnResetOrder"
-                style={{ marginTop: "1.25rem" }}
-                onClick={handleBuatBaru}
-              >
-                Buat Pesanan Baru
-              </button>
-            </div>
-          )}
-        </div>
-      </div>
-    </section>
-
-    <BuktiModal
-      src={buktiTampil ? buktiBase64 : null}
-      onClose={() => setBuktiTampil(false)}
-    />
-=======
       <BuktiModal
         src={buktiTampil ? buktiBase64 : null}
         onClose={() => setBuktiTampil(false)}
       />
->>>>>>> fe75be18d8c31bec74f1115eced7b017f207b147
     </>
   );
 }
