@@ -1,0 +1,39 @@
+// File skema Prisma: mendefinisikan sumber data, generator, dan model tabel.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  role      String   @default("user")
+  nama      String
+  email     String?  @unique
+  createdAt DateTime @default(now())
+}
+
+model Pesanan {
+  id            String   @id
+  nama          String
+  email         String
+  varian        String
+  jumlah        Int
+  harga         Int
+  subtotal      Int
+  catatan       String   @default("")
+  alamat        String
+  jarak         Float
+  ongkir        Int
+  metodeBayar   String
+  buktiTransfer String?
+  totalBayar    Int
+  tanggal       DateTime @default(now())
+  status        String   @default("Diproses")
+}

@@ -1,3 +1,11 @@
+// Satu baris rasa dalam pesanan
+export interface ItemPesanan {
+  varian: string;
+  jumlah: number;
+  harga: number;
+  subtotal: number;
+}
+
 export interface Pesanan {
   id: string;
   nama: string;
@@ -15,24 +23,43 @@ export interface Pesanan {
   totalBayar: number;
   tanggal: string;
   status: string;
+  items?: ItemPesanan[]; // pesanan lama (sebelum fitur banyak rasa) tidak punya items
 }
 
-// Konfigurasi harga, tarif ongkir, dan lokasi toko
-export const HARGA_PER_LOYANG = 150000;
-export const TARIF_PER_KM = 3000;
-export const LOKASI_TOKO = {
-  nama: "Bika Ambon Zulaikha - Jl. Mojopahit No.70 A-C, Medan",
-  lat: 3.5952,
-  lng: 98.6577,
-};
+// Bentuk data yang dikirim form pemesanan ke API.
+// Id, tanggal, status, harga, ongkir, dan total dibuat/dihitung oleh server.
+export interface PesananInput {
+  nama: string;
+  email: string;
+  items: { varian: string; jumlah: number }[];
+  catatan: string;
+  alamat: string;
+  jarak: number;
+  metodeBayar: string;
+  buktiTransfer: string | null;
+}
+
+// Daftar rasa dalam pesanan. Pesanan lama tanpa items dianggap satu rasa.
+export function daftarItem(pesanan: Pesanan): ItemPesanan[] {
+  if (pesanan.items && pesanan.items.length > 0) return pesanan.items;
+  return [
+    {
+      varian: pesanan.varian,
+      jumlah: pesanan.jumlah,
+      harga: pesanan.harga,
+      subtotal: pesanan.subtotal,
+    },
+  ];
+}
 
 export function formatRupiah(angka: number): string {
   return "Rp " + angka.toLocaleString("id-ID");
 }
 
-export function hitungOngkir(jarak: number): number {
+// Harga per loyang, tarif per km, dan lokasi toko sekarang diatur admin (tabel Konten, kunci "pesan")
+export function hitungOngkir(jarak: number, tarifPerKm: number): number {
   const jarakBulat = Math.max(1, Math.ceil(jarak));
-  return jarakBulat * TARIF_PER_KM;
+  return jarakBulat * tarifPerKm;
 }
 
 export function hitungJarakHaversine(
@@ -54,11 +81,7 @@ export function hitungJarakHaversine(
   return R * c;
 }
 
-export function ambilPesanan(): Pesanan[] {
-  const data = localStorage.getItem("bikaAmbonOrders");
-  return data ? JSON.parse(data) : [];
-}
-
-export function simpanPesanan(daftarPesanan: Pesanan[]) {
-  localStorage.setItem("bikaAmbonOrders", JSON.stringify(daftarPesanan));
+// Tanggal dari database berupa teks ISO, diubah menjadi format Indonesia saat ditampilkan
+export function formatTanggal(tanggal: string): string {
+  return new Date(tanggal).toLocaleString("id-ID");
 }

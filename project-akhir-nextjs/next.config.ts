@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Cache Components adalah materi lanjutan; untuk praktikum dasar kita nonaktifkan.
+  cacheComponents: false,
 };
 
 export default nextConfig;

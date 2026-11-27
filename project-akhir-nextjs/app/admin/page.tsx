@@ -1,39 +1,75 @@
 "use client";
 import { useEffect, useState } from "react";
+import Alert from "react-bootstrap/Alert";
+import Badge from "react-bootstrap/Badge";
+import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Table from "react-bootstrap/Table";
+import { Row, Col } from "react-bootstrap";
+import Nav from "react-bootstrap/Nav";
+import EditorWebsite from "@/components/admin/editorwebsite";
 import BuktiModal from "@/components/buktimodal";
 import DashHeader from "@/components/dashheader";
 import { logout, useCekAkses } from "@/lib/auth";
-import { Pesanan, ambilPesanan, formatRupiah, simpanPesanan } from "@/lib/pesanan";
+import { Pesanan, daftarItem, formatRupiah, formatTanggal } from "@/lib/pesanan";
 
 export default function AdminPage() {
   const admin = useCekAkses("admin");
   const [daftarPesanan, setDaftarPesanan] = useState<Pesanan[]>([]);
   const [buktiSrc, setBuktiSrc] = useState<string | null>(null);
+  const [tab, setTab] = useState<"pesanan" | "website">("pesanan");
 
   useEffect(() => {
-    if (admin) {
-      setDaftarPesanan(ambilPesanan());
+    if (!admin) return;
+
+    // Ambil semua pesanan dari database lewat API
+    async function muatPesanan() {
+      const res = await fetch("/api/pesanan");
+      if (res.status === 401) {
+        logout(); // sesi di server sudah berakhir
+        return;
+      }
+      if (res.ok) {
+        setDaftarPesanan((await res.json()) as Pesanan[]);
+      }
     }
+    muatPesanan();
   }, [admin]);
 
   if (!admin) {
     return null;
   }
 
-  const ubahStatus = (index: number, statusBaru: string) => {
-    const daftar = ambilPesanan();
-    daftar[index].status = statusBaru;
-    simpanPesanan(daftar);
-    setDaftarPesanan(daftar);
+  // id pesanan berbentuk "#BA-2026-1234", jadi harus di-encode saat masuk ke URL
+  const ubahStatus = async (id: string, statusBaru: string) => {
+    const res = await fetch(`/api/pesanan/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: statusBaru }),
+    });
+    if (res.status === 401) {
+      logout();
+      return;
+    }
+    if (res.ok) {
+      const diubah: Pesanan = await res.json();
+      setDaftarPesanan((prev) => prev.map((p) => (p.id === diubah.id ? diubah : p)));
+    }
   };
 
-  const hapusPesanan = (index: number) => {
-    const konfirmasi = confirm("Yakin ingin menghapus pesanan ini?");
-    if (konfirmasi) {
-      const daftar = ambilPesanan();
-      daftar.splice(index, 1);
-      simpanPesanan(daftar);
-      setDaftarPesanan(daftar);
+  const hapusPesanan = async (id: string) => {
+    if (!confirm("Yakin ingin menghapus pesanan ini?")) return;
+    const res = await fetch(`/api/pesanan/${encodeURIComponent(id)}`, {
+      method: "DELETE",
+    });
+    if (res.status === 401) {
+      logout();
+      return;
+    }
+    if (res.ok) {
+      setDaftarPesanan((prev) => prev.filter((p) => p.id !== id));
     }
   };
 
@@ -52,153 +88,180 @@ export default function AdminPage() {
   });
 
   return (
-    <div className="dash-body">
+    <div className="min-vh-100">
       <DashHeader>
-        <div className="dash-user-info">
-          <a href="/" className="btn-back-home">
+        <Nav className="ms-auto flex-row align-items-center gap-2">
+          <Button href="/" variant="outline-light" size="sm">
             &larr; Beranda
-          </a>
-          <span className="dash-role-badge">Admin</span>
-          <span id="adminNameLabel">{admin.nama}</span>
-          <button
-            type="button"
-            className="btn-logout"
+          </Button>
+          <Badge bg="warning" text="dark" className="text-uppercase">
+            Admin
+          </Badge>
+          <span className="text-light" id="adminNameLabel">
+            {admin.nama}
+          </span>
+          <Button
+            variant="outline-warning"
+            size="sm"
             id="logoutBtn"
             onClick={logout}
           >
             Keluar
-          </button>
-        </div>
+          </Button>
+        </Nav>
       </DashHeader>
 
-      <main className="dash-main">
-        <div className="container">
-          <h1 className="dash-page-title">Dashboard Admin</h1>
-          <p className="dash-page-subtitle">
-            {"// kelola seluruh pesanan yang masuk dari pelanggan"}
+      <main className="py-5">
+        <Container>
+          <h1 className="font-serif fw-bold">Dashboard Admin</h1>
+          <p className="form-hint-mono mb-3">
+            {"// kelola pesanan dan ubah isi website dari satu tempat"}
           </p>
 
-          <div className="stats-row">
-            <div className="stat-card">
-              <div className="stat-value" id="statTotalPesanan">
-                {daftarPesanan.length}
-              </div>
-              <div className="stat-tag">Total Pesanan</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-value" id="statTotalLoyang">
-                {totalLoyang}
-              </div>
-              <div className="stat-tag">Total Loyang Dipesan</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-value" id="statSelesai">
-                {totalSelesai}
-              </div>
-              <div className="stat-tag">Pesanan Selesai</div>
-            </div>
-            <div className="stat-card">
-              <div className="stat-value" id="statPendapatan">
-                {formatRupiah(totalPendapatan)}
-              </div>
-              <div className="stat-tag">Total Pendapatan</div>
-            </div>
-          </div>
+          <Nav
+            variant="tabs"
+            className="mb-4"
+            activeKey={tab}
+            onSelect={(k) => k && setTab(k as "pesanan" | "website")}
+          >
+            <Nav.Item>
+              <Nav.Link eventKey="pesanan">Pesanan</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link eventKey="website">Kelola Website</Nav.Link>
+            </Nav.Item>
+          </Nav>
 
-          <div className="dash-panel">
-            <table className="dash-table">
-              <thead>
-                <tr>
-                  <th>Tiket</th>
-                  <th>Nama</th>
-                  <th>Email</th>
-                  <th>Varian</th>
-                  <th>Jumlah</th>
-                  <th>Subtotal</th>
-                  <th>Alamat</th>
-                  <th>Jarak</th>
-                  <th>Ongkir</th>
-                  <th>Metode Bayar</th>
-                  <th>Bukti</th>
-                  <th>Total Bayar</th>
-                  <th>Catatan</th>
-                  <th>Tanggal</th>
-                  <th>Status</th>
-                  <th>Aksi</th>
-                </tr>
-              </thead>
-              <tbody id="tabelPesananBody">
-                {daftarPesanan.map((pesanan, index) => (
-                  <tr key={index}>
-                    <td>{pesanan.id}</td>
-                    <td>{pesanan.nama}</td>
-                    <td>{pesanan.email}</td>
-                    <td>{pesanan.varian}</td>
-                    <td>{pesanan.jumlah} Loyang</td>
-                    <td>{pesanan.subtotal ? formatRupiah(pesanan.subtotal) : "-"}</td>
-                    <td>{pesanan.alamat || "-"}</td>
-                    <td>{pesanan.jarak ? pesanan.jarak + " km" : "-"}</td>
-                    <td>{pesanan.ongkir ? formatRupiah(pesanan.ongkir) : "-"}</td>
-                    <td>{pesanan.metodeBayar || "-"}</td>
-                    <td>
-                      {pesanan.buktiTransfer ? (
-                        <button
-                          type="button"
-                          className="btn-lihat-bukti"
-                          onClick={() => setBuktiSrc(pesanan.buktiTransfer)}
-                        >
-                          Lihat Bukti
-                        </button>
-                      ) : (
-                        "-"
-                      )}
-                    </td>
-                    <td>
-                      <strong style={{ color: "var(--accent-amber-dark)" }}>
-                        {pesanan.totalBayar ? formatRupiah(pesanan.totalBayar) : "-"}
-                      </strong>
-                    </td>
-                    <td>{pesanan.catatan ? pesanan.catatan : "-"}</td>
-                    <td>{pesanan.tanggal}</td>
-                    <td>
-                      <select
-                        className="status-select"
-                        value={pesanan.status}
-                        onChange={(e) => ubahStatus(index, e.target.value)}
-                      >
-                        <option value="Diproses">Diproses</option>
-                        <option value="Dikirim">Dikirim</option>
-                        <option value="Selesai">Selesai</option>
-                        <option value="Dibatalkan">Dibatalkan</option>
-                      </select>
-                    </td>
-                    <td>
-                      <button
-                        type="button"
-                        className="btn-hapus"
-                        onClick={() => hapusPesanan(index)}
-                      >
-                        Hapus
-                      </button>
-                    </td>
+          {tab === "website" && <EditorWebsite />}
+
+          {tab === "pesanan" && (
+          <>
+          <Row className="g-3 mb-4">
+            {[
+              ["statTotalPesanan", String(daftarPesanan.length), "Total Pesanan"],
+              ["statTotalLoyang", String(totalLoyang), "Total Loyang Dipesan"],
+              ["statSelesai", String(totalSelesai), "Pesanan Selesai"],
+              ["statPendapatan", formatRupiah(totalPendapatan), "Total Pendapatan"],
+            ].map(([id, nilai, label]) => (
+              <Col xs={6} lg={3} key={id}>
+                <Card className="stat-card h-100 text-center shadow-sm">
+                  <Card.Body>
+                    <div className="stat-value" id={id}>
+                      {nilai}
+                    </div>
+                    <div className="stat-tag">{label}</div>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+
+          <Card className="shadow-sm">
+            <Card.Body>
+              <Table responsive hover className="align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Tiket</th>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Rasa</th>
+                    <th>Total</th>
+                    <th>Subtotal</th>
+                    <th>Alamat</th>
+                    <th>Jarak</th>
+                    <th>Ongkir</th>
+                    <th>Metode Bayar</th>
+                    <th>Bukti</th>
+                    <th>Total Bayar</th>
+                    <th>Catatan</th>
+                    <th>Tanggal</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody id="tabelPesananBody">
+                  {daftarPesanan.map((pesanan) => (
+                    <tr key={pesanan.id}>
+                      <td>{pesanan.id}</td>
+                      <td>{pesanan.nama}</td>
+                      <td>{pesanan.email}</td>
+                      <td>
+                        {daftarItem(pesanan).map((item, i) => (
+                          <div key={i}>
+                            {item.varian} &times;{item.jumlah}
+                          </div>
+                        ))}
+                      </td>
+                      <td>{pesanan.jumlah} Loyang</td>
+                      <td>{pesanan.subtotal ? formatRupiah(pesanan.subtotal) : "-"}</td>
+                      <td>{pesanan.alamat || "-"}</td>
+                      <td>{pesanan.jarak ? pesanan.jarak + " km" : "-"}</td>
+                      <td>{pesanan.ongkir ? formatRupiah(pesanan.ongkir) : "-"}</td>
+                      <td>{pesanan.metodeBayar || "-"}</td>
+                      <td>
+                        {pesanan.buktiTransfer ? (
+                          <Button
+                            variant="outline-primary"
+                            size="sm"
+                            className="btn-lihat-bukti"
+                            onClick={() => setBuktiSrc(pesanan.buktiTransfer)}
+                          >
+                            Lihat Bukti
+                          </Button>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                      <td>
+                        <strong className="text-warning-emphasis">
+                          {pesanan.totalBayar ? formatRupiah(pesanan.totalBayar) : "-"}
+                        </strong>
+                      </td>
+                      <td>{pesanan.catatan ? pesanan.catatan : "-"}</td>
+                      <td>{formatTanggal(pesanan.tanggal)}</td>
+                      <td>
+                        <Form.Select
+                          size="sm"
+                          className="status-select"
+                          value={pesanan.status}
+                          onChange={(e) => ubahStatus(pesanan.id, e.target.value)}
+                        >
+                          <option value="Diproses">Diproses</option>
+                          <option value="Dikirim">Dikirim</option>
+                          <option value="Selesai">Selesai</option>
+                          <option value="Dibatalkan">Dibatalkan</option>
+                        </Form.Select>
+                      </td>
+                      <td>
+                        <Button
+                          variant="outline-danger"
+                          size="sm"
+                          className="btn-hapus"
+                          onClick={() => hapusPesanan(pesanan.id)}
+                        >
+                          Hapus
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
 
-            <div
-              className={
-                daftarPesanan.length === 0
-                  ? "dash-empty-state show"
-                  : "dash-empty-state"
-              }
-              id="emptyState"
-            >
-              Belum ada pesanan yang masuk. Pesanan baru dari form{" "}
-              <a href="/#pesan">Pesan</a> akan otomatis muncul di sini.
-            </div>
-          </div>
-        </div>
+              <Alert
+                variant="warning"
+                className="mt-3 mb-0"
+                show={daftarPesanan.length === 0}
+                id="emptyState"
+              >
+                Belum ada pesanan yang masuk. Pesanan baru dari form{" "}
+                <Alert.Link href="/#pesan">Pesan</Alert.Link> akan otomatis
+                muncul di sini.
+              </Alert>
+            </Card.Body>
+          </Card>
+          </>
+          )}
+        </Container>
       </main>
 
       <BuktiModal src={buktiSrc} onClose={() => setBuktiSrc(null)} />
