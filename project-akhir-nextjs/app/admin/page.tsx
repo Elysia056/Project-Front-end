@@ -15,6 +15,13 @@ import DashHeader from "@/components/dashheader";
 import { logout, useCekAkses } from "@/lib/auth";
 import { Pesanan, daftarItem, formatRupiah, formatTanggal } from "@/lib/pesanan";
 
+const WARNA_STATUS: Record<string, { bg: string; teks: string; border: string }> = {
+  Diproses:   { bg: "#fdecea", teks: "#b3261e", border: "#e57373" }, 
+  Dikirim:    { bg: "#fff8e1", teks: "#7e741e", border: "#dfd337" }, 
+  Selesai:    { bg: "#e6f4ea", teks: "#1e7e34", border: "#66bb6a" }, 
+  Dibatalkan: { bg: "#eeeeee", teks: "#616161", border: "#bdbdbd" }, 
+};
+
 export default function AdminPage() {
   const admin = useCekAkses("admin");
   const [daftarPesanan, setDaftarPesanan] = useState<Pesanan[]>([]);
@@ -225,11 +232,19 @@ export default function AdminPage() {
                           className="status-select"
                           value={pesanan.status}
                           onChange={(e) => ubahStatus(pesanan.id, e.target.value)}
+                            style={{
+                            minWidth: 150,
+                            fontWeight: 700,
+                            backgroundColor: WARNA_STATUS[pesanan.status]?.bg,
+                            color: WARNA_STATUS[pesanan.status]?.teks,
+                            borderColor: WARNA_STATUS[pesanan.status]?.border,
+                            
+                          }}
                         >
-                          <option value="Diproses">Diproses</option>
-                          <option value="Dikirim">Dikirim</option>
-                          <option value="Selesai">Selesai</option>
-                          <option value="Dibatalkan">Dibatalkan</option>
+                        <option value="Diproses"   style={{ color: "#24170e", backgroundColor: "#fff" }}>Diproses</option>
+                        <option value="Dikirim"    style={{ color: "#24170e", backgroundColor: "#fff" }}>Dikirim</option>
+                        <option value="Selesai"    style={{ color: "#24170e", backgroundColor: "#fff" }}>Selesai</option>
+                        <option value="Dibatalkan" style={{ color: "#24170e", backgroundColor: "#fff" }}>Dibatalkan</option>
                         </Form.Select>
                       </td>
                       <td>
